@@ -6,39 +6,98 @@ export default function AgenteDetalhe({ params }) {
   const agente = agentes.find((a) => a.slug === params.slug);
   if (!agente) return notFound();
 
+  const outros = agentes.filter((a) => a.slug !== agente.slug).slice(0, 3);
+
   return (
-    <main className="min-h-screen py-20 px-6">
-      <div className="max-w-3xl mx-auto">
-        <Link href="/agentes" className="text-brand-blue text-sm hover:underline">← Ver todos os agentes</Link>
+    <main className="pt-28 pb-24 px-6">
+      <div className="max-w-5xl mx-auto">
 
-        <div className="mt-8 bg-slate-800 rounded-2xl p-8 border border-slate-700">
-          <span className="text-6xl">{agente.emoji}</span>
-          <h1 className="text-4xl font-bold text-white mt-4 mb-3">{agente.nome}</h1>
-          <p className="text-slate-400 text-lg mb-8">{agente.descricao}</p>
+        <Link href="/agentes" className="inline-flex items-center gap-2 text-slate-400 hover:text-white text-sm transition mb-10">
+          ← Voltar para agentes
+        </Link>
 
-          <h2 className="text-white font-semibold text-lg mb-4">O que este agente faz:</h2>
-          <ul className="space-y-3 mb-10">
-            {agente.funcionalidades.map((f) => (
-              <li key={f} className="flex items-center gap-3 text-slate-300">
-                <span className="text-brand-green text-xl">✓</span>
-                {f}
-              </li>
-            ))}
-          </ul>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-          <div className="flex items-center justify-between border-t border-slate-700 pt-6">
-            <div>
-              <p className="text-slate-400 text-sm">Mensalidade</p>
-              <p className="text-brand-green text-3xl font-bold">R$ {agente.preco}<span className="text-base font-normal text-slate-400">/mês</span></p>
+          {/* Coluna principal */}
+          <div className="lg:col-span-2">
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-8 mb-6">
+              <div className="w-16 h-16 bg-violet-500/10 rounded-2xl flex items-center justify-center text-4xl mb-6">
+                {agente.emoji}
+              </div>
+              <h1 className="text-4xl font-bold text-white mb-4">{agente.nome}</h1>
+              <p className="text-slate-400 text-lg leading-relaxed">{agente.descricao}</p>
             </div>
-            <Link
-              href={`/checkout?agente=${agente.slug}`}
-              className="bg-brand-blue text-slate-900 font-bold px-8 py-4 rounded-full text-lg hover:bg-sky-400 transition"
-            >
-              Contratar agora →
-            </Link>
+
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
+              <h2 className="text-white font-bold text-xl mb-6">O que este agente faz</h2>
+              <ul className="space-y-4">
+                {agente.funcionalidades.map((f) => (
+                  <li key={f} className="flex items-start gap-4">
+                    <div className="w-6 h-6 bg-violet-500/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-violet-400 text-xs">✓</span>
+                    </div>
+                    <span className="text-slate-300">{f}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* Card de compra */}
+          <div className="lg:col-span-1">
+            <div className="bg-white/5 border border-violet-500/20 rounded-2xl p-7 sticky top-24">
+              <p className="text-slate-400 text-sm mb-1">Mensalidade</p>
+              <p className="text-5xl font-bold text-white mb-1">
+                R$ {agente.preco}
+              </p>
+              <p className="text-slate-500 text-sm mb-8">/mês · cancele quando quiser</p>
+
+              <Link
+                href={`/checkout?agente=${agente.slug}`}
+                className="block w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-4 rounded-full text-center text-lg transition mb-4"
+              >
+                Contratar agora →
+              </Link>
+
+              <p className="text-slate-500 text-xs text-center mb-6">🔒 Pagamento 100% seguro via PIX</p>
+
+              <ul className="space-y-3">
+                {[
+                  'Ativação em menos de 5 minutos',
+                  'Disponível 24h no Telegram',
+                  'Suporte por email incluso',
+                  'Cancele quando quiser',
+                ].map((item) => (
+                  <li key={item} className="flex items-center gap-3 text-slate-400 text-sm">
+                    <span className="text-violet-400">✓</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
+
+        {/* Outros agentes */}
+        {outros.length > 0 && (
+          <div className="mt-16">
+            <h2 className="text-white font-bold text-2xl mb-6">Outros agentes</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+              {outros.map((a) => (
+                <Link
+                  key={a.slug}
+                  href={`/agentes/${a.slug}`}
+                  className="bg-white/5 border border-white/10 rounded-xl p-5 hover:border-violet-500/30 transition group"
+                >
+                  <span className="text-2xl">{a.emoji}</span>
+                  <p className="text-white font-semibold mt-3 mb-1">{a.nome}</p>
+                  <p className="text-violet-400 text-sm font-bold">R$ {a.preco}/mês</p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
       </div>
     </main>
   );

@@ -2,7 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  background-color: #0f172a;
-  color: #f1f5f9;
+@layer base {
+  body {
+    background-color: #060818;
+    color: #f1f5f9;
+  }
+}
+
+@layer utilities {
+  .gradient-text {
+    @apply bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent;
+  }
+  .glass-card {
+    @apply bg-white/5 border border-white/10 rounded-2xl backdrop-blur-sm;
+  }
+  .glow {
+    box-shadow: 0 0 60px rgba(139, 92, 246, 0.15);
+  }
 }
