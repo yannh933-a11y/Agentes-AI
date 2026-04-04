@@ -1,113 +1,107 @@
 import Link from 'next/link';
 import { agentes } from '../lib/agentes';
 
+const s = {
+  section: { padding: '100px 24px', maxWidth: 1200, margin: '0 auto' },
+  center: { textAlign: 'center' },
+  tag: { display:'inline-block', background:'rgba(124,58,237,0.15)', color:'#a78bfa', border:'1px solid rgba(124,58,237,0.3)', borderRadius:999, padding:'6px 16px', fontSize:13, fontWeight:600, marginBottom:24 },
+  h1: { fontSize:64, fontWeight:900, lineHeight:1.05, letterSpacing:'-2px', marginBottom:24 },
+  h2: { fontSize:40, fontWeight:800, letterSpacing:'-1px', marginBottom:16 },
+  sub: { color:'#94a3b8', fontSize:20, lineHeight:1.6, maxWidth:600, margin:'0 auto 40px' },
+  btn: { display:'inline-block', background:'linear-gradient(135deg,#7c3aed,#2563eb)', color:'#fff', fontWeight:700, padding:'16px 36px', borderRadius:999, fontSize:18, textDecoration:'none', border:'none', cursor:'pointer' },
+  btnSm: { display:'inline-block', background:'linear-gradient(135deg,#7c3aed,#2563eb)', color:'#fff', fontWeight:600, padding:'10px 20px', borderRadius:999, fontSize:14, textDecoration:'none' },
+  card: { background:'#131629', border:'1px solid rgba(255,255,255,0.08)', borderRadius:20, padding:32 },
+  cardHover: { background:'#131629', border:'1px solid rgba(124,58,237,0.2)', borderRadius:20, padding:28, transition:'all 0.3s' },
+  grid3: { display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(300px,1fr))', gap:20 },
+  grid4: { display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(260px,1fr))', gap:16 },
+  stat: { background:'#131629', border:'1px solid rgba(255,255,255,0.08)', borderRadius:16, padding:'24px 16px', textAlign:'center' },
+  purple: { background:'linear-gradient(90deg,#a78bfa,#38bdf8)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' },
+  label: { color:'#7c3aed', fontSize:12, fontWeight:700, textTransform:'uppercase', letterSpacing:3, marginBottom:12 },
+};
+
 export default function Home() {
   return (
-    <main className="pt-16">
+    <main style={{paddingTop:64}}>
 
       {/* HERO */}
-      <section className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden">
-        {/* Fundo com gradiente */}
-        <div className="absolute inset-0 bg-gradient-to-b from-violet-950/30 via-[#060818] to-[#060818]" />
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-violet-600/10 rounded-full blur-3xl" />
-
-        <div className="relative z-10 max-w-5xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 bg-violet-500/10 border border-violet-500/20 text-violet-400 text-sm font-medium px-4 py-2 rounded-full mb-8">
-            <span className="w-2 h-2 bg-violet-400 rounded-full animate-pulse" />
-            Inteligência Artificial para o seu negócio
-          </div>
-
-          <h1 className="text-5xl md:text-7xl font-bold leading-tight tracking-tight mb-6">
-            Automatize seu negócio com{' '}
-            <span className="gradient-text">Agentes de IA</span>
+      <section style={{minHeight:'100vh',display:'flex',alignItems:'center',justifyContent:'center',padding:'0 24px',position:'relative',overflow:'hidden',background:'radial-gradient(ellipse at 50% 0%, rgba(124,58,237,0.12) 0%, transparent 60%)'}}>
+        <div style={{...s.center,maxWidth:800,position:'relative',zIndex:1}}>
+          <div style={s.tag}>⚡ Inteligência Artificial para negócios</div>
+          <h1 style={s.h1}>
+            Automatize seu negócio com <span style={s.purple}>Agentes de IA</span>
           </h1>
-
-          <p className="text-slate-400 text-xl md:text-2xl max-w-2xl mx-auto mb-10 leading-relaxed">
-            Atendimento 24h, vendas automáticas e agendamentos sem precisar contratar ninguém.
-            Seu agente fica pronto em minutos.
+          <p style={s.sub}>
+            Atendimento 24h, vendas automáticas e agendamentos. Seu agente fica pronto em minutos, sem contratar ninguém.
           </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              href="/agentes"
-              className="bg-violet-600 hover:bg-violet-500 text-white font-bold px-8 py-4 rounded-full text-lg transition glow"
-            >
-              Ver agentes disponíveis →
-            </Link>
-            <a href="#como-funciona" className="text-slate-400 hover:text-white transition text-sm font-medium">
-              Como funciona ↓
-            </a>
+          <div style={{display:'flex',gap:16,justifyContent:'center',flexWrap:'wrap'}}>
+            <Link href="/agentes" style={s.btn}>Ver agentes disponíveis →</Link>
+            <a href="#como-funciona" style={{...s.btnSm,background:'transparent',border:'1px solid rgba(255,255,255,0.15)',color:'#94a3b8'}}>Como funciona ↓</a>
           </div>
 
-          {/* Stats */}
-          <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-6">
-            {[
-              { num: '7', label: 'Tipos de agentes' },
-              { num: '24h', label: 'Disponível sempre' },
-              { num: '5min', label: 'Para ficar pronto' },
-              { num: '100%', label: 'Automático' },
-            ].map((s) => (
-              <div key={s.label} className="glass-card p-6 text-center">
-                <p className="text-3xl font-bold gradient-text">{s.num}</p>
-                <p className="text-slate-400 text-sm mt-1">{s.label}</p>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:16,marginTop:80}}>
+            {[['7','Tipos de agentes'],['24h','Sempre disponível'],['5min','Para ativar'],['100%','Automático']].map(([n,l])=>(
+              <div key={l} style={s.stat}>
+                <p style={{fontSize:32,fontWeight:800,...s.purple}}>{n}</p>
+                <p style={{color:'#64748b',fontSize:13,marginTop:4}}>{l}</p>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* LOGOS / CONFIANÇA */}
+      <section style={{padding:'60px 24px',borderTop:'1px solid rgba(255,255,255,0.04)',borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
+        <div style={{maxWidth:800,margin:'0 auto',textAlign:'center'}}>
+          <p style={{color:'#475569',fontSize:13,fontWeight:500,marginBottom:24}}>Empresas que já automatizaram com AgentesIA</p>
+          <div style={{display:'flex',justifyContent:'center',gap:48,flexWrap:'wrap',opacity:0.4}}>
+            {['🏪 Barbearias','🏥 Clínicas','🍕 Restaurantes','🏋️ Academias','👔 Lojas'].map(n=>(
+              <span key={n} style={{fontSize:16,color:'#64748b',fontWeight:600}}>{n}</span>
             ))}
           </div>
         </div>
       </section>
 
       {/* COMO FUNCIONA */}
-      <section id="como-funciona" className="py-24 px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <span className="text-violet-400 text-sm font-semibold uppercase tracking-widest">Simples assim</span>
-            <h2 className="text-4xl font-bold text-white mt-3">Como funciona</h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
-            {[
-              { num: '01', icon: '🎯', titulo: 'Escolha o agente', desc: 'Selecione o agente ideal entre nossos 7 modelos especializados.' },
-              { num: '02', icon: '💳', titulo: 'Realize o pagamento', desc: 'Pague via PIX de forma rápida e 100% segura.' },
-              { num: '03', icon: '🚀', titulo: 'Receba em minutos', desc: 'Seu agente é criado automaticamente e enviado para seu email.' },
-            ].map((item, i) => (
-              <div key={item.num} className="glass-card p-8 relative">
-                <span className="absolute top-6 right-6 text-5xl font-bold text-white/5">{item.num}</span>
-                <span className="text-4xl mb-4 block">{item.icon}</span>
-                <h3 className="text-white text-xl font-bold mb-3">{item.titulo}</h3>
-                <p className="text-slate-400 leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
-          </div>
+      <section id="como-funciona" style={{...s.section,...s.center}}>
+        <p style={s.label}>Simples assim</p>
+        <h2 style={s.h2}>Como funciona</h2>
+        <p style={{...s.sub,marginBottom:60}}>3 passos para ter seu agente funcionando</p>
+        <div style={s.grid3}>
+          {[
+            ['01','🎯','Escolha o agente','Selecione entre nossos 7 modelos especializados para seu tipo de negócio.'],
+            ['02','💳','Realize o pagamento','Pague via PIX de forma rápida e 100% segura. Aprovação instantânea.'],
+            ['03','🚀','Receba em minutos','Seu agente é criado e as credenciais são enviadas direto no seu email.'],
+          ].map(([num,icon,titulo,desc])=>(
+            <div key={num} style={{...s.card,position:'relative',textAlign:'left'}}>
+              <span style={{position:'absolute',top:24,right:24,fontSize:64,fontWeight:900,color:'rgba(255,255,255,0.03)'}}>{num}</span>
+              <span style={{fontSize:40,display:'block',marginBottom:16}}>{icon}</span>
+              <h3 style={{fontSize:20,fontWeight:700,marginBottom:8}}>{titulo}</h3>
+              <p style={{color:'#94a3b8',lineHeight:1.7,fontSize:15}}>{desc}</p>
+            </div>
+          ))}
         </div>
       </section>
 
       {/* AGENTES */}
-      <section className="py-24 px-6 bg-white/[0.02]">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <span className="text-violet-400 text-sm font-semibold uppercase tracking-widest">Catálogo</span>
-            <h2 className="text-4xl font-bold text-white mt-3">Nossos Agentes</h2>
-            <p className="text-slate-400 mt-4 text-lg">Escolha o agente certo para o seu negócio</p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-            {agentes.map((agente) => (
-              <div key={agente.slug} className="glass-card p-6 flex flex-col hover:border-violet-500/30 hover:bg-white/[0.07] transition group">
-                <div className="w-12 h-12 bg-violet-500/10 rounded-xl flex items-center justify-center text-2xl mb-5">
-                  {agente.emoji}
+      <section id="precos" style={{padding:'100px 24px',background:'#0d0f22'}}>
+        <div style={{maxWidth:1200,margin:'0 auto',...s.center}}>
+          <p style={s.label}>Catálogo</p>
+          <h2 style={s.h2}>Nossos Agentes</h2>
+          <p style={{...s.sub,marginBottom:60}}>Escolha o agente certo para o seu negócio</p>
+          <div style={s.grid4}>
+            {agentes.map((a)=>(
+              <div key={a.slug} style={{...s.cardHover,display:'flex',flexDirection:'column',textAlign:'left'}}>
+                <div style={{width:48,height:48,background:'rgba(124,58,237,0.12)',borderRadius:14,display:'flex',alignItems:'center',justifyContent:'center',fontSize:24,marginBottom:20}}>
+                  {a.emoji}
                 </div>
-                <h3 className="text-white font-bold text-lg mb-2">{agente.nome}</h3>
-                <p className="text-slate-400 text-sm flex-1 mb-5 leading-relaxed">{agente.descricao}</p>
-                <div className="flex items-center justify-between mt-auto">
+                <h3 style={{fontSize:17,fontWeight:700,marginBottom:8}}>{a.nome}</h3>
+                <p style={{color:'#94a3b8',fontSize:14,lineHeight:1.6,flex:1,marginBottom:20}}>{a.descricao}</p>
+                <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',paddingTop:16,borderTop:'1px solid rgba(255,255,255,0.06)'}}>
                   <div>
-                    <p className="text-slate-500 text-xs">a partir de</p>
-                    <p className="text-violet-400 font-bold text-lg">R$ {agente.preco}<span className="text-xs text-slate-500">/mês</span></p>
+                    <p style={{color:'#64748b',fontSize:11}}>a partir de</p>
+                    <p style={{color:'#a78bfa',fontWeight:700,fontSize:20}}>R$ {a.preco}<span style={{fontSize:12,color:'#64748b'}}>/mês</span></p>
                   </div>
-                  <Link
-                    href={`/agentes/${agente.slug}`}
-                    className="bg-violet-600 hover:bg-violet-500 text-white text-sm font-semibold px-4 py-2 rounded-full transition"
-                  >
-                    Contratar
-                  </Link>
+                  <Link href={`/agentes/${a.slug}`} style={s.btnSm}>Contratar</Link>
                 </div>
               </div>
             ))}
@@ -116,53 +110,35 @@ export default function Home() {
       </section>
 
       {/* DEPOIMENTOS */}
-      <section id="depoimentos" className="py-24 px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <span className="text-violet-400 text-sm font-semibold uppercase tracking-widest">Clientes</span>
-            <h2 className="text-4xl font-bold text-white mt-3">Quem já usa</h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              { nome: 'Carlos M.', cargo: 'Dono de barbearia', texto: 'O agente de agendamento mudou minha vida. Não perco mais cliente por não atender o telefone.', estrelas: 5 },
-              { nome: 'Ana L.', cargo: 'Clínica estética', texto: 'Meu atendimento é 24h agora. Os clientes adoram poder tirar dúvidas a qualquer hora.', estrelas: 5 },
-              { nome: 'Pedro S.', cargo: 'Loja online', texto: 'As vendas aumentaram 40% depois que coloquei o agente de vendas. Vale cada centavo.', estrelas: 5 },
-            ].map((d) => (
-              <div key={d.nome} className="glass-card p-8">
-                <div className="flex gap-1 mb-4">
-                  {Array(d.estrelas).fill(0).map((_, i) => (
-                    <span key={i} className="text-yellow-400">★</span>
-                  ))}
-                </div>
-                <p className="text-slate-300 leading-relaxed mb-6">"{d.texto}"</p>
-                <div>
-                  <p className="text-white font-semibold">{d.nome}</p>
-                  <p className="text-slate-500 text-sm">{d.cargo}</p>
-                </div>
+      <section style={{...s.section,...s.center}}>
+        <p style={s.label}>Clientes</p>
+        <h2 style={s.h2}>O que nossos clientes dizem</h2>
+        <div style={{...s.grid3,marginTop:48}}>
+          {[
+            ['Carlos M.','Barbearia Premium','O agente de agendamento mudou minha vida. Não perco mais cliente por não atender o telefone. Funciona 24h!'],
+            ['Ana L.','Clínica Estética','Meu atendimento agora é automático. Os clientes adoram poder tirar dúvidas a qualquer hora do dia.'],
+            ['Pedro S.','Loja Online','As vendas aumentaram 40% depois que coloquei o agente de vendas. Melhor investimento que fiz.'],
+          ].map(([nome,cargo,texto])=>(
+            <div key={nome} style={{...s.card,textAlign:'left'}}>
+              <div style={{display:'flex',gap:4,marginBottom:16}}>
+                {[1,2,3,4,5].map(i=><span key={i} style={{color:'#facc15',fontSize:16}}>★</span>)}
               </div>
-            ))}
-          </div>
+              <p style={{color:'#cbd5e1',lineHeight:1.7,fontSize:15,marginBottom:24}}>"{texto}"</p>
+              <div style={{borderTop:'1px solid rgba(255,255,255,0.06)',paddingTop:16}}>
+                <p style={{fontWeight:700,fontSize:15}}>{nome}</p>
+                <p style={{color:'#64748b',fontSize:13}}>{cargo}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* CTA FINAL */}
-      <section className="py-24 px-6">
-        <div className="max-w-4xl mx-auto text-center glass-card p-16 relative overflow-hidden glow">
-          <div className="absolute inset-0 bg-gradient-to-br from-violet-600/10 to-cyan-600/5" />
-          <div className="relative z-10">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Pronto para automatizar<br />seu negócio?
-            </h2>
-            <p className="text-slate-400 text-lg mb-10">
-              Escolha seu agente e tenha ele funcionando em menos de 5 minutos.
-            </p>
-            <Link
-              href="/agentes"
-              className="bg-violet-600 hover:bg-violet-500 text-white font-bold px-10 py-5 rounded-full text-xl transition inline-block"
-            >
-              Começar agora →
-            </Link>
-          </div>
+      {/* CTA */}
+      <section style={{padding:'100px 24px'}}>
+        <div style={{maxWidth:800,margin:'0 auto',textAlign:'center',background:'linear-gradient(135deg,rgba(124,58,237,0.15),rgba(37,99,235,0.1))',border:'1px solid rgba(124,58,237,0.2)',borderRadius:28,padding:'80px 48px',boxShadow:'0 0 80px rgba(124,58,237,0.1)'}}>
+          <h2 style={{fontSize:44,fontWeight:900,letterSpacing:'-1px',marginBottom:16}}>Pronto para automatizar?</h2>
+          <p style={{color:'#94a3b8',fontSize:18,marginBottom:40,maxWidth:500,margin:'0 auto 40px'}}>Escolha seu agente e tenha ele funcionando em menos de 5 minutos.</p>
+          <Link href="/agentes" style={{...s.btn,fontSize:20,padding:'18px 44px'}}>Começar agora →</Link>
         </div>
       </section>
 

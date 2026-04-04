@@ -2,13 +2,13 @@ import './globals.css';
 
 export const metadata = {
   title: 'AgentesIA — Automatize seu negócio com Inteligência Artificial',
-  description: 'Agentes de IA prontos para o seu negócio. Atendimento 24h, vendas automáticas, agendamento e muito mais. Sem contratar funcionários.',
+  description: 'Agentes de IA prontos para o seu negócio.',
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR">
-      <body className="bg-[#060818] text-white antialiased">
+      <body style={{backgroundColor:'#0b0d1a',color:'#fff',margin:0,fontFamily:'system-ui,sans-serif'}}>
         <Navbar />
         {children}
         <Footer />
@@ -19,22 +19,19 @@ export default function RootLayout({ children }) {
 
 function Navbar() {
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-[#060818]/80 backdrop-blur-xl">
-      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-        <a href="/" className="flex items-center gap-2">
-          <span className="text-2xl">🤖</span>
-          <span className="font-bold text-lg tracking-tight">AgentesIA</span>
+    <header style={{position:'fixed',top:0,left:0,right:0,zIndex:50,borderBottom:'1px solid rgba(255,255,255,0.06)',backdropFilter:'blur(20px)',backgroundColor:'rgba(11,13,26,0.9)'}}>
+      <div style={{maxWidth:1200,margin:'0 auto',padding:'0 24px',height:64,display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+        <a href="/" style={{display:'flex',alignItems:'center',gap:10,textDecoration:'none'}}>
+          <div style={{width:36,height:36,background:'linear-gradient(135deg,#7c3aed,#2563eb)',borderRadius:10,display:'flex',alignItems:'center',justifyContent:'center',fontSize:18}}>🤖</div>
+          <span style={{fontWeight:800,fontSize:18,color:'#fff'}}>AgentesIA</span>
         </a>
-        <nav className="hidden md:flex items-center gap-8 text-sm text-slate-400">
-          <a href="/agentes" className="hover:text-white transition">Agentes</a>
-          <a href="#como-funciona" className="hover:text-white transition">Como funciona</a>
-          <a href="#depoimentos" className="hover:text-white transition">Depoimentos</a>
+        <nav style={{display:'flex',alignItems:'center',gap:32}}>
+          {[['Agentes','/agentes'],['Como funciona','#como-funciona'],['Preços','#precos']].map(([l,h])=>(
+            <a key={l} href={h} style={{color:'#94a3b8',textDecoration:'none',fontSize:14,fontWeight:500}}>{l}</a>
+          ))}
         </nav>
-        <a
-          href="/agentes"
-          className="bg-violet-600 hover:bg-violet-500 text-white text-sm font-semibold px-5 py-2.5 rounded-full transition"
-        >
-          Ver agentes →
+        <a href="/agentes" style={{background:'linear-gradient(135deg,#7c3aed,#2563eb)',color:'#fff',textDecoration:'none',fontWeight:700,padding:'10px 22px',borderRadius:999,fontSize:14}}>
+          Começar agora
         </a>
       </div>
     </header>
@@ -43,17 +40,17 @@ function Navbar() {
 
 function Footer() {
   return (
-    <footer className="border-t border-white/5 py-12 px-6">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-500">
-        <div className="flex items-center gap-2">
-          <span className="text-lg">🤖</span>
-          <span className="font-semibold text-slate-400">AgentesIA</span>
+    <footer style={{borderTop:'1px solid rgba(255,255,255,0.06)',padding:'48px 24px',backgroundColor:'#0b0d1a'}}>
+      <div style={{maxWidth:1200,margin:'0 auto',display:'flex',flexWrap:'wrap',justifyContent:'space-between',alignItems:'center',gap:16}}>
+        <div style={{display:'flex',alignItems:'center',gap:10}}>
+          <div style={{width:32,height:32,background:'linear-gradient(135deg,#7c3aed,#2563eb)',borderRadius:8,display:'flex',alignItems:'center',justifyContent:'center',fontSize:16}}>🤖</div>
+          <span style={{fontWeight:700,color:'#fff'}}>AgentesIA</span>
         </div>
-        <p>© {new Date().getFullYear()} AgentesIA — Todos os direitos reservados</p>
-        <div className="flex gap-6">
-          <a href="/agentes" className="hover:text-slate-300 transition">Agentes</a>
-          <a href="#" className="hover:text-slate-300 transition">Termos</a>
-          <a href="#" className="hover:text-slate-300 transition">Privacidade</a>
+        <p style={{color:'#475569',fontSize:13}}>© {new Date().getFullYear()} AgentesIA — Todos os direitos reservados</p>
+        <div style={{display:'flex',gap:24}}>
+          {['Agentes','Termos','Privacidade'].map(l=>(
+            <a key={l} href="#" style={{color:'#64748b',textDecoration:'none',fontSize:13}}>{l}</a>
+          ))}
         </div>
       </div>
     </footer>
