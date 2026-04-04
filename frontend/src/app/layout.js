@@ -18,6 +18,7 @@ export default function RootLayout({ children }) {
         <Navbar />
         {children}
         <Footer />
+        <BotaoSuporte />
       </body>
     </html>
   );
@@ -125,6 +126,21 @@ function Navbar() {
 }
 
 /* ═══════════════════════════════════════════
+   BOTÃO FLUTUANTE SUPORTE
+   ═══════════════════════════════════════════ */
+function BotaoSuporte() {
+  return (
+    <Link
+      href="/suporte"
+      className="fixed bottom-6 right-6 z-40 btn-primary w-14 h-14 rounded-full flex items-center justify-center text-2xl no-underline shadow-xl shadow-red-900/30"
+      title="Suporte 24h"
+    >
+      💬
+    </Link>
+  );
+}
+
+/* ═══════════════════════════════════════════
    FOOTER
    ═══════════════════════════════════════════ */
 function Footer() {
@@ -145,7 +161,7 @@ function Footer() {
             <div>
               <p className="text-white font-semibold text-sm mb-3">Produto</p>
               <div className="flex flex-col gap-2">
-                {[['Agentes', '/agentes'], ['Preços', '/#precos']].map(([l, h]) => (
+                {[['Agentes', '/agentes'], ['Preços', '/#precos'], ['Pré-cadastro', '/pre-cadastro']].map(([l, h]) => (
                   <Link key={l} href={h} className="text-slate-500 hover:text-slate-300 text-sm no-underline transition-colors">{l}</Link>
                 ))}
               </div>
@@ -153,7 +169,7 @@ function Footer() {
             <div>
               <p className="text-white font-semibold text-sm mb-3">Empresa</p>
               <div className="flex flex-col gap-2">
-                {[['Termos', '#'], ['Privacidade', '#']].map(([l, h]) => (
+                {[['Suporte', '/suporte'], ['Termos de Uso', '/termos'], ['Privacidade', '/privacidade']].map(([l, h]) => (
                   <Link key={l} href={h} className="text-slate-500 hover:text-slate-300 text-sm no-underline transition-colors">{l}</Link>
                 ))}
               </div>

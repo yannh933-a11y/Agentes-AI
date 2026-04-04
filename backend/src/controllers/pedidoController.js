@@ -11,13 +11,15 @@ async function criarPedido(req, res) {
     }
 
     const precos = {
-      vendas: 97,
-      atendimento: 97,
-      agendamento: 127,
-      calendario: 97,
-      manutencao: 147,
-      suporte: 97,
-      emails: 127,
+      // simples → R$50/mês
+      atendimento: 50,
+      calendario: 50,
+      suporte: 50,
+      // complexo → R$65/mês
+      agendamento: 65,
+      vendas: 65,
+      emails: 65,
+      manutencao: 65,
     };
 
     const valor = precos[tipoAgente];

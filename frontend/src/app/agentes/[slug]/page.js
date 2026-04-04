@@ -46,11 +46,15 @@ export default function AgenteDetalhe({ params }) {
           {/* Card de compra */}
           <div className="lg:col-span-1">
             <div className="card border-red-500/[0.15] rounded-2xl p-7 sticky top-24">
+              <span className={`text-xs font-bold px-3 py-1 rounded-full inline-block mb-3 ${agente.complexidade === 'complexo' ? 'bg-red-500/15 text-red-400' : 'bg-green-500/10 text-green-400'}`}>
+                {agente.complexidade === 'complexo' ? '🔴 Agente Avançado' : '🟢 Agente Básico'}
+              </span>
               <p className="text-slate-400 text-sm mb-1">Mensalidade</p>
               <p className="text-5xl font-black text-white mb-1">
                 R$ {agente.preco}
               </p>
-              <p className="text-slate-500 text-sm mb-8">/mês · cancele quando quiser</p>
+              <p className="text-slate-500 text-sm mb-1">/mês · cancele quando quiser</p>
+              <p className="text-slate-600 text-xs mb-8">+ R$ {agente.precoAtivacao},00 de ativação (única vez)</p>
 
               <Link
                 href={`/checkout?agente=${agente.slug}`}

@@ -159,11 +159,13 @@ export default function Home() {
                 </p>
                 <div className="flex items-center justify-between pt-5 border-t border-white/[0.05]">
                   <div>
-                    <p className="text-slate-600 text-[11px] font-medium">a partir de</p>
-                    <p className="text-white font-bold text-xl">
-                      R$ {a.preco}
-                      <span className="text-xs text-slate-500 font-medium">/mês</span>
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full inline-block mb-1 ${a.complexidade === 'complexo' ? 'bg-red-500/15 text-red-400' : 'bg-green-500/10 text-green-400'}`}>
+                      {a.complexidade === 'complexo' ? '🔴 Avançado' : '🟢 Básico'}
+                    </span>
+                    <p className="text-white font-bold text-lg">
+                      R$ {a.preco}<span className="text-xs text-slate-500 font-medium">/mês</span>
                     </p>
+                    <p className="text-slate-600 text-[10px]">+ R${a.precoAtivacao} ativação única</p>
                   </div>
                   <Link
                     href={`/agentes/${a.slug}`}
@@ -217,6 +219,23 @@ export default function Home() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════ PRÉ-CADASTRO ═══════════════ */}
+      <section className="py-14 px-5 sm:px-8 section-alt">
+        <div className="max-w-4xl mx-auto">
+          <div className="card rounded-2xl p-7 sm:p-10 flex flex-col sm:flex-row items-center gap-6">
+            <div className="text-center sm:text-left flex-1">
+              <h3 className="text-xl sm:text-2xl font-black text-white mb-2">Não está pronto ainda?</h3>
+              <p className="text-slate-400 text-sm leading-relaxed">Salve seus dados agora e contrate quando quiser — sem perder tempo preenchendo tudo de novo.</p>
+            </div>
+            <div className="flex-shrink-0 flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+              <Link href="/pre-cadastro" className="btn-primary font-bold px-7 py-3 rounded-full no-underline text-center whitespace-nowrap">
+                Fazer pré-cadastro →
+              </Link>
+            </div>
           </div>
         </div>
       </section>

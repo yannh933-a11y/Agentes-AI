@@ -5,6 +5,7 @@ const cors = require('cors');
 const pedidoRoutes = require('./routes/pedidos');
 const webhookRoutes = require('./routes/webhooks');
 const adminRoutes = require('./routes/admin');
+const preCadastroRoutes = require('./routes/preCadastro');
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use('/api/pedidos', pedidoRoutes);
 app.use('/webhook', webhookRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/precadastro', preCadastroRoutes);
 
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
 

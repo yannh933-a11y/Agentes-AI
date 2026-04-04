@@ -48,3 +48,13 @@ enum StatusPedido {
   FALHOU
   REEMBOLSADO
 }
+
+model PreCadastro {
+  id         String   @id @default(uuid())
+  nome       String
+  email      String   @unique
+  whatsapp   String?
+  interesse  String?
+  emailEnviado Boolean @default(false)
+  criadoEm  DateTime @default(now())
+}
