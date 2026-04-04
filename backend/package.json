@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "description": "Backend - Sistema de venda de agentes de IA",
   "main": "src/index.js",
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
     "dev": "nodemon src/index.js",
     "start": "node src/index.js",
-    "db:migrate": "npx prisma migrate dev",
-    "db:generate": "npx prisma generate",
+    "build": "npx prisma generate",
     "db:push": "npx prisma db push"
   },
   "dependencies": {
