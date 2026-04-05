@@ -1,73 +1,90 @@
 const axios = require('axios');
 
-const BOT_TOKEN = process.env.TELEGRAM_SUPPORT_BOT_TOKEN;
-const API = `https://api.telegram.org/bot${BOT_TOKEN}`;
+const GROQ_API_KEY = process.env.GROQ_API_KEY;
+const GROQ_API = 'https://api.groq.com/openai/v1/chat/completions';
 
-// Cache em memória: { sessionId -> chatId } e { chatId -> sessionId }
-// (reset ao reiniciar o servidor — suficiente para sessões de suporte)
-const sessionToChat = {};
-const chatToSession = {};
-
-// Fila de respostas pendentes: { sessionId -> [msgs] }
+// Fila de respostas pendentes por sessão: { sessionId -> [msgs] }
 const pendingReplies = {};
 
-// ─── Base de respostas do bot (sem gastar tokens de IA) ──────────────
-const FAQ_RESPOSTAS = {
-  saudacao: `Olá! 😊 Bem-vindo ao suporte da *AgentesIA*.\n\nSou seu assistente virtual. Como posso te ajudar?\n\n• Preços e planos\n• Qual agente escolher\n• Como funciona o pagamento\n• Ativação e uso\n• Cancelamento`,
+// Histórico de conversa por sessão (para contexto): { sessionId -> [msgs] }
+const historico = {};
 
-  preco: `💰 *Nossos preços:*\n\n🟢 *Básicos* (Atendimento, Calendário, Suporte)\n→ Ativação: R$ 20 | Mensalidade: R$ 50/mês\n\n🔴 *Avançados* (Vendas, Agendamento, Emails, Manutenção)\n→ Ativação: R$ 20 | Mensalidade: R$ 65/mês\n\nTodos incluem ativação em até 5 minutos! ⚡`,
+// Prompt de sistema — define a personalidade do bot (compacto para economizar tokens)
+const SYSTEM_PROMPT = `Você é o assistente virtual da AgentesIA, uma empresa que vende agentes de IA para negócios via Telegram.
 
-  agente: `🤖 *Nossos agentes:*\n\n• 🎧 Atendimento — R$50/mês\n• 🗓️ Calendário — R$50/mês\n• 🛠️ Suporte — R$50/mês\n• 📅 Agendamento — R$65/mês\n• 💰 Vendas — R$65/mês\n• 📧 Emails — R$65/mês\n• 🔧 Manutenção — R$65/mês\n\nQual tipo de negócio você tem? Posso indicar o melhor! 😊`,
+SEUS AGENTES E PREÇOS:
+- Atendimento 🎧, Calendário 🗓️, Suporte 🛠️ → Ativação R$20 + R$50/mês (básicos)
+- Agendamento 📅, Vendas 💰, Emails 📧, Manutenção 🔧 → Ativação R$20 + R$65/mês (avançados)
 
-  pagamento: `💳 *Pagamento via PIX:*\n\n1. Escolha seu agente no site\n2. Preencha nome e email\n3. Receba o QR Code\n4. Pague com seu banco\n5. Confirmação instantânea ✅\n\nApós o pagamento, as credenciais chegam em até *5 minutos* no seu email!`,
+COMO FUNCIONA:
+- Pagamento via PIX, ativação automática em até 5 minutos
+- Agente funciona 24h no Telegram
+- Cancele quando quiser, sem multa
 
-  ativacao: `⚡ *Ativação rápida:*\n\nApós o pagamento:\n• Você recebe um email com as credenciais\n• Acesse o Telegram e encontre seu bot\n• Envie qualquer mensagem para ativá-lo\n• Insira o código de pareamento\n• Pronto! Funcionando 24h 🎉`,
+SITE: https://agentes-ai-two.vercel.app
+SUPORTE: suporte@agentesia.com.br
 
-  cancelamento: `❌ *Cancelamento:*\n\n• Cancele quando quiser, sem multa\n• O agente fica ativo até o fim do período pago\n• Envie email para suporte@agentesia.com.br\n\nNão há fidelidade nem complicação! 😊`,
+COMO SE COMPORTAR:
+- Seja caloroso, natural e receptivo — como uma pessoa real, não um robô
+- Respostas curtas e diretas (máx 3-4 linhas)
+- Use emojis com moderação
+- Se não souber algo, sugira contato por email
+- Nunca invente informações
+- Sempre que relevante, sugira o agente mais adequado para o negócio do cliente`;
 
-  telegram: `📱 *Como usar no Telegram:*\n\n1. Após contratar, você recebe um código por email\n2. Abra o Telegram e encontre o bot do seu agente\n3. Envie uma mensagem para ativá-lo\n4. Digite o código de pareamento\n5. Pronto! Seus clientes já podem interagir 🚀`,
+// ─── Chama o Groq para gerar resposta inteligente ─────────────────────
+async function gerarRespostaIA(sessionId, textoUsuario) {
+  // Inicializa histórico da sessão
+  if (!historico[sessionId]) {
+    historico[sessionId] = [];
+  }
 
-  padrao: `Entendi! 😊 Posso te ajudar com:\n\n• *Preços* — quanto custa cada agente\n• *Agentes* — qual é o ideal para você\n• *Pagamento* — como funciona o PIX\n• *Ativação* — quanto tempo leva\n• *Cancelamento* — como funciona\n\nSobre o que você quer saber?`,
-};
+  // Adiciona mensagem do usuário ao histórico
+  historico[sessionId].push({ role: 'user', content: textoUsuario });
 
-function detectarTopico(texto) {
-  const t = texto.toLowerCase();
-  if (/olá|oi|bom dia|boa tarde|boa noite|hello|hey|tudo bem/.test(t)) return 'saudacao';
-  if (/preço|preco|valor|custa|mensalidade|quanto|barato|caro/.test(t)) return 'preco';
-  if (/agente|qual|escolher|indicar|recomendar|melhor|tipo/.test(t)) return 'agente';
-  if (/pagar|pagamento|pix|boleto|forma de pag/.test(t)) return 'pagamento';
-  if (/ativar|ativação|ativacao|prazo|quando recebo|tempo/.test(t)) return 'ativacao';
-  if (/cancelar|cancelamento|desistir|reembolso|devolução/.test(t)) return 'cancelamento';
-  if (/telegram|usar|como funciona|funciona/.test(t)) return 'telegram';
-  return 'padrao';
-}
+  // Mantém histórico curto (últimas 10 mensagens) para economizar tokens
+  if (historico[sessionId].length > 10) {
+    historico[sessionId] = historico[sessionId].slice(-10);
+  }
 
-// ─── Envia mensagem ao usuário via Telegram ───────────────────────────
-async function enviarMensagemAoUsuario(chatId, texto) {
   try {
-    await axios.post(`${API}/sendMessage`, {
-      chat_id: chatId,
-      text: texto,
-      parse_mode: 'Markdown',
-    });
-  } catch (e) {
-    console.error('Erro ao enviar mensagem Telegram:', e.message);
+    const response = await axios.post(
+      GROQ_API,
+      {
+        model: 'llama-3.1-8b-instant', // Mais rápido e barato
+        messages: [
+          { role: 'system', content: SYSTEM_PROMPT },
+          ...historico[sessionId],
+        ],
+        max_tokens: 200,      // Respostas curtas para economizar
+        temperature: 0.7,     // Natural mas focado
+        stream: false,
+      },
+      {
+        headers: {
+          'Authorization': `Bearer ${GROQ_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        timeout: 10000,
+      }
+    );
+
+    const resposta = response.data.choices[0].message.content;
+
+    // Adiciona resposta do bot ao histórico
+    historico[sessionId].push({ role: 'assistant', content: resposta });
+
+    return resposta;
+  } catch (err) {
+    console.error('Erro Groq:', err.response?.data || err.message);
+    return 'Desculpe, tive um problema técnico. Por favor, tente novamente em instantes! 😊';
   }
 }
 
-// ─── Processa mensagem recebida do site (chat widget) ─────────────────
+// ─── Processa mensagem do site e gera resposta IA ─────────────────────
 async function processarMensagemDoSite({ sessionId, texto }) {
-  // Gera chatId virtual para esta sessão (reutiliza se já existe)
-  if (!sessionToChat[sessionId]) {
-    sessionToChat[sessionId] = sessionId; // Usa sessionId como identificador
-    chatToSession[sessionId] = sessionId;
-  }
+  const resposta = await gerarRespostaIA(sessionId, texto);
 
-  // Detecta tópico e gera resposta sem consumir IA externa
-  const topico = detectarTopico(texto);
-  const resposta = FAQ_RESPOSTAS[topico] || FAQ_RESPOSTAS.padrao;
-
-  // Adiciona à fila de respostas pendentes para o site buscar
   if (!pendingReplies[sessionId]) pendingReplies[sessionId] = [];
   pendingReplies[sessionId].push({
     texto: resposta,
@@ -77,16 +94,27 @@ async function processarMensagemDoSite({ sessionId, texto }) {
   return { ok: true };
 }
 
-// ─── Site busca as respostas pendentes ────────────────────────────────
+// ─── Site busca respostas pendentes ───────────────────────────────────
 function buscarRespostas(sessionId) {
   const replies = pendingReplies[sessionId] || [];
-  pendingReplies[sessionId] = []; // Limpa após entregar
+  pendingReplies[sessionId] = [];
   return replies;
 }
 
-// ─── Mensagem de boas-vindas ao abrir o chat ─────────────────────────
+// ─── Mensagem de boas-vindas ──────────────────────────────────────────
 function boasVindas() {
-  return FAQ_RESPOSTAS.saudacao;
+  return 'Olá! 😊 Sou o assistente da **AgentesIA**. Estou aqui para te ajudar a escolher o agente ideal para o seu negócio e tirar qualquer dúvida. Como posso te ajudar?';
 }
+
+// ─── Limpa históricos antigos (a cada 30 min) ─────────────────────────
+setInterval(() => {
+  const agora = Date.now();
+  Object.keys(pendingReplies).forEach(sid => {
+    if (!pendingReplies[sid] || pendingReplies[sid].length === 0) {
+      delete pendingReplies[sid];
+      delete historico[sid];
+    }
+  });
+}, 30 * 60 * 1000);
 
 module.exports = { processarMensagemDoSite, buscarRespostas, boasVindas };

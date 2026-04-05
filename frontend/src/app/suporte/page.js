@@ -1,37 +1,18 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { agentes } from '../../lib/agentes';
 
 const API = process.env.NEXT_PUBLIC_API_URL || '';
 
-// ID de sessão único por visita
 function gerarSessionId() {
-  return 'sess_' + Math.random().toString(36).slice(2) + Date.now();
-}
-
-// Respostas locais (fallback se backend offline)
-const RESPOSTAS_LOCAL = {
-  saudacao: { text: 'Olá! 😊 Bem-vindo ao suporte da **AgentesIA**.\n\nComo posso te ajudar hoje?', botoes: [{ label: '💰 Preços', acao: 'preco' }, { label: '🤖 Agentes', acao: 'agente' }, { label: '📱 Como funciona', acao: 'telegram' }] },
-  preco: { text: '💰 **Nossos preços:**\n\n🟢 **Básicos** (Atendimento, Calendário, Suporte)\n→ Ativação: R$20 | Mensalidade: **R$50/mês**\n\n🔴 **Avançados** (Vendas, Agendamento, Emails, Manutenção)\n→ Ativação: R$20 | Mensalidade: **R$65/mês**', botoes: [{ label: '🤖 Ver agentes', acao: 'agente' }, { label: '💳 Como pagar?', acao: 'pagamento' }] },
-  agente: { text: '🤖 **Nossos agentes:**\n\n' + agentes.map(a => `${a.emoji} **${a.nome}** — R$${a.preco}/mês`).join('\n'), botoes: [{ label: '💰 Ver preços', acao: 'preco' }, { label: '🛒 Contratar', acao: 'link', href: '/agentes' }] },
-  pagamento: { text: '💳 **Pagamento via PIX:**\n\n1. Escolha seu agente\n2. Preencha seus dados\n3. Receba o QR Code\n4. Pague com seu banco\n5. Confirmação instantânea ✅\n\nCredenciais chegam em até **5 minutos** no email!', botoes: [{ label: '🛒 Contratar agora', acao: 'link', href: '/agentes' }] },
-  ativacao: { text: '⚡ **Ativação em até 5 minutos!**\n\n1. Pague via PIX\n2. Receba email com credenciais\n3. Acesse o Telegram\n4. Insira o código de pareamento\n5. Pronto! Funcionando 24h 🎉', botoes: [{ label: '🛒 Contratar', acao: 'link', href: '/agentes' }] },
-  cancelamento: { text: '❌ **Cancelamento sem complicação:**\n\n• Cancele quando quiser\n• Sem multa ou fidelidade\n• Ativo até o fim do período pago\n• Email: suporte@agentesia.com.br', botoes: [{ label: '🤖 Ver agentes', acao: 'agente' }] },
-  telegram: { text: '📱 **Como usar no Telegram:**\n\n1. Receba o código por email\n2. Abra o Telegram e encontre seu bot\n3. Digite o código de pareamento\n4. Pronto! Seus clientes já podem interagir 🚀', botoes: [{ label: '🛒 Contratar', acao: 'link', href: '/agentes' }] },
-  default: { text: '🤔 Posso te ajudar com:\n\n• Preços e planos\n• Qual agente escolher\n• Como funciona o PIX\n• Prazo de ativação\n• Cancelamento', botoes: [{ label: '💰 Preços', acao: 'preco' }, { label: '🤖 Agentes', acao: 'agente' }, { label: '📱 Como funciona', acao: 'telegram' }] },
-};
-
-function detectarTopico(msg) {
-  const t = msg.toLowerCase();
-  if (/olá|oi |bom dia|boa tarde|boa noite|hello|hey/.test(t)) return 'saudacao';
-  if (/preço|preco|valor|custa|mensalidade|quanto/.test(t)) return 'preco';
-  if (/agente|qual|escolher|indicar|recomendar|melhor/.test(t)) return 'agente';
-  if (/pagar|pagamento|pix|boleto/.test(t)) return 'pagamento';
-  if (/ativar|ativação|ativacao|prazo|quando recebo/.test(t)) return 'ativacao';
-  if (/cancelar|cancelamento|reembolso|devolução/.test(t)) return 'cancelamento';
-  if (/telegram|como usa|funciona/.test(t)) return 'telegram';
-  return 'default';
+  if (typeof window !== 'undefined') {
+    const salvo = sessionStorage.getItem('suporte_session');
+    if (salvo) return salvo;
+    const novo = 'sess_' + Math.random().toString(36).slice(2) + Date.now();
+    sessionStorage.setItem('suporte_session', novo);
+    return novo;
+  }
+  return 'sess_' + Math.random().toString(36).slice(2);
 }
 
 function renderTexto(text) {
@@ -39,7 +20,9 @@ function renderTexto(text) {
     const partes = linha.split(/\*\*(.*?)\*\*/g);
     return (
       <span key={i}>
-        {partes.map((p, j) => j % 2 === 1 ? <strong key={j}>{p}</strong> : <span key={j}>{p}</span>)}
+        {partes.map((p, j) =>
+          j % 2 === 1 ? <strong key={j}>{p}</strong> : <span key={j}>{p}</span>
+        )}
         {i < arr.length - 1 && <br />}
       </span>
     );
@@ -50,81 +33,82 @@ export default function SuportePage() {
   const [msgs, setMsgs] = useState([]);
   const [input, setInput] = useState('');
   const [digitando, setDigitando] = useState(false);
-  const sessionId = useRef(gerarSessionId());
+  const [aguardando, setAguardando] = useState(false);
+  const sessionId = useRef(null);
   const bottomRef = useRef(null);
   const pollingRef = useRef(null);
 
-  // Mensagem de boas-vindas ao abrir
   useEffect(() => {
-    setTimeout(async () => {
-      setDigitando(true);
-      try {
-        const res = await fetch(`${API}/api/suporte/boas-vindas`);
-        const data = await res.json();
-        // Converte texto Markdown simples para formato local
-        const topico = 'saudacao';
-        const local = RESPOSTAS_LOCAL[topico];
-        setMsgs([{ tipo: 'bot', text: local.text, botoes: local.botoes }]);
-      } catch {
-        const local = RESPOSTAS_LOCAL.saudacao;
-        setMsgs([{ tipo: 'bot', text: local.text, botoes: local.botoes }]);
-      } finally {
-        setDigitando(false);
-      }
-    }, 500);
+    sessionId.current = gerarSessionId();
 
-    // Polling para buscar respostas do backend a cada 2s
+    // Mensagem de boas-vindas
+    setTimeout(() => {
+      setDigitando(true);
+      setTimeout(() => {
+        setMsgs([{
+          tipo: 'bot',
+          text: 'Olá! 😊 Sou o assistente da **AgentesIA**. Estou aqui para te ajudar a escolher o agente ideal para o seu negócio e tirar qualquer dúvida.\n\nComo posso te ajudar hoje?',
+          botoes: [
+            { label: '💰 Quais são os preços?', texto: 'Quais são os preços dos agentes?' },
+            { label: '🤖 Qual agente me indica?', texto: 'Qual agente você me indica?' },
+            { label: '📱 Como funciona?', texto: 'Como funciona o agente no Telegram?' },
+          ],
+        }]);
+        setDigitando(false);
+      }, 1000);
+    }, 400);
+
+    // Polling para buscar respostas do backend a cada 1.5s
     pollingRef.current = setInterval(async () => {
+      if (!sessionId.current || !aguardando) return;
       try {
         const res = await fetch(`${API}/api/suporte/respostas/${sessionId.current}`);
         const data = await res.json();
         if (data.respostas && data.respostas.length > 0) {
-          // Converte respostas do backend para formato exibível
           data.respostas.forEach(r => {
-            const topico = detectarTopico(r.texto.slice(0, 30)) || 'default';
-            const local = RESPOSTAS_LOCAL[topico] || RESPOSTAS_LOCAL.default;
-            setMsgs(prev => [...prev, { tipo: 'bot', text: local.text, botoes: local.botoes }]);
+            setMsgs(prev => [...prev, { tipo: 'bot', text: r.texto }]);
           });
           setDigitando(false);
+          setAguardando(false);
         }
-      } catch {/* backend offline — sem problema */}
-    }, 2000);
+      } catch { /* silencioso */ }
+    }, 1500);
 
     return () => clearInterval(pollingRef.current);
   }, []);
+
+  // Ref para aguardando (para usar no polling sem re-render)
+  const aguardandoRef = useRef(false);
+  useEffect(() => { aguardandoRef.current = aguardando; }, [aguardando]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [msgs, digitando]);
 
   async function enviarMensagem(texto) {
-    if (!texto.trim()) return;
-
-    setMsgs(prev => [...prev, { tipo: 'user', text: texto }]);
+    if (!texto.trim() || digitando) return;
     setInput('');
+    setMsgs(prev => [...prev, { tipo: 'user', text: texto }]);
     setDigitando(true);
+    setAguardando(true);
 
-    // Envia ao backend (que usa o bot do Telegram)
     try {
       await fetch(`${API}/api/suporte/mensagem`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ sessionId: sessionId.current, texto }),
       });
-    } catch {/* fallback local */}
-
-    // Resposta local instantânea (não espera o polling)
-    setTimeout(() => {
-      const topico = detectarTopico(texto);
-      const local = RESPOSTAS_LOCAL[topico] || RESPOSTAS_LOCAL.default;
-      setMsgs(prev => [...prev, { tipo: 'bot', text: local.text, botoes: local.botoes }]);
-      setDigitando(false);
-    }, 900);
-  }
-
-  function handleBotao(botao) {
-    if (botao.acao === 'link') return;
-    enviarMensagem(botao.label);
+    } catch {
+      // Backend offline — resposta de fallback
+      setTimeout(() => {
+        setMsgs(prev => [...prev, {
+          tipo: 'bot',
+          text: 'Desculpe, estou com dificuldades técnicas no momento. Por favor, entre em contato pelo email **suporte@agentesia.com.br** e responderemos em breve! 😊',
+        }]);
+        setDigitando(false);
+        setAguardando(false);
+      }, 800);
+    }
   }
 
   return (
@@ -133,9 +117,12 @@ export default function SuportePage() {
 
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-red-500/10 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4">🤖</div>
+          <div className="relative inline-block mb-4">
+            <div className="w-16 h-16 bg-red-500/10 rounded-2xl flex items-center justify-center text-3xl">🤖</div>
+            <span className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-[#050508]" />
+          </div>
           <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight mb-1">Suporte AgentesIA</h1>
-          <p className="text-slate-400 text-sm">Atendimento automático 24h — tire suas dúvidas agora</p>
+          <p className="text-slate-400 text-sm">Assistente inteligente • Responde em tempo real</p>
           <div className="inline-flex items-center gap-2 bg-green-500/10 text-green-400 border border-green-500/20 rounded-full px-3 py-1 text-xs font-semibold mt-3">
             <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
             Online agora
@@ -143,7 +130,7 @@ export default function SuportePage() {
         </div>
 
         {/* Chat */}
-        <div className="card rounded-2xl overflow-hidden flex flex-col" style={{ height: '520px' }}>
+        <div className="card rounded-2xl overflow-hidden flex flex-col" style={{ height: '540px' }}>
 
           {/* Mensagens */}
           <div className="flex-1 overflow-y-auto p-5 space-y-4">
@@ -153,7 +140,7 @@ export default function SuportePage() {
                   {m.tipo === 'bot' && (
                     <div className="flex items-center gap-2 mb-1.5">
                       <div className="w-6 h-6 bg-red-500/15 rounded-full flex items-center justify-center text-xs">🤖</div>
-                      <span className="text-slate-500 text-xs font-medium">Suporte IA</span>
+                      <span className="text-slate-500 text-xs font-medium">Assistente IA</span>
                     </div>
                   )}
                   <div className={`rounded-2xl px-4 py-3 text-sm leading-relaxed ${
@@ -164,29 +151,25 @@ export default function SuportePage() {
                     {renderTexto(m.text)}
                   </div>
 
-                  {/* Botões rápidos */}
-                  {m.botoes && m.tipo === 'bot' && (
+                  {/* Botões de sugestão */}
+                  {m.botoes && m.tipo === 'bot' && !digitando && (
                     <div className="flex flex-wrap gap-2 mt-2">
-                      {m.botoes.map((b, bi) =>
-                        b.acao === 'link' ? (
-                          <Link key={bi} href={b.href}
-                            className="bg-white/[0.06] hover:bg-red-500/20 border border-white/[0.08] hover:border-red-500/25 text-slate-300 hover:text-white text-xs px-3 py-1.5 rounded-full no-underline transition-all">
-                            {b.label}
-                          </Link>
-                        ) : (
-                          <button key={bi} onClick={() => handleBotao(b)}
-                            className="bg-white/[0.06] hover:bg-red-500/20 border border-white/[0.08] hover:border-red-500/25 text-slate-300 hover:text-white text-xs px-3 py-1.5 rounded-full transition-all cursor-pointer">
-                            {b.label}
-                          </button>
-                        )
-                      )}
+                      {m.botoes.map((b, bi) => (
+                        <button
+                          key={bi}
+                          onClick={() => enviarMensagem(b.texto)}
+                          className="bg-white/[0.06] hover:bg-red-500/20 border border-white/[0.08] hover:border-red-500/25 text-slate-300 hover:text-white text-xs px-3 py-1.5 rounded-full transition-all cursor-pointer"
+                        >
+                          {b.label}
+                        </button>
+                      ))}
                     </div>
                   )}
                 </div>
               </div>
             ))}
 
-            {/* Indicador de digitação */}
+            {/* Digitando */}
             {digitando && (
               <div className="flex justify-start">
                 <div className="bg-white/[0.05] rounded-2xl rounded-tl-sm px-4 py-3.5">
@@ -207,24 +190,26 @@ export default function SuportePage() {
             <input
               value={input}
               onChange={e => setInput(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && enviarMensagem(input)}
-              placeholder="Digite sua dúvida..."
-              className="flex-1 bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-red-500/40 transition"
+              onKeyDown={e => e.key === 'Enter' && !digitando && enviarMensagem(input)}
+              placeholder={digitando ? 'Aguarde a resposta...' : 'Digite sua dúvida...'}
+              disabled={digitando}
+              className="flex-1 bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-red-500/40 transition disabled:opacity-50"
             />
             <button
               onClick={() => enviarMensagem(input)}
-              className="btn-primary px-5 py-2.5 rounded-xl font-bold text-sm border-none cursor-pointer whitespace-nowrap"
+              disabled={digitando || !input.trim()}
+              className="btn-primary px-5 py-2.5 rounded-xl font-bold text-sm border-none cursor-pointer whitespace-nowrap disabled:opacity-40 disabled:cursor-not-allowed"
             >
-              Enviar →
+              {digitando ? '...' : 'Enviar →'}
             </button>
           </div>
         </div>
 
-        {/* Info */}
+        {/* Rodapé */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-5">
           <p className="text-slate-600 text-xs">
-            Precisa de ajuda humana?{' '}
-            <a href="mailto:suporte@agentesia.com.br" className="text-red-400 hover:text-red-300">
+            Prefere email?{' '}
+            <a href="mailto:suporte@agentesia.com.br" className="text-red-400 hover:text-red-300 transition-colors">
               suporte@agentesia.com.br
             </a>
           </p>
