@@ -1,8 +1,65 @@
 'use client';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { agentes } from '../../lib/agentes';
 import axios from 'axios';
+
+// Dropdown customizado com estética do site
+function SelectAgente({ value, onChange }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+
+  const opcoes = [
+    { value: '', label: 'Não sei ainda', emoji: '🤔' },
+    ...agentes.map(a => ({ value: a.nome, label: `${a.nome} — R$${a.preco}/mês`, emoji: a.emoji })),
+  ];
+
+  const selecionado = opcoes.find(o => o.value === value) || opcoes[0];
+
+  // Fecha ao clicar fora
+  useEffect(() => {
+    function handler(e) { if (ref.current && !ref.current.contains(e.target)) setOpen(false); }
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
+
+  return (
+    <div ref={ref} className="relative">
+      {/* Botão de abertura */}
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        className="w-full bg-white/[0.03] border border-white/[0.08] rounded-xl px-4 py-3.5 text-left text-white focus:outline-none focus:border-red-500/40 transition flex items-center justify-between hover:border-white/20"
+      >
+        <span className="flex items-center gap-2">
+          <span className="text-lg">{selecionado.emoji}</span>
+          <span className={value ? 'text-white' : 'text-slate-500'}>{selecionado.label}</span>
+        </span>
+        <span className={`text-red-500 text-xl transition-transform duration-700 ease-in-out ${open ? 'rotate-180' : ''}`}>▾</span>
+      </button>
+
+      {/* Dropdown */}
+      {open && (
+        <div className="absolute top-full left-0 right-0 mt-1.5 z-50 bg-[#0e0e1a] border border-white/[0.1] rounded-xl overflow-hidden shadow-2xl shadow-black/50">
+          {opcoes.map((o) => (
+            <button
+              key={o.value}
+              type="button"
+              onClick={() => { onChange(o.value); setOpen(false); }}
+              className={`w-full text-left px-4 py-3 flex items-center gap-3 text-sm transition-colors hover:bg-red-500/10 hover:text-white border-none cursor-pointer ${
+                value === o.value ? 'bg-red-500/10 text-white' : 'text-slate-400 bg-transparent'
+              }`}
+            >
+              <span className="text-base w-6 text-center">{o.emoji}</span>
+              <span>{o.label}</span>
+              {value === o.value && <span className="ml-auto text-red-400 text-xs">✓</span>}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function PreCadastroPage() {
   const [form, setForm] = useState({ nome: '', email: '', whatsapp: '', interesse: '' });
@@ -115,17 +172,10 @@ export default function PreCadastroPage() {
               <label className="text-slate-400 text-sm block mb-2">
                 Qual agente te interessa? <span className="text-slate-600">(opcional)</span>
               </label>
-              <select
+              <SelectAgente
                 value={form.interesse}
-                onChange={e => setForm({ ...form, interesse: e.target.value })}
-                className="w-full bg-white/[0.03] border border-white/[0.08] rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-red-500/40 transition"
-                style={{ colorScheme: 'dark' }}
-              >
-                <option value="">Não sei ainda</option>
-                {agentes.map(a => (
-                  <option key={a.slug} value={a.nome}>{a.emoji} {a.nome} — R${a.preco}/mês</option>
-                ))}
-              </select>
+                onChange={val => setForm({ ...form, interesse: val })}
+              />
             </div>
 
             {erro && <p className="text-red-400 text-sm">{erro}</p>}

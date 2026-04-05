@@ -6,6 +6,7 @@ const pedidoRoutes = require('./routes/pedidos');
 const webhookRoutes = require('./routes/webhooks');
 const adminRoutes = require('./routes/admin');
 const preCadastroRoutes = require('./routes/preCadastro');
+const suporteRoutes = require('./routes/suporte');
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use('/api/pedidos', pedidoRoutes);
 app.use('/webhook', webhookRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/precadastro', preCadastroRoutes);
+app.use('/api/suporte', suporteRoutes);
 
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
 

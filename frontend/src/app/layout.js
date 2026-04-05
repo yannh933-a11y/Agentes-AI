@@ -132,10 +132,40 @@ function BotaoSuporte() {
   return (
     <Link
       href="/suporte"
-      className="fixed bottom-6 right-6 z-40 btn-primary w-14 h-14 rounded-full flex items-center justify-center text-2xl no-underline shadow-xl shadow-red-900/30"
+      className="fixed bottom-6 right-6 z-40 no-underline group flex items-center gap-0"
       title="Suporte 24h"
     >
-      💬
+      {/* Label "Suporte" — aparece no hover */}
+      <span
+        className="
+          overflow-hidden w-0 group-hover:w-[90px]
+          opacity-0 group-hover:opacity-100
+          transition-all duration-500 ease-in-out
+          bg-red-600 text-black font-black text-sm
+          rounded-l-full py-2
+          whitespace-nowrap shadow-xl shadow-red-900/40
+          select-none pointer-events-none
+          flex items-center justify-center
+        "
+      >
+        <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-200 px-3">
+          Suporte
+        </span>
+      </span>
+
+      {/* Bolinha */}
+      <div
+        className="
+          w-14 h-14 rounded-full
+          bg-red-600
+          flex items-center justify-center text-2xl
+          shadow-xl shadow-red-900/40
+          transition-transform duration-700 ease-in-out
+          group-hover:rotate-[360deg]
+        "
+      >
+        💬
+      </div>
     </Link>
   );
 }
