@@ -36,7 +36,6 @@ export default function SuportePage() {
   const [aguardando, setAguardando] = useState(false);
   const sessionId = useRef(null);
   const bottomRef = useRef(null);
-  const pollingRef = useRef(null);
 
   useEffect(() => {
     sessionId.current = gerarSessionId();
@@ -58,23 +57,7 @@ export default function SuportePage() {
       }, 1000);
     }, 400);
 
-    // Polling para buscar respostas do backend a cada 1.5s
-    pollingRef.current = setInterval(async () => {
-      if (!sessionId.current || !aguardando) return;
-      try {
-        const res = await fetch(`${API}/api/suporte/respostas/${sessionId.current}`);
-        const data = await res.json();
-        if (data.respostas && data.respostas.length > 0) {
-          data.respostas.forEach(r => {
-            setMsgs(prev => [...prev, { tipo: 'bot', text: r.texto }]);
-          });
-          setDigitando(false);
-          setAguardando(false);
-        }
-      } catch { /* silencioso */ }
-    }, 1500);
-
-    return () => clearInterval(pollingRef.current);
+    return () => {};
   }, []);
 
   // Ref para aguardando (para usar no polling sem re-render)
@@ -93,21 +76,22 @@ export default function SuportePage() {
     setAguardando(true);
 
     try {
-      await fetch(`${API}/api/suporte/mensagem`, {
+      const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ sessionId: sessionId.current, texto }),
       });
+      const data = await res.json();
+      setMsgs(prev => [...prev, { tipo: 'bot', text: data.resposta }]);
+      setDigitando(false);
+      setAguardando(false);
     } catch {
-      // Backend offline — resposta de fallback
-      setTimeout(() => {
-        setMsgs(prev => [...prev, {
-          tipo: 'bot',
-          text: 'Desculpe, estou com dificuldades técnicas no momento. Por favor, entre em contato pelo email **suporte@agentesia.com.br** e responderemos em breve! 😊',
-        }]);
-        setDigitando(false);
-        setAguardando(false);
-      }, 800);
+      setMsgs(prev => [...prev, {
+        tipo: 'bot',
+        text: 'Desculpe, tive um problema técnico. Entre em contato: **suporte@agentesia.com.br** 😊',
+      }]);
+      setDigitando(false);
+      setAguardando(false);
     }
   }
 

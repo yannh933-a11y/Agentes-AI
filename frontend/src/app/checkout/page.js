@@ -1,5 +1,5 @@
 'use client';
-import { useState, Suspense } from 'react';
+import { useState, Suspense, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { agentes } from '../../lib/agentes';
 import axios from 'axios';
@@ -12,6 +12,20 @@ function CheckoutForm() {
   const [loading, setLoading] = useState(false);
   const [erro, setErro] = useState('');
   const [pix, setPix] = useState(null);
+  const [dadosSalvos, setDadosSalvos] = useState(false);
+
+  // Follow-up: se usuario preencheu dados mas saiu sem comprar (30 min)
+  useEffect(() => {
+    if (!dadosSalvos || pix) return;
+    const t = setTimeout(() => {
+      fetch('/api/emails', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tipo: 'followup', email: form.email, nome: form.nome }),
+      }).catch(() => {});
+    }, 30 * 60 * 1000); // 30 minutos
+    return () => clearTimeout(t);
+  }, [dadosSalvos, pix]);
 
   if (!agente) return (
     <div className="text-center py-20 text-slate-400">
@@ -28,6 +42,12 @@ function CheckoutForm() {
         ...form, tipoAgente: agente.slug, metodoPagamento: 'pix',
       });
       setPix(res.data);
+      // Email de confirmação de compra
+      fetch('/api/emails', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tipo: 'compra', email: form.email, nome: form.nome, agente: agente.nome }),
+      }).catch(() => {});
     } catch {
       setErro('Erro ao gerar cobrança. Tente novamente.');
     } finally {
@@ -82,7 +102,7 @@ function CheckoutForm() {
               <label className="text-slate-400 text-sm block mb-2">Nome completo *</label>
               <input
                 required type="text" value={form.nome}
-                onChange={(e) => setForm({ ...form, nome: e.target.value })}
+                onChange={(e) => { setForm({ ...form, nome: e.target.value }); if(e.target.value && form.email) setDadosSalvos(true); }}
                 placeholder="João Silva"
                 className="w-full bg-white/[0.03] border border-white/[0.08] rounded-xl px-4 py-3.5 text-white placeholder-slate-600 focus:outline-none focus:border-red-500/40 transition"
               />
@@ -91,7 +111,7 @@ function CheckoutForm() {
               <label className="text-slate-400 text-sm block mb-2">Email *</label>
               <input
                 required type="email" value={form.email}
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                onChange={(e) => { setForm({ ...form, email: e.target.value }); if(e.target.value && form.nome) setDadosSalvos(true); }}
                 placeholder="joao@email.com"
                 className="w-full bg-white/[0.03] border border-white/[0.08] rounded-xl px-4 py-3.5 text-white placeholder-slate-600 focus:outline-none focus:border-red-500/40 transition"
               />
