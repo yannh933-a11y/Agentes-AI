@@ -72,18 +72,17 @@ export default function PreCadastroPage() {
     setLoading(true);
     setErro('');
     try {
-      // Salva pré-cadastro
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/precadastro`, form).catch(() => {});
-      // Envia email de agradecimento
-      await fetch('/api/emails', {
+      await fetch('/api/precadastro', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+      // Email de agradecimento
+      fetch('/api/emails', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ tipo: 'precadastro', email: form.email, nome: form.nome, interesse: form.interesse }),
       }).catch(() => {});
-      // Agenda follow-up após 30 min se não comprar (via sessionStorage flag)
-      sessionStorage.setItem('precadastro_email', form.email);
-      sessionStorage.setItem('precadastro_nome', form.nome);
-      sessionStorage.setItem('precadastro_ts', Date.now().toString());
       setSucesso(true);
     } catch {
       setErro('Erro ao salvar. Tente novamente.');

@@ -1,7 +1,3 @@
-// Complexidade:
-//   simples  → ativação R$20, mensalidade R$50
-//   complexo → ativação R$20, mensalidade R$65
-
 export const agentes = [
   {
     slug: 'atendimento',
@@ -9,8 +5,8 @@ export const agentes = [
     emoji: '🎧',
     descricao: 'Responde dúvidas, informa horários e resolve problemas sem precisar de funcionário.',
     complexidade: 'simples',
-    precoAtivacao: 20,
-    preco: 50,
+    precoAtivacao: 97,
+    preco: 59,
     funcionalidades: [
       'Respostas automáticas 24/7',
       'Informações de horário e endereço',
@@ -25,8 +21,8 @@ export const agentes = [
     emoji: '🗓️',
     descricao: 'Gerencia sua agenda, eventos e envia lembretes automáticos para sua equipe.',
     complexidade: 'simples',
-    precoAtivacao: 20,
-    preco: 50,
+    precoAtivacao: 147,
+    preco: 69,
     funcionalidades: [
       'Gestão de eventos e compromissos',
       'Lembretes automáticos',
@@ -41,8 +37,8 @@ export const agentes = [
     emoji: '🛠️',
     descricao: 'Resolve problemas pós-venda, acompanha chamados e orienta seus clientes.',
     complexidade: 'simples',
-    precoAtivacao: 20,
-    preco: 50,
+    precoAtivacao: 147,
+    preco: 69,
     funcionalidades: [
       'Atendimento pós-venda automático',
       'Acompanhamento de chamados',
@@ -57,8 +53,8 @@ export const agentes = [
     emoji: '📅',
     descricao: 'Marca, confirma e cancela horários automaticamente. Ideal para clínicas e salões.',
     complexidade: 'complexo',
-    precoAtivacao: 20,
-    preco: 65,
+    precoAtivacao: 197,
+    preco: 79,
     funcionalidades: [
       'Marcação de horários automática',
       'Confirmação e cancelamento',
@@ -73,8 +69,8 @@ export const agentes = [
     emoji: '💰',
     descricao: 'Qualifica leads, apresenta produtos e converte clientes automaticamente, 24h por dia.',
     complexidade: 'complexo',
-    precoAtivacao: 20,
-    preco: 65,
+    precoAtivacao: 247,
+    preco: 97,
     funcionalidades: [
       'Qualificação automática de leads',
       'Apresentação de produtos e preços',
@@ -89,30 +85,14 @@ export const agentes = [
     emoji: '📧',
     descricao: 'Lê, classifica e responde emails automaticamente com linguagem profissional.',
     complexidade: 'complexo',
-    precoAtivacao: 20,
-    preco: 65,
+    precoAtivacao: 247,
+    preco: 97,
     funcionalidades: [
       'Leitura automática de emails',
       'Classificação por prioridade',
       'Respostas profissionais automáticas',
       'Encaminhamento de emails importantes',
       'Relatório diário de emails',
-    ],
-  },
-  {
-    slug: 'manutencao',
-    nome: 'Agente de Manutenção',
-    emoji: '🔧',
-    descricao: 'Monitora e corrige seus outros agentes automaticamente. Nunca fica sem suporte.',
-    complexidade: 'complexo',
-    precoAtivacao: 20,
-    preco: 65,
-    funcionalidades: [
-      'Monitoramento de todos os agentes',
-      'Detecção automática de erros',
-      'Correção de problemas comuns',
-      'Alertas para problemas críticos',
-      'Relatório de status diário',
     ],
   },
 ];

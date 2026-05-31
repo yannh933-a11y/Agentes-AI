@@ -10,9 +10,14 @@ const sessions = {};
 
 const SYSTEM = `Você é o assistente da AgentesIA — empresa que vende agentes de IA para negócios via Telegram.
 
-AGENTES:
-- Básicos (Atendimento🎧, Calendário🗓️, Suporte🛠️): R$20 ativação + R$50/mês
-- Avançados (Agendamento📅, Vendas💰, Emails📧, Manutenção🔧): R$20 ativação + R$65/mês
+AGENTES E PREÇOS:
+- Atendimento🎧: R$97 criação + R$59/mês
+- Calendário🗓️: R$147 criação + R$69/mês
+- Suporte🛠️: R$147 criação + R$69/mês
+- Agendamento📅: R$197 criação + R$79/mês
+- Vendas💰: R$247 criação + R$97/mês
+- Emails📧: R$247 criação + R$97/mês
+- Manutenção🔧: R$299 criação + R$139/mês
 
 REGRAS:
 1. Seja natural e receptivo como uma pessoa real
@@ -20,7 +25,8 @@ REGRAS:
 3. Colete naturalmente: nome, email, telefone, interesse do cliente
 4. Quando tiver nome+email, confirme os dados coletados de forma sutil
 5. Nunca invente informações
-6. Sugira o agente certo para cada tipo de negócio`;
+6. Sugira o agente certo para cada tipo de negócio
+7. NUNCA ofereça, sugira ou mencione agendamento de demonstração`;
 
 async function saveToDb(data) {
   if (!DB_URL) return;
@@ -36,6 +42,7 @@ async function saveToDb(data) {
         email TEXT,
         telefone TEXT,
         interesse TEXT,
+        agente_adquirido TEXT,
         mensagens INTEGER DEFAULT 0,
         criado_em TIMESTAMP DEFAULT NOW(),
         atualizado_em TIMESTAMP DEFAULT NOW(),
@@ -43,16 +50,17 @@ async function saveToDb(data) {
       )
     `);
     await client.query(`
-      INSERT INTO leads_suporte (session_id, nome, email, telefone, interesse, mensagens)
-      VALUES ($1, $2, $3, $4, $5, $6)
+      INSERT INTO leads_suporte (session_id, nome, email, telefone, interesse, agente_adquirido, mensagens)
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
       ON CONFLICT (session_id) DO UPDATE SET
         nome = COALESCE(EXCLUDED.nome, leads_suporte.nome),
         email = COALESCE(EXCLUDED.email, leads_suporte.email),
         telefone = COALESCE(EXCLUDED.telefone, leads_suporte.telefone),
         interesse = COALESCE(EXCLUDED.interesse, leads_suporte.interesse),
+        agente_adquirido = COALESCE(EXCLUDED.agente_adquirido, leads_suporte.agente_adquirido),
         mensagens = EXCLUDED.mensagens,
         atualizado_em = NOW()
-    `, [data.sessionId, data.nome, data.email, data.telefone, data.interesse, data.mensagens]);
+    `, [data.sessionId, data.nome, data.email, data.telefone, data.interesse, data.agenteAdquirido, data.mensagens]);
     await client.end();
   } catch (e) {
     console.error('DB error:', e.message);
@@ -85,7 +93,9 @@ function extractData(messages) {
   }
   const interests = ['barbearia','clínica','clinica','restaurante','academia','loja','salão','salao','empresa','negócio','negocio'];
   const interesse = interests.find(i => text.toLowerCase().includes(i)) || null;
-  return { nome, email: emailMatch?.[0] || null, telefone: phoneMatch?.[1] || null, interesse };
+  const agentes = ['atendimento','calendário','calendario','suporte','agendamento','vendas','emails','manutenção','manutencao'];
+  const agenteAdquirido = agentes.find(a => text.toLowerCase().includes(a)) || null;
+  return { nome, email: emailMatch?.[0] || null, telefone: phoneMatch?.[1] || null, interesse, agenteAdquirido };
 }
 
 export async function POST(req) {
@@ -122,6 +132,7 @@ export async function POST(req) {
       email: extracted.email || dadosAntigos.email,
       telefone: extracted.telefone || dadosAntigos.telefone,
       interesse: extracted.interesse || dadosAntigos.interesse,
+      agenteAdquirido: extracted.agenteAdquirido || dadosAntigos.agenteAdquirido,
     };
 
     // Salva no DB quando tiver email
@@ -131,7 +142,7 @@ export async function POST(req) {
       // Notifica admin no Telegram quando lead completo (nome + email)
       if (sess.dados.nome && sess.dados.email && !dadosAntigos.email) {
         await notifyAdmin(
-          `🔔 *Novo lead no suporte!*\n👤 ${sess.dados.nome}\n📧 ${sess.dados.email}${sess.dados.telefone ? `\n📱 ${sess.dados.telefone}` : ''}${sess.dados.interesse ? `\n🎯 Interesse: ${sess.dados.interesse}` : ''}`
+          `🔔 *Novo lead no suporte!*\n👤 ${sess.dados.nome}\n📧 ${sess.dados.email}${sess.dados.telefone ? `\n📱 ${sess.dados.telefone}` : ''}${sess.dados.interesse ? `\n🎯 Interesse: ${sess.dados.interesse}` : ''}${sess.dados.agenteAdquirido ? `\n🤖 Agente: ${sess.dados.agenteAdquirido}` : ''}`
         );
       }
     }

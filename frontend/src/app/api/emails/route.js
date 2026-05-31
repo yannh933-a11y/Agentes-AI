@@ -40,20 +40,30 @@ const templates = {
       </div>`),
   }),
 
-  compra: ({ nome, agente }) => ({
-    subject: '✅ Pagamento confirmado — seu agente está sendo ativado!',
+  compra: ({ nome, agente, codigo, linkBot }) => ({
+    subject: '✅ Pagamento confirmado — seu agente está pronto!',
     html: base(`
       <h3 style="color:#fff;margin:0 0 12px">Pagamento confirmado! ✅</h3>
-      <p style="color:#94a3b8;line-height:1.7">Obrigado, <strong style="color:#fff">${nome}</strong>! Seu <strong style="color:#fff">${agente || 'agente'}</strong> está sendo ativado agora.</p>
+      <p style="color:#94a3b8;line-height:1.7">Obrigado, <strong style="color:#fff">${nome}</strong>! Seu <strong style="color:#fff">${agente || 'agente'}</strong> já está pronto para ativar.</p>
+      ${codigo ? `
+      <div style="background:#0a0a14;border:2px solid rgba(220,38,38,0.4);border-radius:12px;padding:20px;margin:20px 0;text-align:center">
+        <p style="color:#94a3b8;font-size:13px;margin:0 0 8px;text-transform:uppercase;letter-spacing:1px">Seu código de ativação</p>
+        <p style="color:#fff;font-size:32px;font-weight:900;letter-spacing:6px;margin:0;font-family:monospace">${codigo}</p>
+      </div>
+      ` : ''}
       <div style="background:#0a0a14;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px;margin:20px 0">
-        <p style="color:#fca5a5;font-size:14px;margin:0 0 8px"><strong>Próximos passos:</strong></p>
-        <ol style="color:#94a3b8;font-size:14px;line-height:2;margin:0;padding-left:20px">
-          <li>Você receberá as credenciais por email em até <strong style="color:#fff">5 minutos</strong></li>
-          <li>Abra o Telegram e encontre seu bot</li>
-          <li>Insira o código de pareamento</li>
-          <li>Pronto — funcionando 24h! 🎉</li>
+        <p style="color:#fca5a5;font-size:14px;margin:0 0 12px"><strong>Como ativar em 3 passos:</strong></p>
+        <ol style="color:#94a3b8;font-size:14px;line-height:2.2;margin:0;padding-left:20px">
+          <li>Abra o Telegram e acesse o link do seu bot abaixo</li>
+          <li>Envie o código acima quando o bot pedir</li>
+          <li>Configure nome, horários e serviços — pronto! 🎉</li>
         </ol>
-      </div>`),
+      </div>
+      ${linkBot ? `
+      <div style="text-align:center;margin:24px 0">
+        <a href="${linkBot}" style="background:linear-gradient(135deg,#dc2626,#991b1b);color:#fff;font-weight:700;padding:14px 32px;border-radius:999px;text-decoration:none;font-size:15px">🤖 Abrir meu bot no Telegram →</a>
+      </div>
+      ` : ''}`),
   }),
 
   followup: ({ nome }) => ({
