@@ -46,7 +46,7 @@ export default function Home() {
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
             {[
-              ['7', 'Tipos de agentes', '🤖'],
+              ['6', 'Tipos de agentes', '🤖'],
               ['24h', 'Sempre disponível', '⚡'],
               ['5min', 'Para ativar', '🚀'],
               ['100%', 'Automático', '✨'],
