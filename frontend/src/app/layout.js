@@ -28,59 +28,95 @@ export default function RootLayout({ children }) {
 
 /* ─── Logo SVG ─── */
 function Logo({ size = 38 }) {
-  const id = `logo_${size}`;
+  const id = `lg${size}`;
   return (
-    <svg width={size} height={size} viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width={size} height={size} viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id={`${id}_bg`} x1="0" y1="0" x2="44" y2="44" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#ff3a3a" />
-          <stop offset="100%" stopColor="#7f1d1d" />
-        </linearGradient>
-        <linearGradient id={`${id}_shine`} x1="22" y1="0" x2="22" y2="44" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="white" stopOpacity="0.18" />
-          <stop offset="55%" stopColor="white" stopOpacity="0" />
-        </linearGradient>
-        <linearGradient id={`${id}_eye`} x1="0" y1="0" x2="0" y2="6" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="white" />
-          <stop offset="100%" stopColor="#fecaca" />
-        </linearGradient>
-        <filter id={`${id}_glow`} x="-20%" y="-20%" width="140%" height="140%">
-          <feGaussianBlur stdDeviation="1.5" result="blur" />
-          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        <radialGradient id={`${id}_bg`} cx="50%" cy="35%" r="65%">
+          <stop offset="0%" stopColor="#1a0404" />
+          <stop offset="100%" stopColor="#050508" />
+        </radialGradient>
+        <filter id={`${id}_glow`} x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur" />
+          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
         </filter>
       </defs>
 
-      {/* Background */}
-      <rect width="44" height="44" rx="12" fill={`url(#${id}_bg)`} />
-      {/* Top shine */}
-      <rect width="44" height="28" rx="12" fill={`url(#${id}_shine)`} />
-      {/* Subtle inner border for depth */}
-      <rect x="0.75" y="0.75" width="42.5" height="42.5" rx="11.5" fill="none" stroke="white" strokeOpacity="0.1" strokeWidth="1.5" />
+      {/* ─── HEAD CIRCLE ─── */}
+      <circle cx="60" cy="60" r="46" fill={`url(#${id}_bg)`} />
+      {/* Outer ring — vermelho, principal */}
+      <circle cx="60" cy="60" r="46" fill="none" stroke="#dc2626" strokeWidth="4.5" />
+      {/* Inner ring — branco sutil */}
+      <circle cx="60" cy="60" r="41" fill="none" stroke="white" strokeWidth="0.8" strokeOpacity="0.12" />
 
-      {/* ── Robot head ── */}
-      <rect x="9" y="12" width="26" height="21" rx="6.5" fill="none" stroke="white" strokeWidth="2.2" strokeOpacity="0.95" />
+      {/* ─── COROA / CROWN ─── */}
+      {/* Haste central */}
+      <line x1="60" y1="14" x2="60" y2="6" stroke="white" strokeWidth="3" strokeLinecap="round" />
+      {/* Asa esquerda */}
+      <path d="M 60 10 Q 50 5 44 10" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+      {/* Asa direita */}
+      <path d="M 60 10 Q 70 5 76 10" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+      {/* Gema central */}
+      <circle cx="60" cy="5.5" r="4" fill="#dc2626" filter={`url(#${id}_glow)`} />
+      <circle cx="60" cy="5.5" r="2" fill="white" fillOpacity="0.9" />
 
-      {/* ── Eyes ── */}
-      <rect x="13" y="18" width="6" height="6" rx="2" fill={`url(#${id}_eye)`} filter={`url(#${id}_glow)`} />
-      <rect x="25" y="18" width="6" height="6" rx="2" fill={`url(#${id}_eye)`} filter={`url(#${id}_glow)`} />
-      {/* Eye glow cores */}
-      <rect x="14.5" y="19.5" width="3" height="3" rx="1" fill="#ff6b6b" fillOpacity="0.7" />
-      <rect x="26.5" y="19.5" width="3" height="3" rx="1" fill="#ff6b6b" fillOpacity="0.7" />
+      {/* ─── SOBRANCELHA / BROW ─── */}
+      <path d="M 34 46 Q 47 39 60 39 Q 73 39 86 46"
+        fill="none" stroke="white" strokeWidth="3.5" strokeLinecap="round" />
 
-      {/* ── Mouth / signal bars ── */}
-      <rect x="15" y="27.5" width="4" height="2" rx="1" fill="white" fillOpacity="0.4" />
-      <rect x="20" y="26.5" width="4" height="3" rx="1" fill="white" fillOpacity="0.65" />
-      <rect x="25" y="25.5" width="4" height="4" rx="1" fill="white" fillOpacity="0.9" />
+      {/* ─── OLHO ESQUERDO (diamante) ─── */}
+      <path d="M 34 57 L 46 46 L 58 57 L 46 68 Z" fill="white" />
+      <circle cx="46" cy="57" r="6" fill="#0d000a" />
+      <circle cx="46" cy="57" r="3" fill="#dc2626" filter={`url(#${id}_glow)`} />
+      {/* Reflexo */}
+      <circle cx="44.2" cy="55.2" r="1.3" fill="white" fillOpacity="0.85" />
 
-      {/* ── Antenna ── */}
-      <line x1="22" y1="12" x2="22" y2="7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeOpacity="0.85" />
-      <circle cx="22" cy="5.5" r="2.5" fill="white" fillOpacity="0.95" filter={`url(#${id}_glow)`} />
-      <circle cx="22" cy="5.5" r="1.2" fill="#ff9999" />
+      {/* ─── OLHO DIREITO (diamante) ─── */}
+      <path d="M 62 57 L 74 46 L 86 57 L 74 68 Z" fill="white" />
+      <circle cx="74" cy="57" r="6" fill="#0d000a" />
+      <circle cx="74" cy="57" r="3" fill="#dc2626" filter={`url(#${id}_glow)`} />
+      {/* Reflexo */}
+      <circle cx="72.2" cy="55.2" r="1.3" fill="white" fillOpacity="0.85" />
 
-      {/* ── Online indicator ── */}
-      <circle cx="37" cy="37" r="4.5" fill="#0f0f1a" />
-      <circle cx="37" cy="37" r="3.5" fill="#22c55e" />
-      <circle cx="36" cy="36" r="1" fill="white" fillOpacity="0.5" />
+      {/* ─── NARIZ ─── */}
+      <line x1="60" y1="68" x2="60" y2="79" stroke="white" strokeWidth="2.8" strokeLinecap="round" />
+      <path d="M 54 79 Q 60 79 66 79" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" />
+
+      {/* ─── BOCA ─── */}
+      <path d="M 47 88 Q 60 98 73 88"
+        fill="none" stroke="white" strokeWidth="3.5" strokeLinecap="round" />
+
+      {/* ─── QUEIXO / CHIN ─── */}
+      <path d="M 54 99 Q 60 105 66 99"
+        fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeOpacity="0.35" />
+
+      {/* ─── LINHAS DE CIRCUITO — ESQUERDA ─── */}
+      {/* Linha L superior com dot vermelho */}
+      <path d="M 16 50 L 7 50 L 7 34"
+        fill="none" stroke="#dc2626" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="7" cy="34" r="4" fill="#dc2626" filter={`url(#${id}_glow)`} />
+      <circle cx="7" cy="34" r="2" fill="white" fillOpacity="0.7" />
+      {/* Linha L central */}
+      <line x1="14" y1="65" x2="3" y2="65"
+        stroke="white" strokeWidth="2" strokeLinecap="round" strokeOpacity="0.6" />
+      <circle cx="3" cy="65" r="2.5" fill="white" fillOpacity="0.6" />
+      {/* Linha L inferior */}
+      <path d="M 19 80 L 10 88"
+        fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeOpacity="0.25" />
+
+      {/* ─── LINHAS DE CIRCUITO — DIREITA ─── */}
+      {/* Linha R superior com dot vermelho */}
+      <path d="M 104 50 L 113 50 L 113 34"
+        fill="none" stroke="#dc2626" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="113" cy="34" r="4" fill="#dc2626" filter={`url(#${id}_glow)`} />
+      <circle cx="113" cy="34" r="2" fill="white" fillOpacity="0.7" />
+      {/* Linha R central */}
+      <line x1="106" y1="65" x2="117" y2="65"
+        stroke="white" strokeWidth="2" strokeLinecap="round" strokeOpacity="0.6" />
+      <circle cx="117" cy="65" r="2.5" fill="white" fillOpacity="0.6" />
+      {/* Linha R inferior */}
+      <path d="M 101 80 L 110 88"
+        fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeOpacity="0.25" />
     </svg>
   );
 }
