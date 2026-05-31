@@ -28,33 +28,23 @@ export default function RootLayout({ children }) {
 
 /* ─── Logo ─── */
 function Logo({ size = 38 }) {
+  const fontSize = Math.round(size * 0.45);
   return (
     <div
       style={{
         width: size,
         height: size,
         borderRadius: Math.round(size * 0.26),
-        background: '#dc2626',
-        overflow: 'hidden',
+        background: 'linear-gradient(135deg, #dc2626, #7f1d1d)',
         flexShrink: 0,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        boxShadow: '0 4px 20px rgba(220,38,38,0.4)',
+        fontSize: fontSize,
+        boxShadow: '0 4px 16px rgba(220,38,38,0.25)',
       }}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/logomarca.jpg"
-        alt="AgentesIA"
-        style={{
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          mixBlendMode: 'multiply',
-          display: 'block',
-        }}
-      />
+      🤖
     </div>
   );
 }
