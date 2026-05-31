@@ -247,15 +247,29 @@ function Navbar() {
 function BotaoSuporte() {
   return (
     <Link href="/suporte"
-      className="fixed bottom-6 right-6 z-40 no-underline group flex items-center gap-0"
-      title="Suporte 24h"
+      className="fixed bottom-6 right-6 z-40 no-underline group flex flex-col items-center gap-2"
     >
-      <span className="overflow-hidden w-0 group-hover:w-[100px] opacity-0 group-hover:opacity-100 transition-all duration-500 ease-in-out bg-red-600 text-white font-bold text-sm rounded-l-full py-[14px] whitespace-nowrap shadow-xl shadow-red-900/40 select-none pointer-events-none flex items-center justify-center">
-        <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-200 px-3">
-          Precisa de ajuda?
-        </span>
+      {/* Tooltip acima */}
+      <span className="
+        opacity-0 group-hover:opacity-100
+        translate-y-1 group-hover:translate-y-0
+        transition-all duration-200
+        bg-[#0e0e1a] text-white text-xs font-semibold
+        px-3 py-1.5 rounded-lg whitespace-nowrap
+        border border-white/10 shadow-lg
+        pointer-events-none select-none
+      ">
+        Suporte 24h
       </span>
-      <div className="w-14 h-14 rounded-full bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center text-2xl shadow-xl shadow-red-900/50 transition-transform duration-700 ease-in-out group-hover:rotate-[360deg]">
+      {/* Botão */}
+      <div className="
+        w-14 h-14 rounded-full
+        bg-gradient-to-br from-red-500 to-red-700
+        flex items-center justify-center text-2xl
+        shadow-xl shadow-red-900/50
+        transition-transform duration-500 ease-in-out
+        group-hover:scale-110
+      ">
         💬
       </div>
     </Link>
