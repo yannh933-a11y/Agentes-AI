@@ -75,23 +75,34 @@ export async function POST(req) {
     const codigo = gerarCodigo();
     const linkBot = BOTS_LINK[tipoAgente] || 'https://t.me/AgentesIA_Atendimento_bot';
 
-    // Salva no banco
-    const { Client } = await import('pg');
-    const client = new Client({ connectionString: DB_URL, ssl: { rejectUnauthorized: false } });
-    await client.connect();
-    await client.query(`
-      CREATE TABLE IF NOT EXISTS clientes_bot (
-        id SERIAL PRIMARY KEY, codigo TEXT UNIQUE, chat_id BIGINT,
-        bot_tipo TEXT, estado TEXT DEFAULT 'aguardando_codigo', nome_negocio TEXT,
-        horario TEXT, servicos TEXT, info_extra TEXT, ativo BOOLEAN DEFAULT true,
-        criado_em TIMESTAMP DEFAULT NOW()
-      )
-    `);
-    await client.query(
-      'INSERT INTO clientes_bot (codigo, bot_tipo) VALUES ($1, $2) ON CONFLICT DO NOTHING',
-      [codigo, tipoAgente]
-    );
-    await client.end();
+    // Salva no banco (não-fatal — se falhar, email e Telegram continuam)
+    let dbOk = false;
+    try {
+      const { Client } = await import('pg');
+      const client = new Client({
+        connectionString: DB_URL,
+        ssl: { rejectUnauthorized: false },
+        connectionTimeoutMillis: 8000,
+        query_timeout: 8000,
+      });
+      await client.connect();
+      await client.query(`
+        CREATE TABLE IF NOT EXISTS clientes_bot (
+          id SERIAL PRIMARY KEY, codigo TEXT UNIQUE, chat_id BIGINT,
+          bot_tipo TEXT, estado TEXT DEFAULT 'aguardando_codigo', nome_negocio TEXT,
+          horario TEXT, servicos TEXT, info_extra TEXT, ativo BOOLEAN DEFAULT true,
+          criado_em TIMESTAMP DEFAULT NOW()
+        )
+      `);
+      await client.query(
+        'INSERT INTO clientes_bot (codigo, bot_tipo) VALUES ($1, $2) ON CONFLICT DO NOTHING',
+        [codigo, tipoAgente]
+      );
+      await client.end();
+      dbOk = true;
+    } catch (dbErr) {
+      console.error('DB erro (não-fatal):', dbErr.message);
+    }
 
     // Envia email diretamente via Resend (sem auto-chamada HTTP)
     const emailOk = await enviarEmailCompra({ nome, email, agente: tipoAgente, codigo, linkBot });
@@ -103,13 +114,13 @@ export async function POST(req) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           chat_id: ADMIN_CHAT_ID,
-          text: `💰 *Nova compra!*\n👤 ${nome}\n📧 ${email}\n🤖 ${tipoAgente}\n🔑 Código: \`${codigo}\`\n📧 Email: ${emailOk ? '✅ enviado' : '❌ falhou'}`,
+          text: `💰 *Nova compra!*\n👤 ${nome}\n📧 ${email}\n🤖 ${tipoAgente}\n🔑 Código: \`${codigo}\`\n📧 Email: ${emailOk ? '✅ enviado' : '❌ falhou'}\n🗄️ DB: ${dbOk ? '✅' : '❌'}`,
           parse_mode: 'Markdown',
         }),
       }).catch(() => {});
     }
 
-    return Response.json({ ok: true, codigo, linkBot, emailOk });
+    return Response.json({ ok: true, codigo, linkBot, emailOk, dbOk });
   } catch (e) {
     console.error('Ativar erro:', e.message);
     return Response.json({ erro: e.message }, { status: 500 });
