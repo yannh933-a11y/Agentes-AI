@@ -27,24 +27,60 @@ export default function RootLayout({ children }) {
 }
 
 /* ─── Logo SVG ─── */
-function Logo({ size = 36 }) {
+function Logo({ size = 38 }) {
+  const id = `logo_${size}`;
   return (
-    <svg width={size} height={size} viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width={size} height={size} viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="logoGrad" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#ef4444" />
-          <stop offset="100%" stopColor="#991b1b" />
+        <linearGradient id={`${id}_bg`} x1="0" y1="0" x2="44" y2="44" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#ff3a3a" />
+          <stop offset="100%" stopColor="#7f1d1d" />
         </linearGradient>
+        <linearGradient id={`${id}_shine`} x1="22" y1="0" x2="22" y2="44" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="white" stopOpacity="0.18" />
+          <stop offset="55%" stopColor="white" stopOpacity="0" />
+        </linearGradient>
+        <linearGradient id={`${id}_eye`} x1="0" y1="0" x2="0" y2="6" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="white" />
+          <stop offset="100%" stopColor="#fecaca" />
+        </linearGradient>
+        <filter id={`${id}_glow`} x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="1.5" result="blur" />
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
       </defs>
-      {/* Background rounded rect */}
-      <rect width="40" height="40" rx="10" fill="url(#logoGrad)" />
-      {/* Letter A stylized */}
-      <path d="M20 8 L29 28 H25.5 L23.5 23 H16.5 L14.5 28 H11 L20 8Z" fill="white" fillOpacity="0.15" />
-      <path d="M20 10 L28 28 H25 L23 23 H17 L15 28 H12 L20 10Z" fill="white" />
-      <line x1="17.8" y1="21" x2="22.2" y2="21" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" />
-      {/* Spark dot */}
-      <circle cx="32" cy="9" r="3" fill="white" fillOpacity="0.9" />
-      <circle cx="32" cy="9" r="1.5" fill="#fca5a5" />
+
+      {/* Background */}
+      <rect width="44" height="44" rx="12" fill={`url(#${id}_bg)`} />
+      {/* Top shine */}
+      <rect width="44" height="28" rx="12" fill={`url(#${id}_shine)`} />
+      {/* Subtle inner border for depth */}
+      <rect x="0.75" y="0.75" width="42.5" height="42.5" rx="11.5" fill="none" stroke="white" strokeOpacity="0.1" strokeWidth="1.5" />
+
+      {/* ── Robot head ── */}
+      <rect x="9" y="12" width="26" height="21" rx="6.5" fill="none" stroke="white" strokeWidth="2.2" strokeOpacity="0.95" />
+
+      {/* ── Eyes ── */}
+      <rect x="13" y="18" width="6" height="6" rx="2" fill={`url(#${id}_eye)`} filter={`url(#${id}_glow)`} />
+      <rect x="25" y="18" width="6" height="6" rx="2" fill={`url(#${id}_eye)`} filter={`url(#${id}_glow)`} />
+      {/* Eye glow cores */}
+      <rect x="14.5" y="19.5" width="3" height="3" rx="1" fill="#ff6b6b" fillOpacity="0.7" />
+      <rect x="26.5" y="19.5" width="3" height="3" rx="1" fill="#ff6b6b" fillOpacity="0.7" />
+
+      {/* ── Mouth / signal bars ── */}
+      <rect x="15" y="27.5" width="4" height="2" rx="1" fill="white" fillOpacity="0.4" />
+      <rect x="20" y="26.5" width="4" height="3" rx="1" fill="white" fillOpacity="0.65" />
+      <rect x="25" y="25.5" width="4" height="4" rx="1" fill="white" fillOpacity="0.9" />
+
+      {/* ── Antenna ── */}
+      <line x1="22" y1="12" x2="22" y2="7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeOpacity="0.85" />
+      <circle cx="22" cy="5.5" r="2.5" fill="white" fillOpacity="0.95" filter={`url(#${id}_glow)`} />
+      <circle cx="22" cy="5.5" r="1.2" fill="#ff9999" />
+
+      {/* ── Online indicator ── */}
+      <circle cx="37" cy="37" r="4.5" fill="#0f0f1a" />
+      <circle cx="37" cy="37" r="3.5" fill="#22c55e" />
+      <circle cx="36" cy="36" r="1" fill="white" fillOpacity="0.5" />
     </svg>
   );
 }
