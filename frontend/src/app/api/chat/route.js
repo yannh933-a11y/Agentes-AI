@@ -1,4 +1,5 @@
 // API Route: Chat inteligente com Groq + coleta de dados + armazenamento no Postgres
+import { checkRateLimit, getClientIP, sanitizeString, rateLimitResponse } from '@/lib/security';
 
 const GROQ_API = 'https://api.groq.com/openai/v1/chat/completions';
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
@@ -100,8 +101,16 @@ function extractData(messages) {
 
 export async function POST(req) {
   try {
-    const { sessionId, texto } = await req.json();
+    // Rate limit: 30 msgs/min por IP
+    const ip = getClientIP(req);
+    const limit = checkRateLimit(ip, { max: 30, windowMs: 60_000 });
+    if (!limit.ok) return rateLimitResponse(limit.retryAfter);
+
+    const body = await req.json();
+    const sessionId = sanitizeString(body.sessionId || '');
+    const texto = sanitizeString(body.texto || '');
     if (!sessionId || !texto) return Response.json({ erro: 'Dados inválidos' }, { status: 400 });
+    if (texto.length < 1) return Response.json({ erro: 'Mensagem vazia' }, { status: 400 });
 
     if (!sessions[sessionId]) sessions[sessionId] = { messages: [], dados: {} };
     const sess = sessions[sessionId];

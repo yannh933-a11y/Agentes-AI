@@ -1,3 +1,5 @@
+import { checkRateLimit, getClientIP, sanitizeBody, isValidEmail, rateLimitResponse } from '@/lib/security';
+
 const DB_URL = process.env.DATABASE_URL;
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const ADMIN_CHAT_ID = process.env.TELEGRAM_ADMIN_CHAT_ID;
@@ -31,9 +33,19 @@ async function notify(data) {
 
 export async function POST(req) {
   try {
-    const body = await req.json();
+    // Rate limit: 5 pré-cadastros/min por IP
+    const ip = getClientIP(req);
+    const limit = checkRateLimit(ip, { max: 5, windowMs: 60_000 });
+    if (!limit.ok) return rateLimitResponse(limit.retryAfter);
+
+    const raw = await req.json();
+    const body = sanitizeBody(raw);
     const { nome, email } = body;
+
     if (!nome || !email) return Response.json({ erro: 'nome e email obrigatórios' }, { status: 400 });
+    if (!isValidEmail(email)) return Response.json({ erro: 'Email inválido' }, { status: 400 });
+    if (nome.length < 2) return Response.json({ erro: 'Nome muito curto' }, { status: 400 });
+
     await Promise.all([saveDb(body), notify(body)]);
     return Response.json({ ok: true });
   } catch { return Response.json({ erro: 'Erro interno' }, { status: 500 }); }
