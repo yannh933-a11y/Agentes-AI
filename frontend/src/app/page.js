@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { agentes } from '../lib/agentes';
+import DemoChat from './components/DemoChat';
 
 export default function Home() {
   return (
@@ -287,6 +288,11 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* ════════════════════════════════════════
+          DEMO VISUAL
+          ════════════════════════════════════════ */}
+      <DemoChat />
 
       {/* ════════════════════════════════════════
           BANNER CTA DESTAQUE
