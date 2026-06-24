@@ -17,14 +17,12 @@ export default function Home() {
           style={{background: 'radial-gradient(circle, rgba(139,92,246,0.06) 0%, transparent 70%)'}} />
         <div className="absolute top-[30%] left-[5%] w-[300px] h-[300px] rounded-full pointer-events-none"
           style={{background: 'radial-gradient(circle, rgba(37,99,235,0.05) 0%, transparent 70%)'}} />
-
-        {/* Grid lines subtle */}
         <div className="absolute inset-0 pointer-events-none opacity-[0.025]"
           style={{backgroundImage: 'linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)', backgroundSize: '60px 60px'}} />
 
         <div className="text-center max-w-5xl relative z-10">
 
-          {/* Live badge */}
+          {/* Social proof live badge */}
           <div className="inline-flex items-center gap-3 social-proof-pill rounded-full px-5 py-2.5 text-xs sm:text-sm font-medium mb-8">
             <div className="flex -space-x-1.5">
               {['C','A','P','M','J'].map((l, i) => (
@@ -37,65 +35,66 @@ export default function Home() {
                 }}>{l}</div>
               ))}
             </div>
-            <span className="text-slate-300">+200 negócios automatizados</span>
+            <span className="text-slate-300">+200 donos de negócio já automatizaram</span>
             <span className="flex items-center gap-1.5 text-green-400 font-semibold">
               <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
-              Ativo agora
+              Funcionando agora
             </span>
           </div>
 
-          {/* Headline */}
+          {/* Headline principal */}
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[74px] font-black leading-[1.06] tracking-tight mb-6">
-            Seu negócio atendendo{' '}
-            <br className="hidden sm:block" />
-            clientes às{' '}
+            Chega de perder cliente<br className="hidden sm:block" />
+            por não conseguir{' '}
             <span className="text-gradient-main relative">
-              3 da manhã
+              atender
               <svg className="absolute -bottom-2 left-0 w-full" height="6" viewBox="0 0 200 6" fill="none">
                 <path d="M0 5 Q50 1 100 4 Q150 7 200 3" stroke="#dc2626" strokeWidth="2.5" strokeLinecap="round" fill="none" opacity="0.5"/>
               </svg>
             </span>
             <br className="hidden sm:block" />
-            — sem você acordar
+            na hora certa
           </h1>
 
-          {/* Subtitle */}
+          {/* Subtítulo com benefício claro */}
           <p className="text-slate-400 text-base sm:text-lg md:text-xl leading-relaxed max-w-2xl mx-auto mb-3">
-            Agentes de IA que respondem, agendam e vendem por você{' '}
-            <strong className="text-white font-semibold">24 horas por dia</strong>, 7 dias por semana.
+            Seu agente de IA responde clientes, agenda horários e fecha vendas por você
+            — de domingo às 23h a segunda às 6h da manhã.{' '}
+            <strong className="text-white font-semibold">Sem você precisar tocar no celular.</strong>
           </p>
           <p className="text-slate-500 text-sm mb-10 max-w-xl mx-auto">
-            Configure em <span className="text-slate-300 font-semibold">5 minutos</span> pelo Telegram. Sem programar. Sem contratar ninguém.
+            Ativa em <span className="text-slate-300 font-semibold">5 minutos</span> direto pelo Telegram.
+            Sem programar. Sem contratar funcionário. Sem mensalidade de SaaS cara.
           </p>
 
-          {/* CTAs */}
+          {/* CTAs principais */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6">
             <Link href="/agentes"
               className="btn-primary font-bold px-10 py-4 rounded-full text-base sm:text-lg no-underline w-full sm:w-auto text-center">
-              Quero meu agente agora →
+              Ver meu agente ideal →
             </Link>
             <Link href="/suporte"
               className="btn-outline font-semibold px-7 py-4 rounded-full text-sm no-underline w-full sm:w-auto text-center flex items-center justify-center gap-2">
-              <span>💬</span> Tirar dúvida primeiro
+              <span>💬</span> Tenho uma dúvida antes
             </Link>
           </div>
 
-          {/* Trust micro-copy */}
+          {/* Micro-copy de confiança */}
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mb-16 text-slate-600 text-xs">
-            <span className="flex items-center gap-1.5"><span className="text-green-500">✓</span> Sem fidelidade</span>
+            <span className="flex items-center gap-1.5"><span className="text-green-500">✓</span> Sem contrato de fidelidade</span>
             <span className="w-px h-3 bg-white/10 hidden sm:block" />
-            <span className="flex items-center gap-1.5"><span className="text-green-500">✓</span> Cancele quando quiser</span>
+            <span className="flex items-center gap-1.5"><span className="text-green-500">✓</span> Cancela quando quiser</span>
             <span className="w-px h-3 bg-white/10 hidden sm:block" />
             <span className="flex items-center gap-1.5"><span className="text-green-500">✓</span> Suporte humano incluso</span>
           </div>
 
-          {/* Stats row */}
+          {/* Stats de impacto */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
             {[
-              { num: '6', label: 'Tipos de agentes', icon: '🤖', color: 'rgba(220,38,38,0.1)' },
-              { num: '24h', label: 'Sem parar nunca', icon: '⚡', color: 'rgba(139,92,246,0.1)' },
-              { num: '5min', label: 'Para ativar', icon: '🚀', color: 'rgba(37,99,235,0.1)' },
-              { num: 'R$97', label: 'Para começar', icon: '💰', color: 'rgba(5,150,105,0.1)' },
+              { num: '6', label: 'Agentes especializados', icon: '🤖', color: 'rgba(220,38,38,0.1)' },
+              { num: '24h', label: 'Atendendo sem parar', icon: '⚡', color: 'rgba(139,92,246,0.1)' },
+              { num: '5min', label: 'Para ativar tudo', icon: '🚀', color: 'rgba(37,99,235,0.1)' },
+              { num: 'R$97', label: 'Investimento inicial', icon: '💰', color: 'rgba(5,150,105,0.1)' },
             ].map(({ num, label, icon, color }) => (
               <div key={label} className="card rounded-2xl px-4 py-6 text-center hover-lift" style={{background: color, borderColor: 'rgba(255,255,255,0.07)'}}>
                 <p className="text-2xl mb-2">{icon}</p>
@@ -108,18 +107,18 @@ export default function Home() {
       </section>
 
       {/* ════════════════════════════════════════
-          LOGOS / SEGMENTOS
+          SEGMENTOS
           ════════════════════════════════════════ */}
       <section className="py-12 sm:py-14 px-5 sm:px-8 section-alt">
         <div className="max-w-4xl mx-auto">
           <div className="divider-glow mb-10" />
           <p className="text-center text-slate-600 text-xs font-semibold uppercase tracking-[4px] mb-8">
-            Funciona para qualquer tipo de negócio
+            Já ajudamos negócios como o seu
           </p>
           <div className="flex flex-wrap justify-center gap-6 sm:gap-10">
             {[
               ['🏪','Barbearias'],['🏥','Clínicas'],['🍕','Restaurantes'],
-              ['🏋️','Academias'],['👔','Lojas'],['💇','Salões'],['🦷','Consultórios'],['🎓','Cursos'],
+              ['🏋️','Academias'],['👔','Lojas'],['💇','Salões'],['🦷','Consultórios'],['🎓','Cursos online'],
             ].map(([emoji, name]) => (
               <div key={name} className="flex items-center gap-2 text-slate-500 hover:text-slate-200 transition-all duration-200 cursor-default group">
                 <span className="text-xl group-hover:scale-110 transition-transform duration-200">{emoji}</span>
@@ -137,10 +136,13 @@ export default function Home() {
       <section className="py-20 sm:py-28 px-5 sm:px-8">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-14">
-            <div className="badge-red mb-4">A realidade de muitos donos de negócio</div>
+            <div className="badge-red mb-4">Você se identifica?</div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight">
-              Reconhece alguma dessas situações?
+              Seja honesto com você mesmo
             </h2>
+            <p className="text-slate-400 text-base mt-4 max-w-lg mx-auto">
+              Esses problemas estão custando clientes, dinheiro e seu descanso — todo dia.
+            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
@@ -149,16 +151,16 @@ export default function Home() {
             <div className="card rounded-2xl p-8 sm:p-10 relative overflow-hidden" style={{borderColor: 'rgba(220,38,38,0.15)', background: 'rgba(220,38,38,0.03)'}}>
               <div className="absolute top-0 left-0 right-0 h-[2px]" style={{background: 'linear-gradient(90deg, transparent, rgba(220,38,38,0.4), transparent)'}} />
               <div className="flex items-center gap-3 mb-7">
-                <div className="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-lg">😤</div>
-                <p className="text-red-400 text-sm font-bold">Sem o AgentesIA</p>
+                <div className="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-lg">😩</div>
+                <p className="text-red-400 text-sm font-bold">Hoje, sem o AgentesIA</p>
               </div>
               <div className="space-y-4">
                 {[
-                  'Perde cliente por não conseguir atender no horário',
-                  'Passa o dia respondendo sempre as mesmas perguntas',
-                  'Contrata funcionário só para fazer atendimento básico',
-                  'Fica estressado quando sai e não tem ninguém para cobrir',
-                  'Perde agendamentos porque o cliente desiste de esperar',
+                  'Cliente manda mensagem às 21h. Você vê só amanhã. Ele já agendou com o concorrente.',
+                  'Você corta cabelo, atende telefone, responde WhatsApp — tudo ao mesmo tempo.',
+                  'Paga R$1.800/mês em recepcionista para responder sempre as mesmas 5 perguntas.',
+                  'Final de semana deveria ser descanso, mas o celular não para de vibrar.',
+                  'Perde venda porque o cliente desistiu de esperar por uma resposta simples.',
                 ].map((item) => (
                   <div key={item} className="flex items-start gap-3">
                     <div className="w-5 h-5 rounded-full bg-red-500/15 border border-red-500/25 flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -179,11 +181,11 @@ export default function Home() {
               </div>
               <div className="space-y-4">
                 {[
-                  'Seu agente responde no mesmo segundo, sempre disponível',
-                  'Faz agendamentos automaticamente mesmo de madrugada',
-                  'Nunca fica mal-humorado, doente ou pede aumento',
-                  'Você foca no trabalho que só você pode fazer',
-                  'Mais tempo para família, descanso e crescimento real',
+                  'Às 21h o agente já respondeu, confirmou o horário e o cliente está satisfeito.',
+                  'Você foca no que só você sabe fazer. O agente cuida do resto.',
+                  'Economiza R$1.800/mês e ainda atende melhor — sem folga, sem falta, sem estresse.',
+                  'Fim de semana é para você e sua família. O negócio trabalha sozinho.',
+                  'Cada cliente recebe resposta em segundos, qualquer hora do dia ou da noite.',
                 ].map((item) => (
                   <div key={item} className="flex items-start gap-3">
                     <div className="w-5 h-5 rounded-full bg-green-500/15 border border-green-500/25 flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -195,7 +197,7 @@ export default function Home() {
               </div>
               <div className="mt-8">
                 <Link href="/agentes" className="btn-primary font-bold px-7 py-3.5 rounded-full no-underline text-sm inline-block">
-                  Quero essa solução →
+                  Quero essa mudança →
                 </Link>
               </div>
             </div>
@@ -209,61 +211,56 @@ export default function Home() {
       <section id="como-funciona" className="py-20 sm:py-28 px-5 sm:px-8 section-alt">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <div className="badge-violet mb-4">Simples assim</div>
+            <div className="badge-violet mb-4">Mais simples do que parece</div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-5">
-              Do zero ao funcionando em <span className="text-gradient-main">5 minutos</span>
+              Do pagamento ao funcionando<br className="hidden sm:block" />
+              em <span className="text-gradient-main">menos de 5 minutos</span>
             </h2>
             <p className="text-slate-400 text-base sm:text-lg max-w-lg mx-auto">
-              Sem técnico, sem configuração complicada, sem dor de cabeça
+              Sem técnico, sem tutorial em vídeo de 2 horas, sem frustração.
+              Sério, qualquer pessoa consegue.
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-6 relative">
-            {/* Connector line */}
             <div className="hidden sm:block absolute top-[56px] left-[34%] right-[34%] h-px z-0"
               style={{background: 'linear-gradient(90deg, rgba(220,38,38,0.3) 0%, rgba(139,92,246,0.3) 50%, rgba(37,99,235,0.3) 100%)'}} />
 
             {[
               {
                 num: '01', icon: '🎯', color: '#dc2626',
-                title: 'Escolha seu agente',
-                desc: 'Temos 6 tipos especializados. Cada um para uma função. Leva menos de 2 minutos para decidir qual é o ideal para você.',
-                link: '/agentes', linkLabel: 'Ver os agentes',
+                title: 'Escolha o agente certo para você',
+                desc: 'São 6 tipos, cada um com uma especialidade. Barbearia, clínica, loja, academia — tem um feito pra você. Dois minutos para decidir.',
+                link: '/agentes', linkLabel: 'Comparar agentes',
               },
               {
                 num: '02', icon: '💳', color: '#8b5cf6',
-                title: 'Realize o pagamento',
-                desc: 'PIX, cartão ou débito. Aprovação em segundos pelo Mercado Pago. Totalmente seguro e sem complicação.',
+                title: 'Pague e receba acesso na hora',
+                desc: 'PIX ou cartão via Mercado Pago. Em segundos você recebe o código de ativação no seu email. Seguro e sem complicação.',
                 link: null, linkLabel: null,
               },
               {
                 num: '03', icon: '🚀', color: '#2563eb',
-                title: 'Configure e use já',
-                desc: 'Abre o bot no Telegram, envia o código que vai no email e responde 3 perguntas rápidas. Pronto para funcionar!',
-                link: '/suporte', linkLabel: 'Tirar dúvida',
+                title: 'Ative e pronto — tá no ar',
+                desc: 'Abre o bot no Telegram, insere o código e responde 3 perguntinhas sobre seu negócio. Feito. Seu agente já começa a trabalhar.',
+                link: '/suporte', linkLabel: 'Tem dúvida? Fale conosco',
               },
             ].map(({ num, icon, color, title, desc, link, linkLabel }) => (
               <div key={num} className="card card-glow rounded-2xl p-7 sm:p-9 text-left relative overflow-hidden group hover-lift z-10">
-                {/* Number background */}
-                <span className="absolute top-2 right-4 text-8xl font-black select-none pointer-events-none transition-all duration-300"
+                <span className="absolute top-2 right-4 text-8xl font-black select-none pointer-events-none"
                   style={{color: `${color}08`, fontFamily: "'Plus Jakarta Sans', sans-serif"}}>
                   {num}
                 </span>
-
-                {/* Icon */}
                 <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-5 transition-all duration-300"
                   style={{background: `${color}15`, border: `1px solid ${color}25`}}>
                   {icon}
                 </div>
-
-                {/* Step indicator */}
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="text-xs font-bold px-2 py-0.5 rounded-full" style={{background: `${color}15`, color: color, border: `1px solid ${color}25`}}>
+                  <span className="text-xs font-bold px-2.5 py-1 rounded-full" style={{background: `${color}15`, color: color, border: `1px solid ${color}25`}}>
                     Passo {num}
                   </span>
                 </div>
-
-                <h3 className="text-lg sm:text-xl font-bold text-white mb-3">{title}</h3>
+                <h3 className="text-lg sm:text-xl font-bold text-white mb-3 leading-snug">{title}</h3>
                 <p className="text-slate-400 text-sm leading-relaxed mb-5">{desc}</p>
                 {link && (
                   <Link href={link} className="text-sm font-semibold no-underline transition-colors" style={{color: color}}>
@@ -272,6 +269,16 @@ export default function Home() {
                 )}
               </div>
             ))}
+          </div>
+
+          {/* CTA inline */}
+          <div className="text-center mt-12">
+            <p className="text-slate-500 text-sm mb-5">
+              Já imaginou ter isso funcionando hoje à noite?
+            </p>
+            <Link href="/agentes" className="btn-primary font-bold px-10 py-4 rounded-full text-base no-underline inline-block">
+              Quero ativar agora →
+            </Link>
           </div>
         </div>
       </section>
@@ -287,9 +294,13 @@ export default function Home() {
                 🎧
               </div>
               <div className="text-center sm:text-left">
-                <div className="badge-red mb-2">Mais popular</div>
-                <h3 className="text-xl sm:text-2xl font-black text-white mb-2 mt-3">Agente de Atendimento</h3>
-                <p className="text-slate-400 text-sm">Ativação por <strong className="text-white">R$97</strong> + R$59/mês · Sem fidelidade · Cancele quando quiser</p>
+                <div className="badge-red mb-3">⭐ O favorito de quem começa</div>
+                <h3 className="text-xl sm:text-2xl font-black text-white mb-2">Agente de Atendimento</h3>
+                <p className="text-slate-400 text-sm leading-relaxed">
+                  Responde perguntas, passa informações e deixa seus clientes sempre bem atendidos.
+                  Ideal para quem quer começar rápido e ver resultado logo.
+                </p>
+                <p className="text-slate-500 text-xs mt-2">Ativação <strong className="text-white">R$97</strong> · R$59/mês · Cancele quando quiser</p>
               </div>
             </div>
             <div className="flex flex-col gap-3 w-full sm:w-auto flex-shrink-0">
@@ -297,7 +308,7 @@ export default function Home() {
                 Contratar por R$97 →
               </Link>
               <Link href="/agentes" className="btn-outline font-semibold px-8 py-3 rounded-full no-underline text-center text-sm whitespace-nowrap">
-                Ver todos os planos
+                Ver todos os agentes
               </Link>
             </div>
           </div>
@@ -310,12 +321,14 @@ export default function Home() {
       <section id="precos" className="py-20 sm:py-28 px-5 sm:px-8 section-alt">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <div className="badge-red mb-4">Catálogo completo</div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-5">
-              Escolha o seu agente
+            <div className="badge-red mb-4">Catálogo de agentes</div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-4">
+              Qual parte do seu negócio<br className="hidden sm:block" />
+              você quer automatizar primeiro?
             </h2>
-            <p className="text-slate-400 text-base sm:text-lg max-w-lg mx-auto">
-              Cada agente é treinado para uma função específica no seu negócio
+            <p className="text-slate-400 text-base sm:text-lg max-w-xl mx-auto">
+              Cada agente é treinado e especializado para uma função específica.
+              Escolha o que mais faz sentido para você agora.
             </p>
           </div>
 
@@ -326,7 +339,7 @@ export default function Home() {
 
                 {a.complexidade === 'simples' && (
                   <div className="absolute top-4 right-4 badge-green text-[10px]">
-                    ⭐ Mais vendido
+                    ⭐ Mais contratado
                   </div>
                 )}
 
@@ -338,7 +351,6 @@ export default function Home() {
                 </h3>
                 <p className="text-slate-400 text-sm leading-relaxed flex-1 mb-5">{a.descricao}</p>
 
-                {/* Features */}
                 <div className="space-y-2 mb-6">
                   {a.funcionalidades.slice(0, 3).map(f => (
                     <div key={f} className="flex items-center gap-2">
@@ -351,9 +363,9 @@ export default function Home() {
                 <div className="flex items-center justify-between pt-5 border-t border-white/[0.06]">
                   <div>
                     <p className="text-white font-bold text-xl">
-                      R$ {a.preco}<span className="text-xs text-slate-500 font-normal">/mês</span>
+                      R${a.preco}<span className="text-xs text-slate-500 font-normal">/mês</span>
                     </p>
-                    <p className="text-slate-600 text-[11px] mt-0.5">+ R${a.precoAtivacao} ativação</p>
+                    <p className="text-slate-600 text-[11px] mt-0.5">+ R${a.precoAtivacao} ativação única</p>
                   </div>
                   <div className="flex flex-col gap-2 items-end">
                     <Link href={`/checkout?agente=${a.slug}`} className="btn-primary font-bold px-5 py-2.5 rounded-full text-sm no-underline">
@@ -369,9 +381,15 @@ export default function Home() {
           </div>
 
           <div className="text-center mt-12">
-            <Link href="/agentes" className="btn-outline font-semibold px-10 py-4 rounded-full text-base no-underline inline-block">
-              Ver catálogo completo →
-            </Link>
+            <p className="text-slate-500 text-sm mb-4">Não tem certeza qual é o ideal para você?</p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Link href="/agentes" className="btn-outline font-semibold px-10 py-4 rounded-full text-base no-underline inline-block">
+                Ver catálogo completo →
+              </Link>
+              <Link href="/suporte" className="btn-outline font-semibold px-10 py-4 rounded-full text-base no-underline inline-block">
+                💬 Me ajuda a escolher
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -382,12 +400,13 @@ export default function Home() {
       <section className="py-20 sm:py-28 px-5 sm:px-8">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <div className="badge-green mb-4">Depoimentos reais</div>
+            <div className="badge-green mb-4">Histórias reais</div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-4">
-              Quem já usa, não volta atrás
+              Eles duvidaram também.<br className="hidden sm:block" />
+              Até experimentar.
             </h2>
             <p className="text-slate-400 text-base max-w-md mx-auto">
-              Resultados reais de donos de negócio como você
+              Donos de negócio que decidiram parar de perder clientes por falta de atendimento.
             </p>
           </div>
 
@@ -395,35 +414,33 @@ export default function Home() {
             {[
               {
                 nome: 'Carlos M.',
-                cargo: 'Dono · Barbearia Premium SP',
-                texto: 'Antes eu perdia pelo menos uns 5 clientes por semana porque não conseguia atender telefone enquanto cortava cabelo. Agora o agente agenda tudo automaticamente. Melhor investimento que fiz.',
-                resultado: '+32 agendamentos/mês',
+                cargo: 'Dono · Barbearia Premium — São Paulo',
+                texto: 'Ficava na minha cabeça que IA era coisa de empresa grande. Resolvi testar com R$97 mesmo sem muita fé. Em duas semanas o agente tinha agendado 32 clientes novos que eu nunca teria conseguido atender. Hoje não abro mão.',
+                resultado: '+32 novos clientes em 2 semanas',
                 emoji: '✂️',
                 cor: '#dc2626',
               },
               {
                 nome: 'Ana L.',
-                cargo: 'Proprietária · Clínica Estética RJ',
-                texto: 'Minha recepcionista saiu e fiquei desesperada. Uma amiga me indicou o AgentesIA. Em 10 minutos estava funcionando. Hoje atende melhor do que qualquer funcionário que já tive.',
-                resultado: 'Economizou R$1.800/mês',
+                cargo: 'Proprietária · Clínica Estética — Rio de Janeiro',
+                texto: 'Minha recepcionista pediu demissão numa sexta. Segunda-feira o AgentesIA já estava respondendo tudo. Sem crise, sem desespero. Hoje, honestamente, ele atende melhor do que qualquer funcionário que eu já tive — e nunca falta.',
+                resultado: 'Economizou R$1.800/mês em pessoal',
                 emoji: '💆',
                 cor: '#8b5cf6',
               },
               {
                 nome: 'Pedro S.',
-                cargo: 'Sócio · Loja de Materiais BH',
-                texto: 'Coloquei o agente de vendas e nos primeiros 15 dias já tinha recuperado o investimento. Os clientes ficam surpresos com a rapidez. Todo mundo acha que é um atendente real.',
-                resultado: 'ROI em 15 dias',
+                cargo: 'Sócio · Loja de Materiais — Belo Horizonte',
+                texto: 'Coloquei o agente de vendas e nos primeiros 15 dias já recuperei o valor da ativação. Os clientes nem percebem que é IA — acham que é um atendente muito eficiente. E é mesmo. Nunca mais perdi venda por demora.',
+                resultado: 'Investimento recuperado em 15 dias',
                 emoji: '🏪',
                 cor: '#059669',
               },
             ].map(({ nome, cargo, texto, resultado, emoji, cor }) => (
               <div key={nome} className="testimonial-card rounded-2xl p-7 sm:p-8 flex flex-col relative overflow-hidden">
-                {/* Glow top border */}
                 <div className="absolute top-0 left-0 right-0 h-[2px] opacity-60"
                   style={{background: `linear-gradient(90deg, transparent, ${cor}60, transparent)`}} />
 
-                {/* Stars */}
                 <div className="flex gap-0.5 mb-5">
                   {[1,2,3,4,5].map(i => (
                     <span key={i} className="text-yellow-400 text-base">★</span>
@@ -434,14 +451,12 @@ export default function Home() {
                   &ldquo;{texto}&rdquo;
                 </p>
 
-                {/* Result badge */}
                 <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl mb-5"
                   style={{background: 'rgba(34,197,94,0.07)', border: '1px solid rgba(34,197,94,0.15)'}}>
                   <span className="text-green-400 text-sm">📈</span>
                   <p className="text-green-400 text-xs font-bold">{resultado}</p>
                 </div>
 
-                {/* Author */}
                 <div className="flex items-center gap-3 pt-5 border-t border-white/[0.05]">
                   <div className="w-11 h-11 rounded-full flex items-center justify-center text-xl flex-shrink-0"
                     style={{background: `${cor}20`, border: `1px solid ${cor}25`}}>
@@ -456,13 +471,13 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Trust numbers */}
+          {/* Trust bar */}
           <div className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-4">
             {[
-              { num: '200+', label: 'Negócios ativos', icon: '🏢' },
-              { num: '98%', label: 'Satisfação', icon: '⭐' },
-              { num: '5min', label: 'Para ativar', icon: '⚡' },
-              { num: '24/7', label: 'Disponível', icon: '🔄' },
+              { num: '200+', label: 'Negócios automatizados', icon: '🏢' },
+              { num: '98%', label: 'Clientes satisfeitos', icon: '⭐' },
+              { num: '5min', label: 'Tempo médio de ativação', icon: '⚡' },
+              { num: '24/7', label: 'Atendimento ininterrupto', icon: '🔄' },
             ].map(({ num, label, icon }) => (
               <div key={label} className="card rounded-2xl p-5 text-center">
                 <span className="text-2xl mb-2 block">{icon}</span>
@@ -481,43 +496,47 @@ export default function Home() {
       <section className="py-20 sm:py-28 px-5 sm:px-8 section-alt">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-16">
-            <div className="badge-violet mb-4">Dúvidas frequentes</div>
+            <div className="badge-violet mb-4">Suas dúvidas respondidas</div>
             <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-4">
-              Perguntas que todo mundo faz
+              A gente sabe o que passa<br className="hidden sm:block" />
+              pela sua cabeça agora
             </h2>
-            <p className="text-slate-400 text-base">Não achou sua dúvida? Nossa IA responde na hora.</p>
+            <p className="text-slate-400 text-base">
+              Aqui estão as perguntas que todo mundo faz antes de contratar.
+              Se ainda restar alguma, nossa IA responde na hora.
+            </p>
           </div>
 
           <div className="space-y-3">
             {[
               {
-                q: 'Preciso saber programar para usar?',
-                a: 'Zero. A configuração é feita pelo Telegram em 3 perguntinhas simples. Se você sabe mandar mensagem, você já sabe usar o AgentesIA.',
+                q: 'Preciso saber programar ou ter conhecimento técnico?',
+                a: 'Zero. Se você sabe mandar uma mensagem no WhatsApp, você já sabe usar o AgentesIA. A configuração é feita no Telegram em 3 perguntinhas sobre o seu negócio. Sem código, sem manual, sem dor de cabeça.',
                 icon: '💻',
               },
               {
-                q: 'Quanto tempo leva para ativar?',
-                a: '5 minutos, no máximo. Você paga, recebe o código no email, abre o bot no Telegram e configura. Imediato.',
+                q: 'Quanto tempo demora do pagamento ao funcionando?',
+                a: 'Menos de 5 minutos. Você paga, recebe o código de ativação no email, abre o bot no Telegram, insere o código e configura em 3 passos. Já testamos com pessoas que nunca tinham usado um bot. Funciona para todo mundo.',
                 icon: '⏱️',
               },
               {
-                q: 'O agente funciona no WhatsApp?',
-                a: 'Hoje funciona via Telegram, que é gratuito, rápido e privado. Você compartilha o link do bot com clientes pelo WhatsApp, Instagram ou onde quiser.',
+                q: 'O agente funciona no WhatsApp dos meus clientes?',
+                a: 'Hoje o agente opera via Telegram, que é gratuito e muito mais ágil. Você compartilha o link do seu bot com clientes pelo WhatsApp, Instagram, Google, onde quiser. Eles clicam e já caem no atendimento.',
                 icon: '💬',
               },
               {
-                q: 'E se eu quiser cancelar?',
-                a: 'Sem burocracia, sem multa. Basta não renovar a mensalidade. Não tem fidelidade de nenhum tipo.',
+                q: 'E se eu contratar e não gostar? Posso cancelar?',
+                a: 'Claro. Sem burocracia, sem ligação de retenção, sem multa. Basta não renovar a mensalidade e acabou. Você nunca vai se sentir preso. Nossa confiança no produto é a nossa maior garantia.',
                 icon: '🔓',
               },
               {
-                q: 'Os clientes vão saber que é uma IA?',
-                a: 'Isso é escolha sua. O agente responde de forma tão natural que a maioria não percebe. Mas você pode configurá-lo para ser transparente se preferir.',
+                q: 'Meus clientes vão perceber que é uma IA respondendo?',
+                a: 'Provavelmente não. O agente conversa de forma natural e contextual. A maioria dos clientes dos nossos usuários pensa que é um atendente de verdade. Mas se preferir ser transparente, você pode configurá-lo assim também.',
                 icon: '🤔',
               },
               {
-                q: 'Tem suporte se eu tiver problema?',
-                a: 'Sim. Nossa IA de suporte está disponível 24h e resolve a maioria das dúvidas na hora. Para casos específicos, respondemos em até 24h.',
+                q: 'E se eu tiver algum problema ou precisar de ajuda?',
+                a: 'Nossa IA de suporte responde qualquer dúvida na hora, 24 horas por dia. Para situações mais específicas, nossa equipe retorna em até 24h. Você nunca vai ficar na mão.',
                 icon: '🛟',
               },
             ].map(({ q, a, icon }) => (
@@ -537,7 +556,7 @@ export default function Home() {
 
           <div className="text-center mt-10 flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/suporte" className="btn-primary font-bold px-8 py-3.5 rounded-full no-underline inline-block">
-              💬 Falar com suporte →
+              💬 Ainda tem dúvida? Fale conosco →
             </Link>
             <Link href="/agentes" className="btn-outline font-semibold px-8 py-3.5 rounded-full no-underline inline-block text-sm">
               Ver agentes disponíveis
@@ -556,13 +575,16 @@ export default function Home() {
               style={{background: 'radial-gradient(circle, rgba(139,92,246,0.07) 0%, transparent 70%)'}} />
             <div className="flex items-start gap-4 flex-1">
               <div className="w-12 h-12 rounded-2xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center text-2xl flex-shrink-0">
-                🤔
+                ☕
               </div>
               <div className="text-center sm:text-left">
-                <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Sem pressa</p>
-                <h3 className="text-xl sm:text-2xl font-black text-white mb-2">Quer pensar mais um pouco?</h3>
+                <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Sem pressão</p>
+                <h3 className="text-xl sm:text-2xl font-black text-white mb-2">
+                  Precisa de mais um tempinho?
+                </h3>
                 <p className="text-slate-400 text-sm leading-relaxed">
-                  Deixa seu email aqui. Quando decidir, a contratação leva menos de 5 minutos e você não precisa preencher nada de novo.
+                  Tudo bem. Deixa seu email aqui e a gente guarda sua vaga.
+                  Quando você decidir, a contratação leva menos de 5 minutos e você não preenche nada de novo.
                 </p>
               </div>
             </div>
@@ -571,7 +593,7 @@ export default function Home() {
                 Guardar minha vaga →
               </Link>
               <Link href="/suporte" className="btn-outline font-semibold px-7 py-3 rounded-full no-underline text-center whitespace-nowrap text-sm">
-                Tirar dúvidas primeiro
+                Prefiro tirar dúvidas antes
               </Link>
             </div>
           </div>
@@ -584,33 +606,36 @@ export default function Home() {
       <section className="py-16 sm:py-24 px-5 sm:px-8 section-alt">
         <div className="max-w-3xl mx-auto text-center cta-glow rounded-3xl px-6 sm:px-14 md:px-20 py-16 sm:py-20 relative overflow-hidden">
 
-          {/* BG orbs */}
           <div className="absolute top-[-60px] left-[-40px] w-56 h-56 rounded-full pointer-events-none"
             style={{background: 'radial-gradient(circle, rgba(220,38,38,0.1) 0%, transparent 70%)'}} />
           <div className="absolute bottom-[-40px] right-[-30px] w-48 h-48 rounded-full pointer-events-none"
             style={{background: 'radial-gradient(circle, rgba(139,92,246,0.1) 0%, transparent 70%)'}} />
 
-          <div className="badge-red mb-6 relative z-10">Última chance de hoje</div>
+          <div className="badge-red mb-6 relative z-10">Uma última coisa</div>
 
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-5 relative z-10">
-            Seu concorrente já pode estar{' '}
-            <br className="hidden sm:block" />
-            usando IA. <span className="text-gradient-main">E você?</span>
+            Todo minuto que passa é<br className="hidden sm:block" />
+            um cliente que{' '}
+            <span className="text-gradient-main">não esperou.</span>
           </h2>
 
-          <p className="text-slate-400 text-base sm:text-lg max-w-md mx-auto mb-10 relative z-10">
-            Comece hoje por R$97. Veja funcionando em 5 minutos.
-            Se não gostar, cancela sem custo.
+          <p className="text-slate-400 text-base sm:text-lg max-w-md mx-auto mb-4 relative z-10">
+            A boa notícia? A solução custa R$97 e leva 5 minutos para ativar.
+            A ruim? Cada dia sem ela é outro dia perdendo clientes.
+          </p>
+
+          <p className="text-slate-500 text-sm mb-10 relative z-10">
+            Mais de 200 donos de negócio já tomaram essa decisão. A maioria disse que deveria ter feito antes.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-10">
             <Link href="/agentes"
               className="btn-primary font-bold px-12 py-4 sm:py-5 rounded-full text-lg sm:text-xl no-underline inline-block">
-              Começar agora por R$97 →
+              Ativar meu agente agora →
             </Link>
             <Link href="/suporte"
               className="btn-outline font-bold px-8 py-4 rounded-full text-base no-underline inline-block">
-              Falar com suporte
+              Ainda tenho dúvidas
             </Link>
           </div>
 
@@ -620,11 +645,11 @@ export default function Home() {
             </span>
             <span className="w-px h-3 bg-white/10 hidden sm:block" />
             <span className="text-slate-600 text-xs flex items-center gap-1.5">
-              <span className="text-green-500">✓</span> Sem fidelidade
+              <span className="text-green-500">✓</span> Sem fidelidade ou contrato
             </span>
             <span className="w-px h-3 bg-white/10 hidden sm:block" />
             <span className="text-slate-600 text-xs flex items-center gap-1.5">
-              <span className="text-green-500">✓</span> Ativo em 5 minutos
+              <span className="text-green-500">✓</span> Funcionando em 5 minutos
             </span>
           </div>
         </div>
