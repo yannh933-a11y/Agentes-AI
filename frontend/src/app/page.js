@@ -91,13 +91,13 @@ export default function Home() {
           {/* Stats de impacto */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
             {[
-              { num: '6', label: 'Agentes especializados', icon: '🤖', color: 'rgba(220,38,38,0.1)' },
-              { num: '24h', label: 'Atendendo sem parar', icon: '⚡', color: 'rgba(139,92,246,0.1)' },
-              { num: '5min', label: 'Para ativar tudo', icon: '🚀', color: 'rgba(37,99,235,0.1)' },
-              { num: 'R$97', label: 'Investimento inicial', icon: '💰', color: 'rgba(5,150,105,0.1)' },
-            ].map(({ num, label, icon, color }) => (
+              { num: '6', label: 'Agentes especializados', color: 'rgba(220,38,38,0.1)', dot: '#dc2626' },
+              { num: '24h', label: 'Atendendo sem parar', color: 'rgba(139,92,246,0.1)', dot: '#8b5cf6' },
+              { num: '5min', label: 'Para ativar tudo', color: 'rgba(37,99,235,0.1)', dot: '#2563eb' },
+              { num: 'R$97', label: 'Investimento inicial', color: 'rgba(5,150,105,0.1)', dot: '#059669' },
+            ].map(({ num, label, color, dot }) => (
               <div key={label} className="card rounded-2xl px-4 py-6 text-center hover-lift" style={{background: color, borderColor: 'rgba(255,255,255,0.07)'}}>
-                <p className="text-2xl mb-2 emoji">{icon}</p>
+                <div className="w-2.5 h-2.5 rounded-full mx-auto mb-3" style={{background: dot}} />
                 <p className="text-3xl sm:text-4xl font-black text-white mb-1" style={{fontFamily: "'Plus Jakarta Sans', sans-serif"}}>{num}</p>
                 <p className="text-slate-500 text-xs sm:text-sm font-medium">{label}</p>
               </div>
@@ -115,15 +115,16 @@ export default function Home() {
           <p className="text-center text-slate-600 text-xs font-semibold uppercase tracking-[4px] mb-8">
             Já ajudamos negócios como o seu
           </p>
-          <div className="flex flex-wrap justify-center gap-6 sm:gap-10">
+          <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
             {[
-              ['🏪','Barbearias'],['🏥','Clínicas'],['🍕','Restaurantes'],
-              ['🏋️','Academias'],['👔','Lojas'],['💇','Salões'],['🦷','Consultórios'],['🎓','Cursos online'],
-            ].map(([emoji, name]) => (
-              <div key={name} className="flex items-center gap-2 text-slate-500 hover:text-slate-200 transition-all duration-200 cursor-default group">
-                <span className="text-xl emoji group-hover:scale-110 transition-transform duration-200">{emoji}</span>
-                <span className="text-sm font-semibold">{name}</span>
-              </div>
+              'Barbearias','Clínicas','Restaurantes','Academias',
+              'Lojas','Salões','Consultórios','Cursos online',
+            ].map((name) => (
+              <span key={name}
+                className="px-4 py-2 rounded-full text-sm font-semibold text-slate-400 hover:text-white transition-all duration-200 cursor-default"
+                style={{background:'rgba(255,255,255,0.04)', border:'1px solid rgba(255,255,255,0.07)'}}>
+                {name}
+              </span>
             ))}
           </div>
           <div className="divider-glow mt-10" />
@@ -151,7 +152,9 @@ export default function Home() {
             <div className="card rounded-2xl p-8 sm:p-10 relative overflow-hidden" style={{borderColor: 'rgba(220,38,38,0.15)', background: 'rgba(220,38,38,0.03)'}}>
               <div className="absolute top-0 left-0 right-0 h-[2px]" style={{background: 'linear-gradient(90deg, transparent, rgba(220,38,38,0.4), transparent)'}} />
               <div className="flex items-center gap-3 mb-7">
-                <div className="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-lg emoji">😩</div>
+                <div className="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center flex-shrink-0">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 15s1.5-2 4-2 4 2 4 2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+              </div>
                 <p className="text-red-400 text-sm font-bold">Hoje, sem o AgentesIA</p>
               </div>
               <div className="space-y-4">
@@ -176,7 +179,9 @@ export default function Home() {
             <div className="card rounded-2xl p-8 sm:p-10 relative overflow-hidden" style={{borderColor: 'rgba(34,197,94,0.15)', background: 'rgba(34,197,94,0.03)'}}>
               <div className="absolute top-0 left-0 right-0 h-[2px]" style={{background: 'linear-gradient(90deg, transparent, rgba(34,197,94,0.4), transparent)'}} />
               <div className="flex items-center gap-3 mb-7">
-                <div className="w-10 h-10 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center justify-center text-lg emoji">🤖</div>
+                <div className="w-10 h-10 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center justify-center flex-shrink-0">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h3a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3v-8a3 3 0 0 1 3-3h3V5.73A2 2 0 0 1 10 4a2 2 0 0 1 2-2z"/><circle cx="9" cy="13" r="1.5" fill="#4ade80"/><circle cx="15" cy="13" r="1.5" fill="#4ade80"/><path d="M9 17h6"/></svg>
+              </div>
                 <p className="text-green-400 text-sm font-bold">Com o AgentesIA</p>
               </div>
               <div className="space-y-4">
@@ -290,8 +295,8 @@ export default function Home() {
         <div className="max-w-5xl mx-auto">
           <div className="banner-cta rounded-2xl p-7 sm:p-10 flex flex-col sm:flex-row items-center gap-8">
             <div className="flex items-start gap-4 flex-1">
-              <div className="w-12 h-12 rounded-2xl bg-red-500/15 border border-red-500/25 flex items-center justify-center text-2xl flex-shrink-0 emoji">
-                🎧
+              <div className="w-12 h-12 rounded-2xl bg-red-500/15 border border-red-500/25 flex items-center justify-center flex-shrink-0">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
               </div>
               <div className="text-center sm:text-left">
                 <div className="badge-red mb-3">⭐ O favorito de quem começa</div>
@@ -339,11 +344,11 @@ export default function Home() {
 
                 {a.complexidade === 'simples' && (
                   <div className="absolute top-4 right-4 badge-green text-[10px]">
-                    ⭐ Mais contratado
+                    + Mais contratado
                   </div>
                 )}
 
-                <div className="w-[52px] h-[52px] icon-box rounded-xl flex items-center justify-center text-2xl mb-5 emoji">
+                <div className="w-[52px] h-[52px] icon-box rounded-xl flex items-center justify-center text-2xl mb-5" style={{fontFamily:"'Segoe UI Emoji','Apple Color Emoji','Noto Color Emoji',sans-serif"}}>
                   {a.emoji}
                 </div>
                 <h3 className="text-base sm:text-lg font-bold text-white mb-2 group-hover:text-red-300 transition-colors pr-20">
@@ -387,7 +392,7 @@ export default function Home() {
                 Ver catálogo completo →
               </Link>
               <Link href="/suporte" className="btn-outline font-semibold px-10 py-4 rounded-full text-base no-underline inline-block">
-                💬 Me ajuda a escolher
+                Me ajuda a escolher
               </Link>
             </div>
           </div>
@@ -417,7 +422,7 @@ export default function Home() {
                 cargo: 'Dono · Barbearia Premium — São Paulo',
                 texto: 'Ficava na minha cabeça que IA era coisa de empresa grande. Resolvi testar com R$97 mesmo sem muita fé. Em duas semanas o agente tinha agendado 32 clientes novos que eu nunca teria conseguido atender. Hoje não abro mão.',
                 resultado: '+32 novos clientes em 2 semanas',
-                emoji: '✂️',
+                inicial: 'C',
                 cor: '#dc2626',
               },
               {
@@ -425,7 +430,7 @@ export default function Home() {
                 cargo: 'Proprietária · Clínica Estética — Rio de Janeiro',
                 texto: 'Minha recepcionista pediu demissão numa sexta. Segunda-feira o AgentesIA já estava respondendo tudo. Sem crise, sem desespero. Hoje, honestamente, ele atende melhor do que qualquer funcionário que eu já tive — e nunca falta.',
                 resultado: 'Economizou R$1.800/mês em pessoal',
-                emoji: '💆',
+                inicial: 'A',
                 cor: '#8b5cf6',
               },
               {
@@ -433,10 +438,10 @@ export default function Home() {
                 cargo: 'Sócio · Loja de Materiais — Belo Horizonte',
                 texto: 'Coloquei o agente de vendas e nos primeiros 15 dias já recuperei o valor da ativação. Os clientes nem percebem que é IA — acham que é um atendente muito eficiente. E é mesmo. Nunca mais perdi venda por demora.',
                 resultado: 'Investimento recuperado em 15 dias',
-                emoji: '🏪',
+                inicial: 'P',
                 cor: '#059669',
               },
-            ].map(({ nome, cargo, texto, resultado, emoji, cor }) => (
+            ].map(({ nome, cargo, texto, resultado, inicial, cor }) => (
               <div key={nome} className="testimonial-card rounded-2xl p-7 sm:p-8 flex flex-col relative overflow-hidden">
                 <div className="absolute top-0 left-0 right-0 h-[2px] opacity-60"
                   style={{background: `linear-gradient(90deg, transparent, ${cor}60, transparent)`}} />
@@ -453,14 +458,14 @@ export default function Home() {
 
                 <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl mb-5"
                   style={{background: 'rgba(34,197,94,0.07)', border: '1px solid rgba(34,197,94,0.15)'}}>
-                  <span className="text-green-400 text-sm emoji">📈</span>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
                   <p className="text-green-400 text-xs font-bold">{resultado}</p>
                 </div>
 
                 <div className="flex items-center gap-3 pt-5 border-t border-white/[0.05]">
-                  <div className="w-11 h-11 rounded-full flex items-center justify-center text-xl flex-shrink-0 emoji"
-                    style={{background: `${cor}20`, border: `1px solid ${cor}25`}}>
-                    {emoji}
+                  <div className="w-11 h-11 rounded-full flex items-center justify-center font-black text-sm flex-shrink-0"
+                    style={{background: `${cor}25`, border: `1px solid ${cor}50`, color: '#fff', fontSize: '16px'}}>
+                    {inicial}
                   </div>
                   <div>
                     <p className="font-bold text-white text-sm">{nome}</p>
@@ -474,13 +479,13 @@ export default function Home() {
           {/* Trust bar */}
           <div className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-4">
             {[
-              { num: '200+', label: 'Negócios automatizados', icon: '🏢' },
-              { num: '98%', label: 'Clientes satisfeitos', icon: '⭐' },
-              { num: '5min', label: 'Tempo médio de ativação', icon: '⚡' },
-              { num: '24/7', label: 'Atendimento ininterrupto', icon: '🔄' },
-            ].map(({ num, label, icon }) => (
+              { num: '200+', label: 'Negócios automatizados', color: '#f87171' },
+              { num: '98%', label: 'Clientes satisfeitos', color: '#facc15' },
+              { num: '5min', label: 'Ativação média', color: '#60a5fa' },
+              { num: '24/7', label: 'Atendimento ativo', color: '#a78bfa' },
+            ].map(({ num, label, color }) => (
               <div key={label} className="card rounded-2xl p-5 text-center">
-                <span className="text-2xl mb-2 block">{icon}</span>
+                <div className="w-2 h-2 rounded-full mx-auto mb-3" style={{background: color}} />
                 <p className="text-2xl sm:text-3xl font-black text-white mb-1"
                   style={{fontFamily: "'Plus Jakarta Sans', sans-serif"}}>{num}</p>
                 <p className="text-slate-500 text-xs font-medium">{label}</p>
@@ -512,38 +517,38 @@ export default function Home() {
               {
                 q: 'Preciso saber programar ou ter conhecimento técnico?',
                 a: 'Zero. Se você sabe mandar uma mensagem no WhatsApp, você já sabe usar o AgentesIA. A configuração é feita no Telegram em 3 perguntinhas sobre o seu negócio. Sem código, sem manual, sem dor de cabeça.',
-                icon: '💻',
+                num: '01',
               },
               {
                 q: 'Quanto tempo demora do pagamento ao funcionando?',
                 a: 'Menos de 5 minutos. Você paga, recebe o código de ativação no email, abre o bot no Telegram, insere o código e configura em 3 passos. Já testamos com pessoas que nunca tinham usado um bot. Funciona para todo mundo.',
-                icon: '⏱️',
+                num: '02',
               },
               {
                 q: 'O agente funciona no WhatsApp dos meus clientes?',
                 a: 'Hoje o agente opera via Telegram, que é gratuito e muito mais ágil. Você compartilha o link do seu bot com clientes pelo WhatsApp, Instagram, Google, onde quiser. Eles clicam e já caem no atendimento.',
-                icon: '💬',
+                num: '03',
               },
               {
                 q: 'E se eu contratar e não gostar? Posso cancelar?',
                 a: 'Claro. Sem burocracia, sem ligação de retenção, sem multa. Basta não renovar a mensalidade e acabou. Você nunca vai se sentir preso. Nossa confiança no produto é a nossa maior garantia.',
-                icon: '🔓',
+                num: '04',
               },
               {
                 q: 'Meus clientes vão perceber que é uma IA respondendo?',
                 a: 'Provavelmente não. O agente conversa de forma natural e contextual. A maioria dos clientes dos nossos usuários pensa que é um atendente de verdade. Mas se preferir ser transparente, você pode configurá-lo assim também.',
-                icon: '🤔',
+                num: '05',
               },
               {
                 q: 'E se eu tiver algum problema ou precisar de ajuda?',
                 a: 'Nossa IA de suporte responde qualquer dúvida na hora, 24 horas por dia. Para situações mais específicas, nossa equipe retorna em até 24h. Você nunca vai ficar na mão.',
-                icon: '🛟',
+                num: '06',
               },
-            ].map(({ q, a, icon }) => (
+            ].map(({ q, a, num }) => (
               <div key={q} className="card rounded-2xl p-6 hover-lift group">
                 <div className="flex items-start gap-4">
-                  <div className="w-9 h-9 rounded-xl bg-red-500/10 border border-red-500/15 flex items-center justify-center text-base flex-shrink-0 mt-0.5 emoji">
-                    {icon}
+                  <div className="w-9 h-9 rounded-xl bg-red-500/10 border border-red-500/15 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="text-red-400 font-black text-xs">{num}</span>
                   </div>
                   <div>
                     <p className="font-bold text-white mb-2 text-sm sm:text-base leading-snug">{q}</p>
@@ -556,7 +561,7 @@ export default function Home() {
 
           <div className="text-center mt-10 flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/suporte" className="btn-primary font-bold px-8 py-3.5 rounded-full no-underline inline-block">
-              💬 Ainda tem dúvida? Fale conosco →
+              Ainda tem dúvida? Fale conosco →
             </Link>
             <Link href="/agentes" className="btn-outline font-semibold px-8 py-3.5 rounded-full no-underline inline-block text-sm">
               Ver agentes disponíveis
@@ -574,8 +579,8 @@ export default function Home() {
             <div className="absolute top-0 right-0 w-48 h-48 rounded-full pointer-events-none"
               style={{background: 'radial-gradient(circle, rgba(139,92,246,0.07) 0%, transparent 70%)'}} />
             <div className="flex items-start gap-4 flex-1">
-              <div className="w-12 h-12 rounded-2xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center text-2xl flex-shrink-0 emoji">
-                ☕
+              <div className="w-12 h-12 rounded-2xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center flex-shrink-0">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
               </div>
               <div className="text-center sm:text-left">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Sem pressão</p>
