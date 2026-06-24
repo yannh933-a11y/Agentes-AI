@@ -577,6 +577,113 @@ export default function Home() {
       </section>
 
       {/* ════════════════════════════════════════
+          GARANTIA
+          ════════════════════════════════════════ */}
+      <section className="py-20 sm:py-28 px-5 sm:px-8 section-alt">
+        <div className="max-w-5xl mx-auto">
+          <div className="relative rounded-3xl overflow-hidden p-8 sm:p-14"
+            style={{
+              background: 'linear-gradient(135deg, rgba(5,150,105,0.08) 0%, rgba(5,150,105,0.04) 50%, rgba(7,7,15,0) 100%)',
+              border: '1px solid rgba(5,150,105,0.2)',
+            }}>
+
+            {/* Glow */}
+            <div className="absolute top-0 left-0 right-0 h-[2px]"
+              style={{background: 'linear-gradient(90deg, transparent, rgba(5,150,105,0.6), transparent)'}} />
+            <div className="absolute top-[-60px] right-[-60px] w-64 h-64 rounded-full pointer-events-none"
+              style={{background: 'radial-gradient(circle, rgba(5,150,105,0.1) 0%, transparent 70%)'}} />
+
+            <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16 relative z-10">
+
+              {/* Selo de garantia */}
+              <div className="flex-shrink-0 flex flex-col items-center">
+                <div className="relative">
+                  {/* Anel externo */}
+                  <div className="w-40 h-40 sm:w-48 sm:h-48 rounded-full flex items-center justify-center"
+                    style={{
+                      background: 'linear-gradient(135deg, rgba(5,150,105,0.15), rgba(5,150,105,0.05))',
+                      border: '2px solid rgba(5,150,105,0.3)',
+                      boxShadow: '0 0 40px rgba(5,150,105,0.15)',
+                    }}>
+                    {/* Anel interno */}
+                    <div className="w-32 h-32 sm:w-36 sm:h-36 rounded-full flex flex-col items-center justify-center text-center"
+                      style={{
+                        background: 'linear-gradient(135deg, rgba(5,150,105,0.2), rgba(5,150,105,0.08))',
+                        border: '1.5px solid rgba(5,150,105,0.4)',
+                      }}>
+                      <p className="text-green-400 text-[10px] font-black uppercase tracking-widest mb-1">Garantia</p>
+                      <p className="text-white font-black leading-none mb-1"
+                        style={{fontSize: '42px', fontFamily: "'Plus Jakarta Sans', sans-serif"}}>7</p>
+                      <p className="text-green-300 text-[11px] font-bold uppercase tracking-wide">dias</p>
+                    </div>
+                  </div>
+                  {/* Badge verificado */}
+                  <div className="absolute -bottom-2 -right-2 w-10 h-10 rounded-full flex items-center justify-center"
+                    style={{background: '#059669', border: '2px solid #07070f', boxShadow: '0 4px 12px rgba(5,150,105,0.4)'}}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                  </div>
+                </div>
+                <p className="text-green-400 text-xs font-bold mt-4 uppercase tracking-widest">100% Satisfação</p>
+              </div>
+
+              {/* Texto */}
+              <div className="flex-1 text-center lg:text-left">
+                <div className="badge-green mb-4">Sem risco nenhum</div>
+                <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-white mb-4">
+                  Experimente por 7 dias.
+                  <br />
+                  <span className="text-green-400">Se não gostar, devolvemos tudo.</span>
+                </h2>
+                <p className="text-slate-400 text-base leading-relaxed mb-6">
+                  A gente tem tanta confiança que o AgentesIA vai mudar sua rotina
+                  que oferecemos garantia total. Você tem 7 dias para testar, ver
+                  funcionando no seu negócio e decidir com calma.
+                </p>
+                <p className="text-slate-500 text-sm leading-relaxed mb-8">
+                  Não gostou? Não viu resultado? Basta mandar uma mensagem.
+                  <strong className="text-slate-300"> Reembolso 100%, sem perguntas, sem burocracia.</strong>
+                </p>
+
+                {/* Garantias em grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  {[
+                    { titulo: 'Sem perguntas', desc: 'Não precisa dar explicação nenhuma para pedir o reembolso' },
+                    { titulo: 'Sem burocracia', desc: 'Uma mensagem resolve. Dinheiro de volta em até 48h' },
+                    { titulo: 'Sem risco', desc: 'Se não funcionar para você, você não perde nada' },
+                  ].map(({ titulo, desc }) => (
+                    <div key={titulo} className="rounded-xl p-4 text-center sm:text-left"
+                      style={{background: 'rgba(5,150,105,0.06)', border: '1px solid rgba(5,150,105,0.15)'}}>
+                      <div className="flex items-center justify-center sm:justify-start gap-2 mb-2">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        <p className="text-green-400 text-xs font-bold">{titulo}</p>
+                      </div>
+                      <p className="text-slate-500 text-xs leading-relaxed">{desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom strip */}
+            <div className="mt-10 pt-8 border-t border-green-500/10 flex flex-col sm:flex-row items-center justify-between gap-6 relative z-10">
+              <p className="text-slate-500 text-sm text-center sm:text-left">
+                Mais de <strong className="text-white">200 donos de negócio</strong> já confiaram.
+                Nenhum precisou pedir o reembolso até hoje.
+              </p>
+              <Link href="/agentes"
+                className="btn-primary font-bold px-8 py-3.5 rounded-full no-underline whitespace-nowrap flex-shrink-0">
+                Começar com garantia →
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════
           PRÉ-CADASTRO
           ════════════════════════════════════════ */}
       <section className="py-14 px-5 sm:px-8">
