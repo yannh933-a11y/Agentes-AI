@@ -44,6 +44,7 @@ function Logo({ size = 38 }) {
         alignItems: 'center',
         justifyContent: 'center',
         fontSize: Math.round(size * 0.46),
+        fontFamily: "'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif",
         boxShadow: '0 4px 20px rgba(220,38,38,0.3), inset 0 1px 0 rgba(255,255,255,0.15)',
         border: '1px solid rgba(255,255,255,0.1)',
       }}
@@ -178,7 +179,7 @@ function BotaoSuporte() {
         <div className="
           w-14 h-14 rounded-full
           bg-gradient-to-br from-red-500 to-red-700
-          flex items-center justify-center text-2xl
+          flex items-center justify-center text-2xl emoji
           shadow-xl shadow-red-900/60
           transition-all duration-300
           group-hover:scale-110 group-hover:shadow-red-900/80
@@ -217,7 +218,7 @@ function Footer() {
             </p>
             <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-green-500/[0.05] border border-green-500/10 w-fit">
               <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse flex-shrink-0" />
-              <span className="text-green-400 text-xs font-medium">Todos os sistemas operando</span>
+              <span className="text-green-400 text-xs font-medium">✅ Todos os sistemas operando</span>
             </div>
           </div>
 

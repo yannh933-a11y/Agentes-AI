@@ -75,7 +75,7 @@ export default function Home() {
             </Link>
             <Link href="/suporte"
               className="btn-outline font-semibold px-7 py-4 rounded-full text-sm no-underline w-full sm:w-auto text-center flex items-center justify-center gap-2">
-              <span>💬</span> Tenho uma dúvida antes
+              <span className="emoji">💬</span> Tenho uma dúvida antes
             </Link>
           </div>
 
@@ -97,7 +97,7 @@ export default function Home() {
               { num: 'R$97', label: 'Investimento inicial', icon: '💰', color: 'rgba(5,150,105,0.1)' },
             ].map(({ num, label, icon, color }) => (
               <div key={label} className="card rounded-2xl px-4 py-6 text-center hover-lift" style={{background: color, borderColor: 'rgba(255,255,255,0.07)'}}>
-                <p className="text-2xl mb-2">{icon}</p>
+                <p className="text-2xl mb-2 emoji">{icon}</p>
                 <p className="text-3xl sm:text-4xl font-black text-white mb-1" style={{fontFamily: "'Plus Jakarta Sans', sans-serif"}}>{num}</p>
                 <p className="text-slate-500 text-xs sm:text-sm font-medium">{label}</p>
               </div>
@@ -121,7 +121,7 @@ export default function Home() {
               ['🏋️','Academias'],['👔','Lojas'],['💇','Salões'],['🦷','Consultórios'],['🎓','Cursos online'],
             ].map(([emoji, name]) => (
               <div key={name} className="flex items-center gap-2 text-slate-500 hover:text-slate-200 transition-all duration-200 cursor-default group">
-                <span className="text-xl group-hover:scale-110 transition-transform duration-200">{emoji}</span>
+                <span className="text-xl emoji group-hover:scale-110 transition-transform duration-200">{emoji}</span>
                 <span className="text-sm font-semibold">{name}</span>
               </div>
             ))}
@@ -151,7 +151,7 @@ export default function Home() {
             <div className="card rounded-2xl p-8 sm:p-10 relative overflow-hidden" style={{borderColor: 'rgba(220,38,38,0.15)', background: 'rgba(220,38,38,0.03)'}}>
               <div className="absolute top-0 left-0 right-0 h-[2px]" style={{background: 'linear-gradient(90deg, transparent, rgba(220,38,38,0.4), transparent)'}} />
               <div className="flex items-center gap-3 mb-7">
-                <div className="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-lg">😩</div>
+                <div className="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-lg emoji">😩</div>
                 <p className="text-red-400 text-sm font-bold">Hoje, sem o AgentesIA</p>
               </div>
               <div className="space-y-4">
@@ -176,7 +176,7 @@ export default function Home() {
             <div className="card rounded-2xl p-8 sm:p-10 relative overflow-hidden" style={{borderColor: 'rgba(34,197,94,0.15)', background: 'rgba(34,197,94,0.03)'}}>
               <div className="absolute top-0 left-0 right-0 h-[2px]" style={{background: 'linear-gradient(90deg, transparent, rgba(34,197,94,0.4), transparent)'}} />
               <div className="flex items-center gap-3 mb-7">
-                <div className="w-10 h-10 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center justify-center text-lg">🤖</div>
+                <div className="w-10 h-10 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center justify-center text-lg emoji">🤖</div>
                 <p className="text-green-400 text-sm font-bold">Com o AgentesIA</p>
               </div>
               <div className="space-y-4">
@@ -251,7 +251,7 @@ export default function Home() {
                   style={{color: `${color}08`, fontFamily: "'Plus Jakarta Sans', sans-serif"}}>
                   {num}
                 </span>
-                <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-5 transition-all duration-300"
+                <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-5 transition-all duration-300 emoji"
                   style={{background: `${color}15`, border: `1px solid ${color}25`}}>
                   {icon}
                 </div>
@@ -290,7 +290,7 @@ export default function Home() {
         <div className="max-w-5xl mx-auto">
           <div className="banner-cta rounded-2xl p-7 sm:p-10 flex flex-col sm:flex-row items-center gap-8">
             <div className="flex items-start gap-4 flex-1">
-              <div className="w-12 h-12 rounded-2xl bg-red-500/15 border border-red-500/25 flex items-center justify-center text-2xl flex-shrink-0">
+              <div className="w-12 h-12 rounded-2xl bg-red-500/15 border border-red-500/25 flex items-center justify-center text-2xl flex-shrink-0 emoji">
                 🎧
               </div>
               <div className="text-center sm:text-left">
@@ -343,7 +343,7 @@ export default function Home() {
                   </div>
                 )}
 
-                <div className="w-[52px] h-[52px] icon-box rounded-xl flex items-center justify-center text-2xl mb-5">
+                <div className="w-[52px] h-[52px] icon-box rounded-xl flex items-center justify-center text-2xl mb-5 emoji">
                   {a.emoji}
                 </div>
                 <h3 className="text-base sm:text-lg font-bold text-white mb-2 group-hover:text-red-300 transition-colors pr-20">
@@ -453,12 +453,12 @@ export default function Home() {
 
                 <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl mb-5"
                   style={{background: 'rgba(34,197,94,0.07)', border: '1px solid rgba(34,197,94,0.15)'}}>
-                  <span className="text-green-400 text-sm">📈</span>
+                  <span className="text-green-400 text-sm emoji">📈</span>
                   <p className="text-green-400 text-xs font-bold">{resultado}</p>
                 </div>
 
                 <div className="flex items-center gap-3 pt-5 border-t border-white/[0.05]">
-                  <div className="w-11 h-11 rounded-full flex items-center justify-center text-xl flex-shrink-0"
+                  <div className="w-11 h-11 rounded-full flex items-center justify-center text-xl flex-shrink-0 emoji"
                     style={{background: `${cor}20`, border: `1px solid ${cor}25`}}>
                     {emoji}
                   </div>
@@ -542,7 +542,7 @@ export default function Home() {
             ].map(({ q, a, icon }) => (
               <div key={q} className="card rounded-2xl p-6 hover-lift group">
                 <div className="flex items-start gap-4">
-                  <div className="w-9 h-9 rounded-xl bg-red-500/10 border border-red-500/15 flex items-center justify-center text-base flex-shrink-0 mt-0.5">
+                  <div className="w-9 h-9 rounded-xl bg-red-500/10 border border-red-500/15 flex items-center justify-center text-base flex-shrink-0 mt-0.5 emoji">
                     {icon}
                   </div>
                   <div>
@@ -574,7 +574,7 @@ export default function Home() {
             <div className="absolute top-0 right-0 w-48 h-48 rounded-full pointer-events-none"
               style={{background: 'radial-gradient(circle, rgba(139,92,246,0.07) 0%, transparent 70%)'}} />
             <div className="flex items-start gap-4 flex-1">
-              <div className="w-12 h-12 rounded-2xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center text-2xl flex-shrink-0">
+              <div className="w-12 h-12 rounded-2xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center text-2xl flex-shrink-0 emoji">
                 ☕
               </div>
               <div className="text-center sm:text-left">
