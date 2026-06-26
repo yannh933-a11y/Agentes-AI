@@ -34,7 +34,7 @@ async function saveDb(data) {
 
 async function notify(data) {
   if (!BOT_TOKEN || !ADMIN_CHAT_ID) return;
-  const txt = `📋 *Novo lead OpenClaw*\n👤 ${data.nome}\n🏢 ${data.empresa || '-'}\n📧 ${data.email}\n📱 ${data.whatsapp || '-'}\n🏷️ Segmento: ${data.segmento || '-'}\n🤖 Agente: ${data.interesse || data.agente || '-'}\n👥 Tamanho: ${data.tamanho || '-'}\n⚠️ Problema: ${data.problema || '-'}`;
+  const txt = `📋 *Novo lead Agentes AI*\n👤 ${data.nome}\n🏢 ${data.empresa || '-'}\n📧 ${data.email}\n📱 ${data.whatsapp || '-'}\n🏷️ Segmento: ${data.segmento || '-'}\n🤖 Agente: ${data.interesse || data.agente || '-'}\n👥 Tamanho: ${data.tamanho || '-'}\n⚠️ Problema: ${data.problema || '-'}`;
   await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ chat_id: ADMIN_CHAT_ID, text: txt, parse_mode: 'Markdown' }) }).catch(() => {});
 }
 

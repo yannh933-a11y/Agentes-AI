@@ -1,1 +1,24 @@
-<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="128" height="128" rx="30" fill="#07070F"/><rect x="6" y="6" width="116" height="116" rx="26" fill="url(#g)" stroke="rgba(255,255,255,.16)"/><path d="M72 22L35 68h26l-7 38 39-50H67l5-34Z" fill="white"/><path d="M72 22L35 68h26l-7 38 39-50H67l5-34Z" fill="url(#r)" fill-opacity=".88"/><defs><linearGradient id="g" x1="12" y1="5" x2="113" y2="122" gradientUnits="userSpaceOnUse"><stop stop-color="#EF4444"/><stop offset=".55" stop-color="#7F1D1D"/><stop offset="1" stop-color="#111827"/></linearGradient><linearGradient id="r" x1="38" y1="20" x2="90" y2="106" gradientUnits="userSpaceOnUse"><stop stop-color="#FEE2E2"/><stop offset=".55" stop-color="#EF4444"/><stop offset="1" stop-color="#991B1B"/></linearGradient></defs></svg>
+<svg width="160" height="160" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Agentes AI</title>
+  <desc id="desc">Símbolo da Agentes AI.</desc>
+  <rect width="160" height="160" rx="34" fill="#07070F"/>
+  <rect x="7" y="7" width="146" height="146" rx="30" stroke="rgba(255,255,255,0.10)" stroke-width="2"/>
+  <defs>
+    <linearGradient id="red" x1="34" y1="30" x2="138" y2="136" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FF4D57"/>
+      <stop offset="0.55" stop-color="#EF233C"/>
+      <stop offset="1" stop-color="#991B1B"/>
+    </linearGradient>
+    <linearGradient id="steel" x1="24" y1="40" x2="138" y2="134" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="0.48" stop-color="#E5E7EB"/>
+      <stop offset="1" stop-color="#9CA3AF"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(12 14)">
+    <path d="M60 16H100L124 50L96 36H64L50 64L6 60L52 54L60 16Z" fill="url(#red)"/>
+    <path d="M6 78L60 72H92V92H62L6 78Z" fill="url(#steel)"/>
+    <path d="M0 108L66 100H92L112 128H62L48 112L0 108Z" fill="url(#steel)"/>
+    <path d="M112 128L142 96L124 104L100 128H112Z" fill="#F8FAFC"/>
+  </g>
+</svg>

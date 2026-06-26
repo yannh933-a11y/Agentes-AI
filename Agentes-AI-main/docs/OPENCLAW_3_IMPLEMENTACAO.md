@@ -1,11 +1,11 @@
-# OpenClaw 3.0 — Implementação
+# Agentes AI 3.0 — Implementação
 
 ## O que foi feito
 
 ### Fase 1 — Fundação
 - Reorganização do frontend com componentes `Navbar`, `Footer` e `ui.js`.
 - Design System base em `globals.css`.
-- Logo SVG profissional em `public/openclaw-logo.svg`.
+- Logo SVG profissional em `public/agentes-ai-logo.svg`.
 - Metadata SEO no layout.
 - CSS enxuto para melhorar manutenção.
 

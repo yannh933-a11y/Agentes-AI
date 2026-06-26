@@ -1,4 +1,4 @@
-# OpenClaw 3.0
+# Agentes AI 3.0
 
 Plataforma para venda, implantação e operação de agentes de IA exclusivos para empresas.
 
@@ -30,7 +30,7 @@ Depois de substituir os arquivos no projeto local:
 
 ```bash
 git add .
-git commit -m "OpenClaw 3.0 - fundacao e site comercial"
+git commit -m "Agentes AI 3.0 - fundacao e site comercial"
 git push
 ```
 

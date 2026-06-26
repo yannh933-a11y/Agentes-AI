@@ -1,4 +1,4 @@
-# Implementação OpenClaw — Melhorias aplicadas
+# Implementação Agentes AI — Melhorias aplicadas
 
 ## Objetivo do site
 Transformar a landing page em uma página profissional para vender agentes de IA exclusivos para empresas. Cada empresa usa o agente no mesmo chat/sistema, mas com configuração, informações, regras e linguagem próprias.
@@ -9,25 +9,25 @@ Transformar a landing page em uma página profissional para vender agentes de IA
 - Refeita a página inicial completa.
 - Novo posicionamento: agentes exclusivos por empresa.
 - Nova Hero Section com proposta de valor mais clara.
-- Novo mockup visual do Console OpenClaw.
+- Novo mockup visual do Console Agentes AI.
 - Nova seção de segmentos atendidos.
 - Nova seção explicando por que não é um robô genérico.
 - Nova seção “Como funciona” em 4 etapas.
-- Nova comparação “Sem agente vs Com OpenClaw”.
+- Nova comparação “Sem agente vs Com Agentes AI”.
 - Nova área de agentes/preços usando os dados reais de `src/lib/agentes.js`.
 - Nova seção de confiança.
 - Novo FAQ.
 - Novo CTA final.
 
 ### `frontend/src/app/layout.js`
-- Alteração de marca visual de AgentesIA para OpenClaw.
+- Alteração de marca visual de AgentesIA para Agentes AI.
 - Novo componente de logo, sem emoji, com aparência mais profissional.
 - Metadados de SEO atualizados.
 - Open Graph atualizado.
-- Footer ajustado para a marca OpenClaw.
+- Footer ajustado para a marca Agentes AI.
 
-### `frontend/public/openclaw-logo.svg`
-- Nova logo em SVG criada para a marca OpenClaw.
+### `frontend/public/agentes-ai-logo.svg`
+- Nova logo em SVG criada para a marca Agentes AI.
 
 ### `frontend/public/favicon.svg`
 - Favicon substituído pela nova identidade visual.
