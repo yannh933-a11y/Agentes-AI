@@ -1,0 +1,1 @@
+import { Card, Container } from '../components/ui';export default function Page(){return <main className="pt-28 pb-20"><Container><h1 className="text-5xl font-black mb-8">Documentos</h1><Card><p className="text-slate-400">Aqui ficarão os arquivos e bases de conhecimento usados para treinar cada agente.</p></Card></Container></main>}

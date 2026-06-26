@@ -1,0 +1,1 @@
+import { Card, Container } from '../components/ui';export default function Page(){return <main className="pt-28 pb-20"><Container><h1 className="text-5xl font-black mb-8">Configurações</h1><Card><p className="text-slate-400">Configurações de empresa, usuários, agentes, tom de voz e permissões.</p></Card></Container></main>}

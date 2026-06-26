@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="180" y2="180" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#dc2626"/>
+      <stop offset="100%" stop-color="#7f1d1d"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="0" y1="0" x2="180" y2="90" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="180" height="180" rx="40" fill="url(#bg)"/>
+  <rect width="180" height="180" rx="40" fill="url(#shine)"/>
+  <rect x="50" y="62" width="80" height="62" rx="14" fill="white" fill-opacity="0.95"/>
+  <line x1="90" y1="62" x2="90" y2="40" stroke="white" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="90" cy="33" r="9" fill="white"/>
+  <circle cx="70" cy="88" r="11" fill="#dc2626"/>
+  <circle cx="74.5" cy="83.5" r="3.5" fill="white" fill-opacity="0.7"/>
+  <circle cx="110" cy="88" r="11" fill="#dc2626"/>
+  <circle cx="114.5" cy="83.5" r="3.5" fill="white" fill-opacity="0.7"/>
+  <rect x="70" y="105" width="40" height="9" rx="4.5" fill="#dc2626" fill-opacity="0.7"/>
+  <rect x="33" y="76" width="17" height="23" rx="8.5" fill="white" fill-opacity="0.6"/>
+  <rect x="130" y="76" width="17" height="23" rx="8.5" fill="white" fill-opacity="0.6"/>
+</svg>

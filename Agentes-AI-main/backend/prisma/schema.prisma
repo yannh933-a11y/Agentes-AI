@@ -1,0 +1,97 @@
+generator client { provider = "prisma-client-js" }
+datasource db { provider = "postgresql" url = env("DATABASE_URL") }
+
+model Company {
+  id        String   @id @default(uuid())
+  name      String
+  segment   String?
+  size      String?
+  status    CompanyStatus @default(LEAD)
+  createdAt DateTime @default(now())
+  users     User[]
+  agents    Agent[]
+  chats     Chat[]
+}
+
+model User {
+  id        String   @id @default(uuid())
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id])
+  name      String
+  email     String   @unique
+  role      UserRole @default(MEMBER)
+  createdAt DateTime @default(now())
+}
+
+model Agent {
+  id          String @id @default(uuid())
+  companyId   String
+  company     Company @relation(fields: [companyId], references: [id])
+  name        String
+  type        String
+  systemPrompt String?
+  tone        String?
+  status      AgentStatus @default(DRAFT)
+  createdAt   DateTime @default(now())
+  knowledge   KnowledgeDocument[]
+  chats       Chat[]
+}
+
+model KnowledgeDocument {
+  id        String @id @default(uuid())
+  agentId   String
+  agent     Agent @relation(fields: [agentId], references: [id])
+  title     String
+  content   String
+  sourceUrl String?
+  createdAt DateTime @default(now())
+}
+
+model Chat {
+  id        String @id @default(uuid())
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id])
+  agentId   String?
+  agent     Agent? @relation(fields: [agentId], references: [id])
+  customerName String?
+  customerContact String?
+  status    ChatStatus @default(OPEN)
+  createdAt DateTime @default(now())
+  messages  Message[]
+}
+
+model Message {
+  id        String @id @default(uuid())
+  chatId    String
+  chat      Chat @relation(fields: [chatId], references: [id])
+  role      MessageRole
+  content   String
+  createdAt DateTime @default(now())
+}
+
+model Lead {
+  id        String @id @default(uuid())
+  name      String
+  company   String?
+  email     String
+  whatsapp  String?
+  segment   String?
+  agentType String?
+  size      String?
+  problem   String?
+  status    LeadStatus @default(NEW)
+  createdAt DateTime @default(now())
+}
+
+model Cliente { id String @id @default(uuid()) nome String email String whatsapp String? criadoEm DateTime @default(now()) pedidos Pedido[] }
+model Pedido { id String @id @default(uuid()) clienteId String cliente Cliente @relation(fields: [clienteId], references: [id]) tipoAgente String valor Float metodoPagamento String status StatusPedido @default(PENDENTE) txId String? @unique criadoEm DateTime @default(now()) atualizadoEm DateTime @updatedAt agente AgenteEntregue? }
+model AgenteEntregue { id String @id @default(uuid()) pedidoId String @unique pedido Pedido @relation(fields: [pedidoId], references: [id]) nomeAgente String tokenTelegram String codigoPareamento String workspace String emailEnviado Boolean @default(false) criadoEm DateTime @default(now()) }
+model PreCadastro { id String @id @default(uuid()) nome String email String @unique whatsapp String? interesse String? empresa String? segmento String? tamanho String? problema String? emailEnviado Boolean @default(false) criadoEm DateTime @default(now()) }
+
+enum StatusPedido { PENDENTE APROVADO FALHOU REEMBOLSADO }
+enum CompanyStatus { LEAD ACTIVE SUSPENDED CANCELED }
+enum UserRole { OWNER ADMIN MEMBER }
+enum AgentStatus { DRAFT ACTIVE PAUSED ARCHIVED }
+enum ChatStatus { OPEN CLOSED ESCALATED }
+enum MessageRole { USER ASSISTANT SYSTEM HUMAN }
+enum LeadStatus { NEW CONTACTED QUALIFIED LOST WON }

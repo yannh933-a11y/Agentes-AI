@@ -1,0 +1,1 @@
+import { Card, Container } from '../components/ui';export default function Page(){return <main className="pt-28 pb-20"><Container><h1 className="text-5xl font-black mb-8">Conversas</h1><Card><p className="text-slate-400">Tela preparada para listar chats, mensagens e resumos por empresa.</p></Card></Container></main>}
