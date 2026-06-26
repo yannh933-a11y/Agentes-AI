@@ -7,15 +7,15 @@ export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR">
       <head>
-        <title>AgentesIA — Automatize seu negócio com Inteligência Artificial</title>
-        <meta name="description" content="Agentes de IA prontos para o seu negócio. Atendimento 24h, vendas e agendamentos automáticos. Ative em 5 minutos." />
+        <title>OpenClaw — Agentes de IA exclusivos para empresas</title>
+        <meta name="description" content="Crie agentes de IA exclusivos para empresas: atendimento, vendas, agendamento e suporte em um chat simples e profissional." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta property="og:title" content="AgentesIA — Automatize seu negócio" />
-        <meta property="og:description" content="Agentes de IA que trabalham 24h por você. Sem contratar ninguém." />
-        <meta property="og:image" content="/favicon-180.svg" />
+        <meta property="og:title" content="OpenClaw — Agentes de IA para empresas" />
+        <meta property="og:description" content="Agentes exclusivos para atendimento, vendas e automação empresarial." />
+        <meta property="og:image" content="/openclaw-logo.svg" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="apple-touch-icon" href="/favicon-180.svg" />
+        <link rel="apple-touch-icon" href="/openclaw-logo.svg" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -34,22 +34,26 @@ export default function RootLayout({ children }) {
 function Logo({ size = 38 }) {
   return (
     <div
+      aria-hidden="true"
       style={{
         width: size,
         height: size,
         borderRadius: Math.round(size * 0.28),
-        background: 'linear-gradient(135deg, #dc2626 0%, #7f1d1d 100%)',
+        background: 'linear-gradient(135deg, rgba(255,69,69,0.22), rgba(127,29,29,0.12))',
         flexShrink: 0,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        fontSize: Math.round(size * 0.46),
-        fontFamily: "'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif",
-        boxShadow: '0 4px 20px rgba(220,38,38,0.3), inset 0 1px 0 rgba(255,255,255,0.15)',
-        border: '1px solid rgba(255,255,255,0.1)',
+        boxShadow: '0 10px 30px rgba(220,38,38,0.28), inset 0 1px 0 rgba(255,255,255,0.18)',
+        border: '1px solid rgba(255,255,255,0.14)',
+        position: 'relative',
+        overflow: 'hidden',
       }}
     >
-      🤖
+      <div style={{width: size * 0.56, height: size * 0.56, border: '3px solid #ff4545', borderRadius: '50%', position: 'relative'}}>
+        <span style={{position: 'absolute', width: size * 0.18, height: size * 0.18, borderRadius: '50%', background: '#fff', top: '50%', left: '50%', transform: 'translate(-50%, -50%)'}} />
+        <span style={{position: 'absolute', width: size * 0.34, height: 3, borderRadius: 999, background: '#ff4545', right: -size * 0.32, top: '50%', transform: 'translateY(-50%)'}} />
+      </div>
     </div>
   );
 }
@@ -91,9 +95,9 @@ function Navbar() {
           </div>
           <div className="flex flex-col leading-none">
             <span className="font-black text-[18px] text-white tracking-tight" style={{fontFamily: "'Plus Jakarta Sans', sans-serif"}}>
-              Agentes<span className="text-red-500">IA</span>
+              Open<span className="text-red-500">Claw</span>
             </span>
-            <span className="text-[10px] text-slate-500 font-medium tracking-wider">Automação com IA</span>
+            <span className="text-[10px] text-slate-500 font-medium tracking-wider">Agentes exclusivos</span>
           </div>
         </Link>
 
@@ -208,13 +212,13 @@ function Footer() {
               <Logo size={34} />
               <div className="flex flex-col leading-none">
                 <span className="font-black text-[17px] text-white" style={{fontFamily: "'Plus Jakarta Sans', sans-serif"}}>
-                  Agentes<span className="text-red-500">IA</span>
+                  Open<span className="text-red-500">Claw</span>
                 </span>
-                <span className="text-[10px] text-slate-500 font-medium tracking-wider">Automação com IA</span>
+                <span className="text-[10px] text-slate-500 font-medium tracking-wider">Agentes exclusivos</span>
               </div>
             </div>
             <p className="text-slate-500 text-sm leading-relaxed mb-5">
-              Agentes de IA criados para donos de negócio que querem crescer sem contratar mais funcionários.
+              Agentes de IA exclusivos para empresas que querem automatizar atendimento, vendas e suporte sem criar uma operação técnica complexa.
             </p>
             <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-green-500/[0.05] border border-green-500/10 w-fit">
               <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse flex-shrink-0" />
@@ -255,9 +259,9 @@ function Footer() {
         <div className="divider-glow mb-8" />
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-slate-600 text-xs">© {new Date().getFullYear()} AgentesIA — Todos os direitos reservados</p>
+          <p className="text-slate-600 text-xs">© {new Date().getFullYear()} OpenClaw — Todos os direitos reservados</p>
           <p className="text-slate-700 text-xs flex items-center gap-1">
-            Feito com <span className="text-red-500">❤️</span> para donos de negócio brasileiros
+            Construído para empresas que querem vender e atender melhor com IA
           </p>
         </div>
       </div>

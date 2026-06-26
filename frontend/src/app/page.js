@@ -2,777 +2,269 @@ import Link from 'next/link';
 import { agentes } from '../lib/agentes';
 import DemoChat from './components/DemoChat';
 
+const segmentos = ['Clínicas', 'Barbearias', 'Lojas', 'Academias', 'Restaurantes', 'Cursos', 'Imobiliárias', 'Consultórios'];
+
+const beneficios = [
+  ['Agente exclusivo por empresa', 'Cada cliente recebe um agente configurado com dados, regras, linguagem e objetivo do próprio negócio.'],
+  ['Tudo no mesmo chat', 'A empresa usa o agente em um ambiente simples, sem precisar aprender ferramentas complexas.'],
+  ['Atendimento e vendas 24h', 'O agente responde dúvidas, qualifica interessados, agenda horários e encaminha oportunidades.'],
+  ['Implantação guiada', 'O processo é estruturado: coleta de informações, treinamento, teste, ativação e acompanhamento.'],
+];
+
+const processo = [
+  ['01', 'Diagnóstico', 'Entendemos o tipo de empresa, principais dúvidas dos clientes, serviços, preços e regras de atendimento.'],
+  ['02', 'Configuração', 'Criamos o agente exclusivo, treinado com as informações e tom de voz da empresa.'],
+  ['03', 'Validação', 'Testamos respostas, fluxos de venda, agendamento e limites antes de colocar em operação.'],
+  ['04', 'Operação', 'A empresa começa a usar o agente no chat, com suporte e melhorias contínuas.'],
+];
+
+const comparacao = [
+  ['Resposta ao cliente', 'Horas ou dias depois', 'Em segundos, 24h por dia'],
+  ['Padronização', 'Cada pessoa responde de um jeito', 'Respostas alinhadas à empresa'],
+  ['Vendas', 'Leads esquecidos no WhatsApp', 'Leads qualificados e encaminhados'],
+  ['Escala', 'Depende de contratar mais gente', 'Atende múltiplos clientes ao mesmo tempo'],
+];
+
+const faqs = [
+  ['O agente é igual para todas as empresas?', 'Não. A estrutura pode ser a mesma, mas cada empresa recebe um agente configurado com suas informações, serviços, regras e forma de atendimento.'],
+  ['Preciso saber programação?', 'Não. A proposta é a empresa usar o agente pelo chat, de forma simples e prática.'],
+  ['Serve para qual tipo de negócio?', 'Serve principalmente para empresas que recebem muitas perguntas repetidas, precisam qualificar clientes, vender, agendar ou prestar suporte.'],
+  ['O agente substitui funcionários?', 'Ele reduz tarefas repetitivas e libera tempo da equipe. Casos importantes podem ser encaminhados para atendimento humano.'],
+];
+
+function SectionHeader({ eyebrow, title, description }) {
+  return (
+    <div className="max-w-3xl mx-auto text-center mb-14">
+      <span className="badge-red mb-4">{eyebrow}</span>
+      <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight">{title}</h2>
+      {description && <p className="text-slate-400 text-base sm:text-lg mt-5 leading-relaxed">{description}</p>}
+    </div>
+  );
+}
+
+function AgentIcon({ label }) {
+  return (
+    <div className="w-11 h-11 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-300 font-black">
+      {label.slice(0, 1)}
+    </div>
+  );
+}
+
 export default function Home() {
   return (
-    <main className="pt-[72px]">
+    <main className="pt-[72px] overflow-hidden">
+      <section className="hero-glow relative min-h-[92vh] flex items-center px-5 sm:px-8 py-20">
+        <div className="absolute inset-0 opacity-[0.035] pointer-events-none" style={{backgroundImage: 'linear-gradient(rgba(255,255,255,.7) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.7) 1px, transparent 1px)', backgroundSize: '64px 64px'}} />
+        <div className="absolute -top-40 right-[-10%] w-[680px] h-[680px] rounded-full bg-red-500/10 blur-3xl" />
+        <div className="absolute bottom-[-20%] left-[-10%] w-[580px] h-[580px] rounded-full bg-violet-500/10 blur-3xl" />
 
-      {/* ════════════════════════════════════════
-          HERO
-          ════════════════════════════════════════ */}
-      <section className="hero-glow min-h-[100vh] flex items-center justify-center px-5 sm:px-8 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-[1.05fr_.95fr] gap-12 lg:gap-16 items-center relative z-10">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.035] px-4 py-2 mb-7">
+              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+              <span className="text-xs sm:text-sm text-slate-300 font-semibold">Agentes exclusivos de IA para empresas</span>
+            </div>
 
-        {/* Background orbs */}
-        <div className="absolute top-[-180px] right-[-120px] w-[700px] h-[700px] rounded-full pointer-events-none"
-          style={{background: 'radial-gradient(circle, rgba(220,38,38,0.07) 0%, transparent 70%)'}} />
-        <div className="absolute bottom-[-100px] left-[-80px] w-[500px] h-[500px] rounded-full pointer-events-none"
-          style={{background: 'radial-gradient(circle, rgba(139,92,246,0.06) 0%, transparent 70%)'}} />
-        <div className="absolute top-[30%] left-[5%] w-[300px] h-[300px] rounded-full pointer-events-none"
-          style={{background: 'radial-gradient(circle, rgba(37,99,235,0.05) 0%, transparent 70%)'}} />
-        <div className="absolute inset-0 pointer-events-none opacity-[0.025]"
-          style={{backgroundImage: 'linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)', backgroundSize: '60px 60px'}} />
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[72px] font-black tracking-tight leading-[1.03] mb-6">
+              Venda, atenda e agende com um <span className="text-gradient-main">agente próprio</span> no chat da sua empresa.
+            </h1>
 
-        <div className="text-center max-w-5xl relative z-10">
+            <p className="text-slate-300 text-lg sm:text-xl leading-relaxed max-w-2xl mb-5">
+              A OpenClaw cria agentes de IA exclusivos para cada empresa. O cliente usa no mesmo chat, mas o agente trabalha com as informações, regras e objetivos daquele negócio.
+            </p>
+            <p className="text-slate-500 text-sm sm:text-base max-w-xl mb-9">
+              Ideal para negócios que querem responder mais rápido, perder menos leads e automatizar tarefas repetitivas sem montar uma equipe técnica.
+            </p>
 
-          {/* Social proof live badge */}
-          <div className="inline-flex items-center gap-3 social-proof-pill rounded-full px-5 py-2.5 text-xs sm:text-sm font-medium mb-8">
-            <div className="flex -space-x-1.5">
-              {['C','A','P','M','J'].map((l, i) => (
-                <div key={i} style={{
-                  width: 26, height: 26, borderRadius: '50%',
-                  background: ['#dc2626','#7c3aed','#2563eb','#059669','#d97706'][i],
-                  border: '2px solid #07070f',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 9, fontWeight: 700, color: '#fff', flexShrink: 0
-                }}>{l}</div>
+            <div className="flex flex-col sm:flex-row gap-4 mb-8">
+              <Link href="/agentes" className="btn-primary rounded-full px-8 py-4 text-center font-bold no-underline">Ver agentes disponíveis</Link>
+              <Link href="/pre-cadastro" className="btn-outline rounded-full px-8 py-4 text-center font-bold no-underline">Quero um agente exclusivo</Link>
+            </div>
+
+            <div className="grid grid-cols-3 gap-3 max-w-xl">
+              {[
+                ['24h', 'atendimento'],
+                ['1:1', 'por empresa'],
+                ['0', 'programação'],
+              ].map(([num, label]) => (
+                <div key={label} className="card rounded-2xl p-4 text-center">
+                  <p className="text-2xl sm:text-3xl font-black text-white">{num}</p>
+                  <p className="text-xs text-slate-500 font-semibold uppercase tracking-wide">{label}</p>
+                </div>
               ))}
             </div>
-            <span className="text-slate-300">+200 donos de negócio já automatizaram</span>
-            <span className="flex items-center gap-1.5 text-green-400 font-semibold">
-              <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
-              Funcionando agora
-            </span>
           </div>
 
-          {/* Headline principal */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[74px] font-black leading-[1.06] tracking-tight mb-6">
-            Chega de perder cliente<br className="hidden sm:block" />
-            por não conseguir{' '}
-            <span className="text-gradient-main relative">
-              atender
-              <svg className="absolute -bottom-2 left-0 w-full" height="6" viewBox="0 0 200 6" fill="none">
-                <path d="M0 5 Q50 1 100 4 Q150 7 200 3" stroke="#dc2626" strokeWidth="2.5" strokeLinecap="round" fill="none" opacity="0.5"/>
-              </svg>
-            </span>
-            <br className="hidden sm:block" />
-            na hora certa
-          </h1>
-
-          {/* Subtítulo com benefício claro */}
-          <p className="text-slate-400 text-base sm:text-lg md:text-xl leading-relaxed max-w-2xl mx-auto mb-3">
-            Seu agente de IA responde clientes, agenda horários e fecha vendas por você
-            — de domingo às 23h a segunda às 6h da manhã.{' '}
-            <strong className="text-white font-semibold">Sem você precisar tocar no celular.</strong>
-          </p>
-          <p className="text-slate-500 text-sm mb-10 max-w-xl mx-auto">
-            Ativa em <span className="text-slate-300 font-semibold">5 minutos</span> direto pelo Telegram.
-            Sem programar. Sem contratar funcionário. Sem mensalidade de SaaS cara.
-          </p>
-
-          {/* CTAs principais */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6">
-            <Link href="/agentes"
-              className="btn-primary font-bold px-10 py-4 rounded-full text-base sm:text-lg no-underline w-full sm:w-auto text-center">
-              Ver meu agente ideal →
-            </Link>
-            <Link href="/suporte"
-              className="btn-outline font-semibold px-7 py-4 rounded-full text-sm no-underline w-full sm:w-auto text-center flex items-center justify-center gap-2">
-              <span className="emoji">💬</span> Tenho uma dúvida antes
-            </Link>
-          </div>
-
-          {/* Micro-copy de confiança */}
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mb-16 text-slate-600 text-xs">
-            <span className="flex items-center gap-1.5"><span className="text-green-500">✓</span> Sem contrato de fidelidade</span>
-            <span className="w-px h-3 bg-white/10 hidden sm:block" />
-            <span className="flex items-center gap-1.5"><span className="text-green-500">✓</span> Cancela quando quiser</span>
-            <span className="w-px h-3 bg-white/10 hidden sm:block" />
-            <span className="flex items-center gap-1.5"><span className="text-green-500">✓</span> Suporte humano incluso</span>
-          </div>
-
-          {/* Stats de impacto */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-            {[
-              { num: '6', label: 'Agentes especializados', color: 'rgba(220,38,38,0.1)', dot: '#dc2626' },
-              { num: '24h', label: 'Atendendo sem parar', color: 'rgba(139,92,246,0.1)', dot: '#8b5cf6' },
-              { num: '5min', label: 'Para ativar tudo', color: 'rgba(37,99,235,0.1)', dot: '#2563eb' },
-              { num: 'R$97', label: 'Investimento inicial', color: 'rgba(5,150,105,0.1)', dot: '#059669' },
-            ].map(({ num, label, color, dot }) => (
-              <div key={label} className="card rounded-2xl px-4 py-6 text-center hover-lift" style={{background: color, borderColor: 'rgba(255,255,255,0.07)'}}>
-                <div className="w-2.5 h-2.5 rounded-full mx-auto mb-3" style={{background: dot}} />
-                <p className="text-3xl sm:text-4xl font-black text-white mb-1" style={{fontFamily: "'Plus Jakarta Sans', sans-serif"}}>{num}</p>
-                <p className="text-slate-500 text-xs sm:text-sm font-medium">{label}</p>
+          <div className="relative">
+            <div className="absolute inset-0 bg-red-500/10 blur-3xl rounded-full" />
+            <div className="card rounded-[32px] p-5 sm:p-6 relative shadow-2xl">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <p className="text-white font-black text-lg">Console OpenClaw</p>
+                  <p className="text-slate-500 text-sm">Agente exclusivo em operação</p>
+                </div>
+                <span className="badge-green">Online</span>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* ════════════════════════════════════════
-          SEGMENTOS
-          ════════════════════════════════════════ */}
-      <section className="py-12 sm:py-14 px-5 sm:px-8 section-alt">
-        <div className="max-w-4xl mx-auto">
-          <div className="divider-glow mb-10" />
-          <p className="text-center text-slate-600 text-xs font-semibold uppercase tracking-[4px] mb-8">
-            Já ajudamos negócios como o seu
-          </p>
-          <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
-            {[
-              'Barbearias','Clínicas','Restaurantes','Academias',
-              'Lojas','Salões','Consultórios','Cursos online',
-            ].map((name) => (
-              <span key={name}
-                className="px-4 py-2 rounded-full text-sm font-semibold text-slate-400 hover:text-white transition-all duration-200 cursor-default"
-                style={{background:'rgba(255,255,255,0.04)', border:'1px solid rgba(255,255,255,0.07)'}}>
-                {name}
-              </span>
-            ))}
-          </div>
-          <div className="divider-glow mt-10" />
-        </div>
-      </section>
-
-      {/* ════════════════════════════════════════
-          PROBLEMA vs SOLUÇÃO
-          ════════════════════════════════════════ */}
-      <section className="py-20 sm:py-28 px-5 sm:px-8">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-14">
-            <div className="badge-red mb-4">Você se identifica?</div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight">
-              Seja honesto com você mesmo
-            </h2>
-            <p className="text-slate-400 text-base mt-4 max-w-lg mx-auto">
-              Esses problemas estão custando clientes, dinheiro e seu descanso — todo dia.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-
-            {/* Problema */}
-            <div className="card rounded-2xl p-8 sm:p-10 relative overflow-hidden" style={{borderColor: 'rgba(220,38,38,0.15)', background: 'rgba(220,38,38,0.03)'}}>
-              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{background: 'linear-gradient(90deg, transparent, rgba(220,38,38,0.4), transparent)'}} />
-              <div className="flex items-center gap-3 mb-7">
-                <div className="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center flex-shrink-0">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 15s1.5-2 4-2 4 2 4 2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
-              </div>
-                <p className="text-red-400 text-sm font-bold">Hoje, sem o AgentesIA</p>
-              </div>
-              <div className="space-y-4">
-                {[
-                  'Cliente manda mensagem às 21h. Você vê só amanhã. Ele já agendou com o concorrente.',
-                  'Você corta cabelo, atende telefone, responde WhatsApp — tudo ao mesmo tempo.',
-                  'Paga R$1.800/mês em recepcionista para responder sempre as mesmas 5 perguntas.',
-                  'Final de semana deveria ser descanso, mas o celular não para de vibrar.',
-                  'Perde venda porque o cliente desistiu de esperar por uma resposta simples.',
-                ].map((item) => (
-                  <div key={item} className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full bg-red-500/15 border border-red-500/25 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-red-400 text-[10px] font-black">✗</span>
+              <div className="rounded-3xl bg-[#05050d] border border-white/10 p-4 space-y-4">
+                <div className="flex gap-3 items-start">
+                  <div className="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center text-xs font-bold">CL</div>
+                  <div className="bg-white/[0.055] rounded-2xl rounded-tl-sm p-3 text-sm text-slate-300 max-w-[80%]">Vocês têm horário amanhã às 18h?</div>
+                </div>
+                <div className="flex gap-3 items-start justify-end">
+                  <div className="bg-red-500/15 border border-red-500/20 rounded-2xl rounded-tr-sm p-3 text-sm text-slate-100 max-w-[84%]">Tenho sim. Posso confirmar amanhã às 18h com o profissional Marcos. Deseja agendar?</div>
+                  <div className="w-9 h-9 rounded-full bg-red-600 flex items-center justify-center text-xs font-black">OC</div>
+                </div>
+                <div className="grid grid-cols-2 gap-3 pt-2">
+                  {['Lead qualificado', 'Agenda consultada', 'Resposta aprovada', 'Próxima ação definida'].map((item) => (
+                    <div key={item} className="rounded-2xl border border-white/10 bg-white/[0.03] p-3">
+                      <div className="w-2 h-2 rounded-full bg-green-400 mb-2" />
+                      <p className="text-xs text-slate-400 font-semibold">{item}</p>
                     </div>
-                    <p className="text-slate-400 text-sm leading-relaxed">{item}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Solução */}
-            <div className="card rounded-2xl p-8 sm:p-10 relative overflow-hidden" style={{borderColor: 'rgba(34,197,94,0.15)', background: 'rgba(34,197,94,0.03)'}}>
-              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{background: 'linear-gradient(90deg, transparent, rgba(34,197,94,0.4), transparent)'}} />
-              <div className="flex items-center gap-3 mb-7">
-                <div className="w-10 h-10 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center justify-center flex-shrink-0">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h3a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3v-8a3 3 0 0 1 3-3h3V5.73A2 2 0 0 1 10 4a2 2 0 0 1 2-2z"/><circle cx="9" cy="13" r="1.5" fill="#4ade80"/><circle cx="15" cy="13" r="1.5" fill="#4ade80"/><path d="M9 17h6"/></svg>
-              </div>
-                <p className="text-green-400 text-sm font-bold">Com o AgentesIA</p>
-              </div>
-              <div className="space-y-4">
-                {[
-                  'Às 21h o agente já respondeu, confirmou o horário e o cliente está satisfeito.',
-                  'Você foca no que só você sabe fazer. O agente cuida do resto.',
-                  'Economiza R$1.800/mês e ainda atende melhor — sem folga, sem falta, sem estresse.',
-                  'Fim de semana é para você e sua família. O negócio trabalha sozinho.',
-                  'Cada cliente recebe resposta em segundos, qualquer hora do dia ou da noite.',
-                ].map((item) => (
-                  <div key={item} className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full bg-green-500/15 border border-green-500/25 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-green-400 text-[10px] font-black">✓</span>
-                    </div>
-                    <p className="text-slate-300 text-sm leading-relaxed">{item}</p>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-8">
-                <Link href="/agentes" className="btn-primary font-bold px-7 py-3.5 rounded-full no-underline text-sm inline-block">
-                  Quero essa mudança →
-                </Link>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ════════════════════════════════════════
-          COMO FUNCIONA
-          ════════════════════════════════════════ */}
-      <section id="como-funciona" className="py-20 sm:py-28 px-5 sm:px-8 section-alt">
+      <section className="py-12 px-5 sm:px-8 section-alt">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <div className="badge-violet mb-4">Mais simples do que parece</div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-5">
-              Do pagamento ao funcionando<br className="hidden sm:block" />
-              em <span className="text-gradient-main">menos de 5 minutos</span>
-            </h2>
-            <p className="text-slate-400 text-base sm:text-lg max-w-lg mx-auto">
-              Sem técnico, sem tutorial em vídeo de 2 horas, sem frustração.
-              Sério, qualquer pessoa consegue.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-6 relative">
-            <div className="hidden sm:block absolute top-[56px] left-[34%] right-[34%] h-px z-0"
-              style={{background: 'linear-gradient(90deg, rgba(220,38,38,0.3) 0%, rgba(139,92,246,0.3) 50%, rgba(37,99,235,0.3) 100%)'}} />
-
-            {[
-              {
-                num: '01', icon: '🎯', color: '#dc2626',
-                title: 'Escolha o agente certo para você',
-                desc: 'São 6 tipos, cada um com uma especialidade. Barbearia, clínica, loja, academia — tem um feito pra você. Dois minutos para decidir.',
-                link: '/agentes', linkLabel: 'Comparar agentes',
-              },
-              {
-                num: '02', icon: '💳', color: '#8b5cf6',
-                title: 'Pague e receba acesso na hora',
-                desc: 'PIX ou cartão via Mercado Pago. Em segundos você recebe o código de ativação no seu email. Seguro e sem complicação.',
-                link: null, linkLabel: null,
-              },
-              {
-                num: '03', icon: '🚀', color: '#2563eb',
-                title: 'Ative e pronto — tá no ar',
-                desc: 'Abre o bot no Telegram, insere o código e responde 3 perguntinhas sobre seu negócio. Feito. Seu agente já começa a trabalhar.',
-                link: '/suporte', linkLabel: 'Tem dúvida? Fale conosco',
-              },
-            ].map(({ num, icon, color, title, desc, link, linkLabel }) => (
-              <div key={num} className="card card-glow rounded-2xl p-7 sm:p-9 text-left relative overflow-hidden group hover-lift z-10">
-                <span className="absolute top-2 right-4 text-8xl font-black select-none pointer-events-none"
-                  style={{color: `${color}08`, fontFamily: "'Plus Jakarta Sans', sans-serif"}}>
-                  {num}
-                </span>
-                <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-5 transition-all duration-300 emoji"
-                  style={{background: `${color}15`, border: `1px solid ${color}25`}}>
-                  {icon}
-                </div>
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="text-xs font-bold px-2.5 py-1 rounded-full" style={{background: `${color}15`, color: color, border: `1px solid ${color}25`}}>
-                    Passo {num}
-                  </span>
-                </div>
-                <h3 className="text-lg sm:text-xl font-bold text-white mb-3 leading-snug">{title}</h3>
-                <p className="text-slate-400 text-sm leading-relaxed mb-5">{desc}</p>
-                {link && (
-                  <Link href={link} className="text-sm font-semibold no-underline transition-colors" style={{color: color}}>
-                    {linkLabel} →
-                  </Link>
-                )}
-              </div>
-            ))}
-          </div>
-
-          {/* CTA inline */}
-          <div className="text-center mt-12">
-            <p className="text-slate-500 text-sm mb-5">
-              Já imaginou ter isso funcionando hoje à noite?
-            </p>
-            <Link href="/agentes" className="btn-primary font-bold px-10 py-4 rounded-full text-base no-underline inline-block">
-              Quero ativar agora →
-            </Link>
+          <p className="text-center text-slate-600 text-xs font-bold uppercase tracking-[4px] mb-7">Projetado para empresas que dependem de atendimento rápido</p>
+          <div className="flex flex-wrap justify-center gap-3">
+            {segmentos.map((item) => <span key={item} className="rounded-full border border-white/10 bg-white/[0.035] px-4 py-2 text-sm text-slate-400 font-semibold">{item}</span>)}
           </div>
         </div>
       </section>
 
-      {/* ════════════════════════════════════════
-          DEMO VISUAL
-          ════════════════════════════════════════ */}
       <DemoChat />
 
-      {/* ════════════════════════════════════════
-          BANNER CTA DESTAQUE
-          ════════════════════════════════════════ */}
-      <section className="py-10 px-5 sm:px-8">
-        <div className="max-w-5xl mx-auto">
-          <div className="banner-cta rounded-2xl p-7 sm:p-10 flex flex-col sm:flex-row items-center gap-8">
-            <div className="flex items-start gap-4 flex-1">
-              <div className="w-12 h-12 rounded-2xl bg-red-500/15 border border-red-500/25 flex items-center justify-center flex-shrink-0">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
-              </div>
-              <div className="text-center sm:text-left">
-                <div className="badge-red mb-3">⭐ O favorito de quem começa</div>
-                <h3 className="text-xl sm:text-2xl font-black text-white mb-2">Agente de Atendimento</h3>
-                <p className="text-slate-400 text-sm leading-relaxed">
-                  Responde perguntas, passa informações e deixa seus clientes sempre bem atendidos.
-                  Ideal para quem quer começar rápido e ver resultado logo.
-                </p>
-                <p className="text-slate-500 text-xs mt-2">Ativação <strong className="text-white">R$97</strong> · R$59/mês · Cancele quando quiser</p>
-              </div>
-            </div>
-            <div className="flex flex-col gap-3 w-full sm:w-auto flex-shrink-0">
-              <Link href="/checkout?agente=atendimento" className="btn-primary font-bold px-8 py-3.5 rounded-full no-underline text-center whitespace-nowrap">
-                Contratar por R$97 →
-              </Link>
-              <Link href="/agentes" className="btn-outline font-semibold px-8 py-3 rounded-full no-underline text-center text-sm whitespace-nowrap">
-                Ver todos os agentes
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ════════════════════════════════════════
-          CATÁLOGO
-          ════════════════════════════════════════ */}
-      <section id="precos" className="py-20 sm:py-28 px-5 sm:px-8 section-alt">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <div className="badge-red mb-4">Catálogo de agentes</div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-4">
-              Qual parte do seu negócio<br className="hidden sm:block" />
-              você quer automatizar primeiro?
-            </h2>
-            <p className="text-slate-400 text-base sm:text-lg max-w-xl mx-auto">
-              Cada agente é treinado e especializado para uma função específica.
-              Escolha o que mais faz sentido para você agora.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-            {agentes.map((a) => (
-              <div key={a.slug}
-                className={`card card-glow rounded-2xl p-6 sm:p-7 flex flex-col text-left group hover-lift relative overflow-hidden ${a.complexidade === 'simples' ? 'price-best' : ''}`}>
-
-                {a.complexidade === 'simples' && (
-                  <div className="absolute top-4 right-4 badge-green text-[10px]">
-                    + Mais contratado
-                  </div>
-                )}
-
-                <div className="w-[52px] h-[52px] icon-box rounded-xl flex items-center justify-center text-2xl mb-5" style={{fontFamily:"'Segoe UI Emoji','Apple Color Emoji','Noto Color Emoji',sans-serif"}}>
-                  {a.emoji}
-                </div>
-                <h3 className="text-base sm:text-lg font-bold text-white mb-2 group-hover:text-red-300 transition-colors pr-20">
-                  {a.nome}
-                </h3>
-                <p className="text-slate-400 text-sm leading-relaxed flex-1 mb-5">{a.descricao}</p>
-
-                <div className="space-y-2 mb-6">
-                  {a.funcionalidades.slice(0, 3).map(f => (
-                    <div key={f} className="flex items-center gap-2">
-                      <span className="text-red-400 text-xs flex-shrink-0">✓</span>
-                      <span className="text-slate-500 text-xs">{f}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="flex items-center justify-between pt-5 border-t border-white/[0.06]">
-                  <div>
-                    <p className="text-white font-bold text-xl">
-                      R${a.preco}<span className="text-xs text-slate-500 font-normal">/mês</span>
-                    </p>
-                    <p className="text-slate-600 text-[11px] mt-0.5">+ R${a.precoAtivacao} ativação única</p>
-                  </div>
-                  <div className="flex flex-col gap-2 items-end">
-                    <Link href={`/checkout?agente=${a.slug}`} className="btn-primary font-bold px-5 py-2.5 rounded-full text-sm no-underline">
-                      Contratar
-                    </Link>
-                    <Link href={`/agentes/${a.slug}`} className="text-slate-600 text-[11px] hover:text-slate-300 transition-colors no-underline">
-                      Ver detalhes →
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <p className="text-slate-500 text-sm mb-4">Não tem certeza qual é o ideal para você?</p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link href="/agentes" className="btn-outline font-semibold px-10 py-4 rounded-full text-base no-underline inline-block">
-                Ver catálogo completo →
-              </Link>
-              <Link href="/suporte" className="btn-outline font-semibold px-10 py-4 rounded-full text-base no-underline inline-block">
-                Me ajuda a escolher
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ════════════════════════════════════════
-          DEPOIMENTOS
-          ════════════════════════════════════════ */}
-      <section className="py-20 sm:py-28 px-5 sm:px-8">
+      <section className="py-20 sm:py-28 px-5 sm:px-8 section-dark">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <div className="badge-green mb-4">Histórias reais</div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-4">
-              Eles duvidaram também.<br className="hidden sm:block" />
-              Até experimentar.
-            </h2>
-            <p className="text-slate-400 text-base max-w-md mx-auto">
-              Donos de negócio que decidiram parar de perder clientes por falta de atendimento.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-            {[
-              {
-                nome: 'Carlos M.',
-                cargo: 'Dono · Barbearia Premium — São Paulo',
-                texto: 'Ficava na minha cabeça que IA era coisa de empresa grande. Resolvi testar com R$97 mesmo sem muita fé. Em duas semanas o agente tinha agendado 32 clientes novos que eu nunca teria conseguido atender. Hoje não abro mão.',
-                resultado: '+32 novos clientes em 2 semanas',
-                inicial: 'C',
-                cor: '#dc2626',
-              },
-              {
-                nome: 'Ana L.',
-                cargo: 'Proprietária · Clínica Estética — Rio de Janeiro',
-                texto: 'Minha recepcionista pediu demissão numa sexta. Segunda-feira o AgentesIA já estava respondendo tudo. Sem crise, sem desespero. Hoje, honestamente, ele atende melhor do que qualquer funcionário que eu já tive — e nunca falta.',
-                resultado: 'Economizou R$1.800/mês em pessoal',
-                inicial: 'A',
-                cor: '#8b5cf6',
-              },
-              {
-                nome: 'Pedro S.',
-                cargo: 'Sócio · Loja de Materiais — Belo Horizonte',
-                texto: 'Coloquei o agente de vendas e nos primeiros 15 dias já recuperei o valor da ativação. Os clientes nem percebem que é IA — acham que é um atendente muito eficiente. E é mesmo. Nunca mais perdi venda por demora.',
-                resultado: 'Investimento recuperado em 15 dias',
-                inicial: 'P',
-                cor: '#059669',
-              },
-            ].map(({ nome, cargo, texto, resultado, inicial, cor }) => (
-              <div key={nome} className="testimonial-card rounded-2xl p-7 sm:p-8 flex flex-col relative overflow-hidden">
-                <div className="absolute top-0 left-0 right-0 h-[2px] opacity-60"
-                  style={{background: `linear-gradient(90deg, transparent, ${cor}60, transparent)`}} />
-
-                <div className="flex gap-0.5 mb-5">
-                  {[1,2,3,4,5].map(i => (
-                    <span key={i} className="text-yellow-400 text-base">★</span>
-                  ))}
+          <SectionHeader eyebrow="Posicionamento" title="Não é só um robô genérico. É um agente treinado para cada empresa." description="A proposta central do produto é transformar conhecimento do negócio em atendimento automático, confiável e fácil de usar." />
+          <div className="grid md:grid-cols-2 gap-5">
+            {beneficios.map(([title, desc]) => (
+              <div key={title} className="card hover-lift rounded-3xl p-7">
+                <div className="w-12 h-12 rounded-2xl bg-red-500/10 border border-red-500/20 mb-5 flex items-center justify-center">
+                  <span className="w-3 h-3 rounded-full bg-red-400" />
                 </div>
-
-                <p className="text-slate-300 text-sm leading-relaxed flex-1 mb-6">
-                  &ldquo;{texto}&rdquo;
-                </p>
-
-                <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl mb-5"
-                  style={{background: 'rgba(34,197,94,0.07)', border: '1px solid rgba(34,197,94,0.15)'}}>
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-                  <p className="text-green-400 text-xs font-bold">{resultado}</p>
-                </div>
-
-                <div className="flex items-center gap-3 pt-5 border-t border-white/[0.05]">
-                  <div className="w-11 h-11 rounded-full flex items-center justify-center font-black text-sm flex-shrink-0"
-                    style={{background: `${cor}25`, border: `1px solid ${cor}50`, color: '#fff', fontSize: '16px'}}>
-                    {inicial}
-                  </div>
-                  <div>
-                    <p className="font-bold text-white text-sm">{nome}</p>
-                    <p className="text-slate-500 text-xs mt-0.5">{cargo}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Trust bar */}
-          <div className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-4">
-            {[
-              { num: '200+', label: 'Negócios automatizados', color: '#f87171' },
-              { num: '98%', label: 'Clientes satisfeitos', color: '#facc15' },
-              { num: '5min', label: 'Ativação média', color: '#60a5fa' },
-              { num: '24/7', label: 'Atendimento ativo', color: '#a78bfa' },
-            ].map(({ num, label, color }) => (
-              <div key={label} className="card rounded-2xl p-5 text-center">
-                <div className="w-2 h-2 rounded-full mx-auto mb-3" style={{background: color}} />
-                <p className="text-2xl sm:text-3xl font-black text-white mb-1"
-                  style={{fontFamily: "'Plus Jakarta Sans', sans-serif"}}>{num}</p>
-                <p className="text-slate-500 text-xs font-medium">{label}</p>
+                <h3 className="text-xl font-black mb-3">{title}</h3>
+                <p className="text-slate-400 leading-relaxed">{desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ════════════════════════════════════════
-          FAQ
-          ════════════════════════════════════════ */}
-      <section className="py-20 sm:py-28 px-5 sm:px-8 section-alt">
-        <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-16">
-            <div className="badge-violet mb-4">Suas dúvidas respondidas</div>
-            <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-4">
-              A gente sabe o que passa<br className="hidden sm:block" />
-              pela sua cabeça agora
-            </h2>
-            <p className="text-slate-400 text-base">
-              Aqui estão as perguntas que todo mundo faz antes de contratar.
-              Se ainda restar alguma, nossa IA responde na hora.
-            </p>
-          </div>
-
-          <div className="space-y-3">
-            {[
-              {
-                q: 'Preciso saber programar ou ter conhecimento técnico?',
-                a: 'Zero. Se você sabe mandar uma mensagem no WhatsApp, você já sabe usar o AgentesIA. A configuração é feita no Telegram em 3 perguntinhas sobre o seu negócio. Sem código, sem manual, sem dor de cabeça.',
-                num: '01',
-              },
-              {
-                q: 'Quanto tempo demora do pagamento ao funcionando?',
-                a: 'Menos de 5 minutos. Você paga, recebe o código de ativação no email, abre o bot no Telegram, insere o código e configura em 3 passos. Já testamos com pessoas que nunca tinham usado um bot. Funciona para todo mundo.',
-                num: '02',
-              },
-              {
-                q: 'O agente funciona no WhatsApp dos meus clientes?',
-                a: 'Hoje o agente opera via Telegram, que é gratuito e muito mais ágil. Você compartilha o link do seu bot com clientes pelo WhatsApp, Instagram, Google, onde quiser. Eles clicam e já caem no atendimento.',
-                num: '03',
-              },
-              {
-                q: 'E se eu contratar e não gostar? Posso cancelar?',
-                a: 'Claro. Sem burocracia, sem ligação de retenção, sem multa. Basta não renovar a mensalidade e acabou. Você nunca vai se sentir preso. Nossa confiança no produto é a nossa maior garantia.',
-                num: '04',
-              },
-              {
-                q: 'Meus clientes vão perceber que é uma IA respondendo?',
-                a: 'Provavelmente não. O agente conversa de forma natural e contextual. A maioria dos clientes dos nossos usuários pensa que é um atendente de verdade. Mas se preferir ser transparente, você pode configurá-lo assim também.',
-                num: '05',
-              },
-              {
-                q: 'E se eu tiver algum problema ou precisar de ajuda?',
-                a: 'Nossa IA de suporte responde qualquer dúvida na hora, 24 horas por dia. Para situações mais específicas, nossa equipe retorna em até 24h. Você nunca vai ficar na mão.',
-                num: '06',
-              },
-            ].map(({ q, a, num }) => (
-              <div key={q} className="card rounded-2xl p-6 hover-lift group">
-                <div className="flex items-start gap-4">
-                  <div className="w-9 h-9 rounded-xl bg-red-500/10 border border-red-500/15 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <span className="text-red-400 font-black text-xs">{num}</span>
-                  </div>
-                  <div>
-                    <p className="font-bold text-white mb-2 text-sm sm:text-base leading-snug">{q}</p>
-                    <p className="text-slate-400 text-sm leading-relaxed">{a}</p>
-                  </div>
-                </div>
+      <section id="como-funciona" className="py-20 sm:py-28 px-5 sm:px-8">
+        <div className="max-w-6xl mx-auto">
+          <SectionHeader eyebrow="Como funciona" title="Da ideia ao agente operando em quatro etapas." description="Um processo simples para a empresa sair do atendimento manual repetitivo e começar a operar com IA." />
+          <div className="grid md:grid-cols-4 gap-4">
+            {processo.map(([num, title, desc]) => (
+              <div key={title} className="card rounded-3xl p-6 relative overflow-hidden">
+                <p className="text-red-400 font-black text-sm mb-8">{num}</p>
+                <h3 className="text-lg font-black mb-3">{title}</h3>
+                <p className="text-slate-500 text-sm leading-relaxed">{desc}</p>
               </div>
             ))}
-          </div>
-
-          <div className="text-center mt-10 flex flex-col sm:flex-row gap-3 justify-center">
-            <Link href="/suporte" className="btn-primary font-bold px-8 py-3.5 rounded-full no-underline inline-block">
-              Ainda tem dúvida? Fale conosco →
-            </Link>
-            <Link href="/agentes" className="btn-outline font-semibold px-8 py-3.5 rounded-full no-underline inline-block text-sm">
-              Ver agentes disponíveis
-            </Link>
           </div>
         </div>
       </section>
 
-      {/* ════════════════════════════════════════
-          GARANTIA
-          ════════════════════════════════════════ */}
       <section className="py-20 sm:py-28 px-5 sm:px-8 section-alt">
-        <div className="max-w-5xl mx-auto">
-          <div className="relative rounded-3xl overflow-hidden p-8 sm:p-14"
-            style={{
-              background: 'linear-gradient(135deg, rgba(5,150,105,0.08) 0%, rgba(5,150,105,0.04) 50%, rgba(7,7,15,0) 100%)',
-              border: '1px solid rgba(5,150,105,0.2)',
-            }}>
-
-            {/* Glow */}
-            <div className="absolute top-0 left-0 right-0 h-[2px]"
-              style={{background: 'linear-gradient(90deg, transparent, rgba(5,150,105,0.6), transparent)'}} />
-            <div className="absolute top-[-60px] right-[-60px] w-64 h-64 rounded-full pointer-events-none"
-              style={{background: 'radial-gradient(circle, rgba(5,150,105,0.1) 0%, transparent 70%)'}} />
-
-            <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16 relative z-10">
-
-              {/* Selo de garantia */}
-              <div className="flex-shrink-0 flex flex-col items-center">
-                <div className="relative">
-                  {/* Anel externo */}
-                  <div className="w-40 h-40 sm:w-48 sm:h-48 rounded-full flex items-center justify-center"
-                    style={{
-                      background: 'linear-gradient(135deg, rgba(5,150,105,0.15), rgba(5,150,105,0.05))',
-                      border: '2px solid rgba(5,150,105,0.3)',
-                      boxShadow: '0 0 40px rgba(5,150,105,0.15)',
-                    }}>
-                    {/* Anel interno */}
-                    <div className="w-32 h-32 sm:w-36 sm:h-36 rounded-full flex flex-col items-center justify-center text-center"
-                      style={{
-                        background: 'linear-gradient(135deg, rgba(5,150,105,0.2), rgba(5,150,105,0.08))',
-                        border: '1.5px solid rgba(5,150,105,0.4)',
-                      }}>
-                      <p className="text-green-400 text-[10px] font-black uppercase tracking-widest mb-1">Garantia</p>
-                      <p className="text-white font-black leading-none mb-1"
-                        style={{fontSize: '42px', fontFamily: "'Plus Jakarta Sans', sans-serif"}}>7</p>
-                      <p className="text-green-300 text-[11px] font-bold uppercase tracking-wide">dias</p>
-                    </div>
-                  </div>
-                  {/* Badge verificado */}
-                  <div className="absolute -bottom-2 -right-2 w-10 h-10 rounded-full flex items-center justify-center"
-                    style={{background: '#059669', border: '2px solid #07070f', boxShadow: '0 4px 12px rgba(5,150,105,0.4)'}}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="20 6 9 17 4 12"/>
-                    </svg>
-                  </div>
-                </div>
-                <p className="text-green-400 text-xs font-bold mt-4 uppercase tracking-widest">100% Satisfação</p>
-              </div>
-
-              {/* Texto */}
-              <div className="flex-1 text-center lg:text-left">
-                <div className="badge-green mb-4">Sem risco nenhum</div>
-                <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-white mb-4">
-                  Experimente por 7 dias.
-                  <br />
-                  <span className="text-green-400">Se não gostar, devolvemos tudo.</span>
-                </h2>
-                <p className="text-slate-400 text-base leading-relaxed mb-6">
-                  A gente tem tanta confiança que o AgentesIA vai mudar sua rotina
-                  que oferecemos garantia total. Você tem 7 dias para testar, ver
-                  funcionando no seu negócio e decidir com calma.
-                </p>
-                <p className="text-slate-500 text-sm leading-relaxed mb-8">
-                  Não gostou? Não viu resultado? Basta mandar uma mensagem.
-                  <strong className="text-slate-300"> Reembolso 100%, sem perguntas, sem burocracia.</strong>
-                </p>
-
-                {/* Garantias em grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  {[
-                    { titulo: 'Sem perguntas', desc: 'Não precisa dar explicação nenhuma para pedir o reembolso' },
-                    { titulo: 'Sem burocracia', desc: 'Uma mensagem resolve. Dinheiro de volta em até 48h' },
-                    { titulo: 'Sem risco', desc: 'Se não funcionar para você, você não perde nada' },
-                  ].map(({ titulo, desc }) => (
-                    <div key={titulo} className="rounded-xl p-4 text-center sm:text-left"
-                      style={{background: 'rgba(5,150,105,0.06)', border: '1px solid rgba(5,150,105,0.15)'}}>
-                      <div className="flex items-center justify-center sm:justify-start gap-2 mb-2">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="20 6 9 17 4 12"/>
-                        </svg>
-                        <p className="text-green-400 text-xs font-bold">{titulo}</p>
-                      </div>
-                      <p className="text-slate-500 text-xs leading-relaxed">{desc}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
+        <div className="max-w-6xl mx-auto">
+          <SectionHeader eyebrow="Impacto" title="O que muda quando a empresa tem um agente próprio." />
+          <div className="overflow-hidden rounded-3xl border border-white/10 bg-white/[0.025]">
+            <div className="grid grid-cols-3 bg-white/[0.04] text-xs sm:text-sm font-bold text-slate-300">
+              <div className="p-4 sm:p-5">Área</div>
+              <div className="p-4 sm:p-5 border-l border-white/10">Sem agente</div>
+              <div className="p-4 sm:p-5 border-l border-white/10 text-red-300">Com OpenClaw</div>
             </div>
+            {comparacao.map(([area, sem, com]) => (
+              <div key={area} className="grid grid-cols-3 border-t border-white/10 text-sm">
+                <div className="p-4 sm:p-5 text-white font-bold">{area}</div>
+                <div className="p-4 sm:p-5 border-l border-white/10 text-slate-500">{sem}</div>
+                <div className="p-4 sm:p-5 border-l border-white/10 text-slate-300">{com}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-            {/* Bottom strip */}
-            <div className="mt-10 pt-8 border-t border-green-500/10 flex flex-col sm:flex-row items-center justify-between gap-6 relative z-10">
-              <p className="text-slate-500 text-sm text-center sm:text-left">
-                Mais de <strong className="text-white">200 donos de negócio</strong> já confiaram.
-                Nenhum precisou pedir o reembolso até hoje.
-              </p>
-              <Link href="/agentes"
-                className="btn-primary font-bold px-8 py-3.5 rounded-full no-underline whitespace-nowrap flex-shrink-0">
-                Começar com garantia →
+      <section id="precos" className="py-20 sm:py-28 px-5 sm:px-8">
+        <div className="max-w-6xl mx-auto">
+          <SectionHeader eyebrow="Agentes" title="Escolha o agente inicial e evolua conforme a empresa crescer." description="Você pode começar com um agente específico e depois ampliar para atendimento, vendas, agenda, suporte e e-mails." />
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {agentes.map((agente) => (
+              <Link key={agente.slug} href={`/agentes/${agente.slug}`} className="card hover-lift rounded-3xl p-6 no-underline block">
+                <div className="flex items-center justify-between mb-5">
+                  <AgentIcon label={agente.nome} />
+                  <span className="text-xs text-slate-500 font-bold uppercase tracking-wide">{agente.complexidade}</span>
+                </div>
+                <h3 className="text-xl font-black text-white mb-2">{agente.nome}</h3>
+                <p className="text-slate-500 text-sm leading-relaxed mb-5 min-h-[64px]">{agente.descricao}</p>
+                <div className="flex items-end gap-2 mb-5">
+                  <span className="text-3xl font-black text-white">R${agente.preco}</span>
+                  <span className="text-slate-500 text-sm mb-1">/mês</span>
+                </div>
+                <div className="text-red-300 font-bold text-sm">Ver detalhes →</div>
               </Link>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ════════════════════════════════════════
-          PRÉ-CADASTRO
-          ════════════════════════════════════════ */}
-      <section className="py-14 px-5 sm:px-8">
+      <section className="py-20 sm:py-28 px-5 sm:px-8 section-dark">
+        <div className="max-w-6xl mx-auto grid lg:grid-cols-[.85fr_1.15fr] gap-10 items-start">
+          <div>
+            <span className="badge-violet mb-4">Confiança</span>
+            <h2 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight mb-5">Feito para parecer simples para a empresa, mesmo sendo poderoso por trás.</h2>
+            <p className="text-slate-400 leading-relaxed">A OpenClaw precisa vender clareza: a empresa não quer entender IA, ela quer responder clientes, vender mais e economizar tempo.</p>
+          </div>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {[
+              ['LGPD e privacidade', 'Estruture páginas e textos para explicar cuidado com dados e uso responsável.'],
+              ['Suporte humano', 'Mostre que existe acompanhamento real, não apenas uma automação abandonada.'],
+              ['Melhoria contínua', 'O agente pode ser ajustado conforme perguntas e necessidades da empresa.'],
+              ['Escala comercial', 'Permite vender agentes para várias empresas mantendo operação organizada.'],
+            ].map(([title, desc]) => (
+              <div key={title} className="card rounded-3xl p-6">
+                <h3 className="text-lg font-black mb-2">{title}</h3>
+                <p className="text-sm text-slate-500 leading-relaxed">{desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 sm:py-28 px-5 sm:px-8">
         <div className="max-w-4xl mx-auto">
-          <div className="card rounded-2xl p-7 sm:p-10 flex flex-col sm:flex-row items-center gap-8 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-48 h-48 rounded-full pointer-events-none"
-              style={{background: 'radial-gradient(circle, rgba(139,92,246,0.07) 0%, transparent 70%)'}} />
-            <div className="flex items-start gap-4 flex-1">
-              <div className="w-12 h-12 rounded-2xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center flex-shrink-0">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+          <SectionHeader eyebrow="FAQ" title="Dúvidas comuns antes de contratar." />
+          <div className="space-y-4">
+            {faqs.map(([q, a]) => (
+              <div key={q} className="card rounded-3xl p-6">
+                <h3 className="font-black text-white mb-2">{q}</h3>
+                <p className="text-slate-500 leading-relaxed">{a}</p>
               </div>
-              <div className="text-center sm:text-left">
-                <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Sem pressão</p>
-                <h3 className="text-xl sm:text-2xl font-black text-white mb-2">
-                  Precisa de mais um tempinho?
-                </h3>
-                <p className="text-slate-400 text-sm leading-relaxed">
-                  Tudo bem. Deixa seu email aqui e a gente guarda sua vaga.
-                  Quando você decidir, a contratação leva menos de 5 minutos e você não preenche nada de novo.
-                </p>
-              </div>
-            </div>
-            <div className="flex-shrink-0 flex flex-col gap-3 w-full sm:w-auto">
-              <Link href="/pre-cadastro" className="btn-primary font-bold px-7 py-3.5 rounded-full no-underline text-center whitespace-nowrap">
-                Guardar minha vaga →
-              </Link>
-              <Link href="/suporte" className="btn-outline font-semibold px-7 py-3 rounded-full no-underline text-center whitespace-nowrap text-sm">
-                Prefiro tirar dúvidas antes
-              </Link>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ════════════════════════════════════════
-          CTA FINAL
-          ════════════════════════════════════════ */}
-      <section className="py-16 sm:py-24 px-5 sm:px-8 section-alt">
-        <div className="max-w-3xl mx-auto text-center cta-glow rounded-3xl px-6 sm:px-14 md:px-20 py-16 sm:py-20 relative overflow-hidden">
-
-          <div className="absolute top-[-60px] left-[-40px] w-56 h-56 rounded-full pointer-events-none"
-            style={{background: 'radial-gradient(circle, rgba(220,38,38,0.1) 0%, transparent 70%)'}} />
-          <div className="absolute bottom-[-40px] right-[-30px] w-48 h-48 rounded-full pointer-events-none"
-            style={{background: 'radial-gradient(circle, rgba(139,92,246,0.1) 0%, transparent 70%)'}} />
-
-          <div className="badge-red mb-6 relative z-10">Uma última coisa</div>
-
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-5 relative z-10">
-            Todo minuto que passa é<br className="hidden sm:block" />
-            um cliente que{' '}
-            <span className="text-gradient-main">não esperou.</span>
-          </h2>
-
-          <p className="text-slate-400 text-base sm:text-lg max-w-md mx-auto mb-4 relative z-10">
-            A boa notícia? A solução custa R$97 e leva 5 minutos para ativar.
-            A ruim? Cada dia sem ela é outro dia perdendo clientes.
-          </p>
-
-          <p className="text-slate-500 text-sm mb-10 relative z-10">
-            Mais de 200 donos de negócio já tomaram essa decisão. A maioria disse que deveria ter feito antes.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-10">
-            <Link href="/agentes"
-              className="btn-primary font-bold px-12 py-4 sm:py-5 rounded-full text-lg sm:text-xl no-underline inline-block">
-              Ativar meu agente agora →
-            </Link>
-            <Link href="/suporte"
-              className="btn-outline font-bold px-8 py-4 rounded-full text-base no-underline inline-block">
-              Ainda tenho dúvidas
-            </Link>
-          </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mt-7 relative z-10">
-            <span className="text-slate-600 text-xs flex items-center gap-1.5">
-              <span className="text-green-500">✓</span> Pagamento seguro Mercado Pago
-            </span>
-            <span className="w-px h-3 bg-white/10 hidden sm:block" />
-            <span className="text-slate-600 text-xs flex items-center gap-1.5">
-              <span className="text-green-500">✓</span> Sem fidelidade ou contrato
-            </span>
-            <span className="w-px h-3 bg-white/10 hidden sm:block" />
-            <span className="text-slate-600 text-xs flex items-center gap-1.5">
-              <span className="text-green-500">✓</span> Funcionando em 5 minutos
-            </span>
+      <section className="px-5 sm:px-8 pb-20 sm:pb-28">
+        <div className="max-w-6xl mx-auto cta-glow rounded-[32px] p-8 sm:p-12 text-center relative overflow-hidden">
+          <div className="absolute inset-0 hero-mesh opacity-60" />
+          <div className="relative z-10">
+            <h2 className="text-3xl sm:text-5xl font-black tracking-tight mb-5">Pronto para vender agentes de IA de forma profissional?</h2>
+            <p className="text-slate-400 max-w-2xl mx-auto mb-8 leading-relaxed">Transforme a OpenClaw em uma vitrine clara, confiável e preparada para converter empresas que precisam automatizar atendimento e vendas.</p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/pre-cadastro" className="btn-primary rounded-full px-8 py-4 font-bold no-underline">Solicitar agente exclusivo</Link>
+              <Link href="/suporte" className="btn-outline rounded-full px-8 py-4 font-bold no-underline">Falar com suporte</Link>
+            </div>
           </div>
         </div>
       </section>
-
     </main>
   );
 }
