@@ -7,26 +7,503 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Cliente {
-  id        String   @id @default(uuid())
-  nome      String
+model Company {
+  id               String          @id @default(uuid())
+  slug             String          @unique
+  name             String
+  legalName        String?
+  segment          String?
+  size             String?
+  status           CompanyStatus   @default(LEAD)
+  billingStatus    BillingStatus   @default(PENDING)
+  deploymentStage  DeploymentStage @default(DIAGNOSIS)
+  planId           String?
+  plan             Plan?           @relation(fields: [planId], references: [id])
+  ownerEmail       String?
+  whatsapp         String?
+  domain           String?
+  dataIsolationKey String          @unique
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  users              User[]
+  agents             Agent[]
+  knowledgeDocuments KnowledgeDocument[]
+  chats              Chat[]
+  leads              Lead[]
+  subscriptions      Subscription[]
+  integrations       Integration[]
+  channelIntegrations ChannelIntegration[]
+  channelEvents       ChannelEvent[]
+  outboundResponses    OutboundResponse[]
+  operationNotifications OperationNotification[]
+  auditLogs          AuditLog[]
+
+  @@index([status])
+  @@index([planId])
+  @@map("companies")
+}
+
+model Plan {
+  id               String   @id @default(uuid())
+  slug             String   @unique
+  name             String
+  description      String?
+  monthlyPriceCents Int?
+  setupPriceCents   Int?
+  active           Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  companies     Company[]
+  subscriptions Subscription[]
+
+  @@map("plans")
+}
+
+model User {
+  id        String     @id @default(uuid())
+  companyId String
+  company   Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  name      String
   email     String
-  whatsapp  String?
+  role         UserRole   @default(MEMBER)
+  status       UserStatus @default(ACTIVE)
+  passwordHash String?
+  lastLoginAt  DateTime?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  sessions AccessSession[]
+
+  @@unique([companyId, email])
+  @@index([companyId, role])
+  @@map("users")
+}
+
+
+model AccessSession {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyId String
+  role      UserRole
+  tokenHash String   @unique
+  ipAddress String?
+  userAgent String?
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([companyId])
+  @@map("access_sessions")
+}
+
+model Agent {
+  id              String      @id @default(uuid())
+  companyId       String
+  company         Company     @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  slug            String
+  name            String
+  type            String
+  channels        String[]    @default([])
+  systemPrompt    String?
+  tone            String?
+  goal            String?
+  escalationRules String?
+  status          AgentStatus @default(DRAFT)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  knowledgeDocuments KnowledgeDocument[]
+  chats              Chat[]
+
+  @@unique([companyId, slug])
+  @@index([companyId, status])
+  @@map("agents")
+}
+
+model KnowledgeDocument {
+  id        String          @id @default(uuid())
+  companyId String
+  company   Company         @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  agentId   String?
+  agent     Agent?          @relation(fields: [agentId], references: [id], onDelete: SetNull)
+  title     String
+  type      String?
+  content   String
+  sourceUrl String?
+  status    DocumentStatus  @default(DRAFT)
+  version   Int             @default(1)
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+
+  documentChunks DocumentChunk[]
+
+  @@index([companyId])
+  @@index([agentId])
+  @@map("knowledge_documents")
+}
+
+model Chat {
+  id              String     @id @default(uuid())
+  companyId       String
+  company         Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  agentId         String?
+  agent           Agent?     @relation(fields: [agentId], references: [id], onDelete: SetNull)
+  customerName    String?
+  customerContact String?
+  channel         String?
+  status          ChatStatus @default(OPEN)
+  summary         String?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  messages Message[]
+
+  @@index([companyId, status])
+  @@index([agentId])
+  @@map("chats")
+}
+
+model Message {
+  id        String      @id @default(uuid())
+  companyId String
+  chatId    String
+  chat      Chat        @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  role      MessageRole
+  content   String
+  metadata  Json?
+  createdAt DateTime    @default(now())
+
+  @@index([companyId])
+  @@index([chatId])
+  @@map("messages")
+}
+
+
+
+model DocumentChunk {
+  id         String            @id @default(uuid())
+  documentId String
+  document   KnowledgeDocument @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  companyId  String
+  agentId    String?
+  content    String
+  tokens     Int?
+  metadata   Json?
+  createdAt  DateTime          @default(now())
+
+  @@index([companyId])
+  @@index([documentId])
+  @@map("document_chunks")
+}
+
+model AgentRun {
+  id             String   @id
+  companyId      String   @map("company_id")
+  agentSlug      String?  @map("agent_slug")
+  conversationId String?  @map("conversation_id")
+  provider       String   @default("demo")
+  input          String?
+  output         String?
+  usedDocuments  Json?    @map("used_documents")
+  safetyFlags    Json?    @map("safety_flags")
+  latencyMs      Int      @default(0) @map("latency_ms")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  @@index([companyId])
+  @@index([companyId, agentSlug])
+  @@map("ai_agent_runs")
+}
+
+model Lead {
+  id          String     @id @default(uuid())
+  companyId   String?
+  company     Company?   @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  name        String
+  companyName String?
+  email       String
+  whatsapp    String?
+  segment     String?
+  agentType   String?
+  plan        String?
+  size        String?
+  problem     String?
+  origin      String?    @default("site")
+  status      LeadStatus @default(NEW)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([companyId])
+  @@index([status])
+  @@map("leads")
+}
+
+model Subscription {
+  id                 String             @id @default(uuid())
+  companyId           String
+  company             Company            @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  planId              String
+  plan                Plan               @relation(fields: [planId], references: [id])
+  status              SubscriptionStatus @default(TRIAL)
+  provider            PaymentProvider?
+  providerCustomerId  String?
+  providerSubscriptionId String?
+  currentPeriodStart  DateTime?
+  currentPeriodEnd    DateTime?
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+
+  @@index([companyId, status])
+  @@map("subscriptions")
+}
+
+
+
+model CommercialOrder {
+  id                String   @id
+  leadId            String?  @map("lead_id")
+  companyName       String?  @map("company_name")
+  customerName      String   @map("customer_name")
+  email             String
+  whatsapp          String?
+  agentSlug         String?  @map("agent_slug")
+  agentName         String?  @map("agent_name")
+  planSlug          String?  @map("plan_slug")
+  planName          String?  @map("plan_name")
+  paymentMethod     String?  @map("payment_method")
+  provider          String?
+  providerReference String?  @map("provider_reference")
+  checkoutUrl       String?  @map("checkout_url")
+  setupCents        Int      @default(0) @map("setup_cents")
+  monthlyCents      Int      @default(0) @map("monthly_cents")
+  totalCents        Int      @default(0) @map("total_cents")
+  status            String   @default("AWAITING_PAYMENT")
+  notes             String?
+  metadata          Json?
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  payments CommercialPayment[]
+
+  @@index([status])
+  @@index([email])
+  @@map("commercial_orders")
+}
+
+model CommercialPayment {
+  id                String   @id
+  orderId           String   @map("order_id")
+  order             CommercialOrder @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  provider          String   @default("pix_manual")
+  providerReference String?  @map("provider_reference")
+  amountCents       Int      @default(0) @map("amount_cents")
+  status            String   @default("PENDING")
+  paidAt            DateTime? @map("paid_at")
+  rawPayload        Json?    @map("raw_payload")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  @@index([orderId])
+  @@map("commercial_payments")
+}
+
+model Integration {
+  id        String            @id @default(uuid())
+  companyId String
+  company   Company           @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  type      IntegrationType
+  name      String
+  status    IntegrationStatus @default(PENDING)
+  config    Json?
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+
+  @@unique([companyId, type, name])
+  @@index([companyId, status])
+  @@map("integrations")
+}
+
+
+
+model ChannelIntegration {
+  id          String   @id @default(uuid())
+  companyId   String   @map("company_id")
+  company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  channel     String
+  name        String
+  provider    String?  @default("custom")
+  status      String   @default("configured")
+  health      String?  @default("Pendente")
+  config      Json?
+  lastEventAt DateTime? @map("last_event_at")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  events ChannelEvent[]
+
+  @@unique([companyId, channel, name])
+  @@index([companyId])
+  @@index([channel])
+  @@map("channel_integrations")
+}
+
+model ChannelEvent {
+  id            String   @id @default(uuid())
+  companyId     String   @map("company_id")
+  company       Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  integrationId String?  @map("integration_id")
+  integration   ChannelIntegration? @relation(fields: [integrationId], references: [id], onDelete: SetNull)
+  channel       String
+  direction     String   @default("inbound")
+  eventType     String   @map("event_type")
+  status        String   @default("received")
+  summary       String?
+  payload       Json?
+  error         String?
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  @@index([companyId, channel])
+  @@index([createdAt])
+  @@map("channel_events")
+}
+
+
+model AIConversation {
+  id               String   @id
+  companyId        String   @map("company_id")
+  agentSlug        String?  @map("agent_slug")
+  agentName        String?  @map("agent_name")
+  customerName     String?  @map("customer_name")
+  customerContact  String?  @map("customer_contact")
+  channel          String?  @default("site")
+  status           String   @default("OPEN")
+  summary          String?
+  sentiment        String?
+  priority         String?  @default("Normal")
+  nextAction       String?  @map("next_action")
+  externalThreadId String?  @map("external_thread_id")
+  lastMessageAt    DateTime? @map("last_message_at")
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  messages AIMessage[]
+  outboundResponses OutboundResponse[]
+
+  @@index([companyId, agentSlug])
+  @@index([companyId, channel, externalThreadId])
+  @@index([status])
+  @@map("ai_conversations")
+}
+
+model AIMessage {
+  id             String   @id
+  conversationId String   @map("conversation_id")
+  conversation   AIConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  companyId      String   @map("company_id")
+  role           String
+  content        String
+  metadata       Json?
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  @@index([companyId])
+  @@index([conversationId])
+  @@map("ai_messages")
+}
+
+
+model OutboundResponse {
+  id                String   @id
+  companyId         String   @map("company_id")
+  company           Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyName       String?  @map("company_name")
+  conversationId    String?  @map("conversation_id")
+  conversation      AIConversation? @relation(fields: [conversationId], references: [id], onDelete: SetNull)
+  messageId         String?  @map("message_id")
+  channel           String   @default("site")
+  customerName      String?  @map("customer_name")
+  customerContact   String?  @map("customer_contact")
+  agentSlug         String?  @map("agent_slug")
+  agentName         String?  @map("agent_name")
+  content           String
+  status            String   @default("PENDING_APPROVAL")
+  priority          String   @default("Normal")
+  approvalMode      String   @default("human_review") @map("approval_mode")
+  slaMinutes        Int      @default(45) @map("sla_minutes")
+  dueAt             DateTime? @map("due_at")
+  approvedBy        String?  @map("approved_by")
+  approvedAt        DateTime? @map("approved_at")
+  sentAt            DateTime? @map("sent_at")
+  provider          String?
+  providerReference String?  @map("provider_reference")
+  error             String?
+  metadata          Json?
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  @@index([companyId, status])
+  @@index([conversationId])
+  @@index([dueAt])
+  @@map("outbound_responses")
+}
+
+model OperationNotification {
+  id        String   @id
+  companyId String   @map("company_id")
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  type      String
+  severity  String   @default("INFO")
+  title     String
+  message   String?
+  status    String   @default("UNREAD")
+  metadata  Json?
+  createdAt DateTime @default(now()) @map("created_at")
+  readAt    DateTime? @map("read_at")
+
+  @@index([companyId, status])
+  @@index([createdAt])
+  @@map("operation_notifications")
+}
+
+model AuditLog {
+  id        String     @id @default(uuid())
+  companyId String?
+  company   Company?   @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  actorType ActorType  @default(SYSTEM)
+  actorId   String?
+  action    String
+  entity    String?
+  entityId  String?
+  metadata  Json?
+  createdAt DateTime   @default(now())
+
+  @@index([companyId])
+  @@index([action])
+  @@map("audit_logs")
+}
+
+// Modelos legados mantidos para compatibilidade com o MVP atual.
+model Cliente {
+  id       String   @id @default(uuid())
+  nome     String
+  email    String
+  whatsapp String?
   criadoEm DateTime @default(now())
-  pedidos   Pedido[]
+  pedidos  Pedido[]
 }
 
 model Pedido {
-  id              String        @id @default(uuid())
+  id              String         @id @default(uuid())
   clienteId       String
-  cliente         Cliente       @relation(fields: [clienteId], references: [id])
+  cliente         Cliente        @relation(fields: [clienteId], references: [id])
   tipoAgente      String
   valor           Float
   metodoPagamento String
-  status          StatusPedido  @default(PENDENTE)
-  txId            String?       @unique
-  criadoEm       DateTime      @default(now())
-  atualizadoEm   DateTime      @updatedAt
+  status          StatusPedido   @default(PENDENTE)
+  txId            String?        @unique
+  criadoEm        DateTime       @default(now())
+  atualizadoEm    DateTime       @updatedAt
   agente          AgenteEntregue?
 }
 
@@ -39,7 +516,23 @@ model AgenteEntregue {
   codigoPareamento String
   workspace        String
   emailEnviado     Boolean  @default(false)
-  criadoEm        DateTime @default(now())
+  criadoEm         DateTime @default(now())
+}
+
+model PreCadastro {
+  id           String   @id @default(uuid())
+  nome         String
+  email        String   @unique
+  whatsapp     String?
+  interesse    String?
+  empresa      String?
+  segmento     String?
+  tamanho      String?
+  problema     String?
+  planoDesejado String?
+  origem       String?  @default("site")
+  emailEnviado Boolean  @default(false)
+  criadoEm     DateTime @default(now())
 }
 
 enum StatusPedido {
@@ -49,12 +542,110 @@ enum StatusPedido {
   REEMBOLSADO
 }
 
-model PreCadastro {
-  id         String   @id @default(uuid())
-  nome       String
-  email      String   @unique
-  whatsapp   String?
-  interesse  String?
-  emailEnviado Boolean @default(false)
-  criadoEm  DateTime @default(now())
+enum CompanyStatus {
+  LEAD
+  ACTIVE
+  IMPLEMENTATION
+  SUSPENDED
+  CANCELED
+}
+
+enum BillingStatus {
+  PENDING
+  ACTIVE
+  PAST_DUE
+  CANCELED
+}
+
+enum DeploymentStage {
+  DIAGNOSIS
+  KNOWLEDGE_BASE
+  INTEGRATION
+  ASSISTED_OPERATION
+  LIVE
+}
+
+enum UserRole {
+  SUPER_ADMIN
+  OWNER
+  ADMIN
+  MEMBER
+  VIEWER
+}
+
+enum UserStatus {
+  ACTIVE
+  INVITED
+  DISABLED
+}
+
+enum AgentStatus {
+  DRAFT
+  ACTIVE
+  PAUSED
+  ARCHIVED
+}
+
+enum DocumentStatus {
+  DRAFT
+  REVIEW
+  PUBLISHED
+  ARCHIVED
+}
+
+enum ChatStatus {
+  OPEN
+  CLOSED
+  ESCALATED
+}
+
+enum MessageRole {
+  USER
+  ASSISTANT
+  SYSTEM
+  HUMAN
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  LOST
+  WON
+}
+
+enum SubscriptionStatus {
+  TRIAL
+  ACTIVE
+  PAST_DUE
+  CANCELED
+}
+
+enum PaymentProvider {
+  PIX_MANUAL
+  MERCADO_PAGO
+  STRIPE
+}
+
+enum IntegrationType {
+  WHATSAPP
+  INSTAGRAM
+  CRM
+  GOOGLE_CALENDAR
+  EMAIL
+  WEBHOOK
+}
+
+enum IntegrationStatus {
+  PENDING
+  ACTIVE
+  ERROR
+  DISABLED
+}
+
+enum ActorType {
+  SYSTEM
+  ADMIN
+  COMPANY_USER
+  AGENT
 }

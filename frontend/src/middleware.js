@@ -1,11 +1,12 @@
 // ============================================================
-// AgentesIA — Middleware Global (Security Headers + CORS)
+// Agentes AI — Middleware Global
+// Security headers, CORS e proteção de rotas privadas.
 // ============================================================
 import { NextResponse } from 'next/server';
+import { SESSION_COOKIE, getRouteRule, getUserByToken, hasPermission } from './lib/auth-data';
 
 const ALLOWED_ORIGIN = 'https://agentes-ai-two.vercel.app';
 
-// Domínios permitidos como origem (inclui localhost para dev)
 const ALLOWED_ORIGINS = [
   ALLOWED_ORIGIN,
   'http://localhost:3000',
@@ -17,39 +18,46 @@ export function middleware(req) {
   const origin = req.headers.get('origin') || '';
   const isApi = pathname.startsWith('/api/');
 
-  // ---------- CORS para rotas de API ----------
   if (isApi) {
-    // Preflight OPTIONS
     if (req.method === 'OPTIONS') {
-      return new NextResponse(null, {
-        status: 204,
-        headers: corsHeaders(origin),
+      return new NextResponse(null, { status: 204, headers: corsHeaders(origin) });
+    }
+
+    if (origin && !ALLOWED_ORIGINS.includes(origin) && process.env.NODE_ENV === 'production') {
+      return new NextResponse(JSON.stringify({ erro: 'Origem não autorizada' }), {
+        status: 403,
+        headers: { 'Content-Type': 'application/json' },
       });
     }
+  }
 
-    // Bloqueia origens não autorizadas em produção
-    if (
-      origin &&
-      !ALLOWED_ORIGINS.includes(origin) &&
-      process.env.NODE_ENV === 'production'
-    ) {
-      return new NextResponse(
-        JSON.stringify({ erro: 'Origem não autorizada' }),
-        { status: 403, headers: { 'Content-Type': 'application/json' } }
-      );
+  const protectedRule = !isApi ? getRouteRule(pathname) : null;
+  if (protectedRule) {
+    const token = req.cookies.get(SESSION_COOKIE)?.value;
+    const user = getUserByToken(token);
+
+    if (!user) {
+      const url = req.nextUrl.clone();
+      url.pathname = '/login';
+      url.searchParams.set('next', pathname);
+      return NextResponse.redirect(url);
+    }
+
+    if (!hasPermission(user, protectedRule.permission)) {
+      const url = req.nextUrl.clone();
+      url.pathname = '/acesso-negado';
+      url.searchParams.set('from', pathname);
+      return NextResponse.redirect(url);
     }
   }
 
-  // ---------- Aplica Security Headers em todas as respostas ----------
   const res = NextResponse.next();
 
-  // CORS headers nas respostas de API
   if (isApi && ALLOWED_ORIGINS.includes(origin)) {
     const cors = corsHeaders(origin);
-    Object.entries(cors).forEach(([k, v]) => res.headers.set(k, v));
+    Object.entries(cors).forEach(([key, value]) => res.headers.set(key, value));
   }
 
-  // Security Headers
   res.headers.set(
     'Content-Security-Policy',
     [
@@ -58,12 +66,12 @@ export function middleware(req) {
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
       "img-src 'self' data: https: blob:",
-      "connect-src 'self' https://api.groq.com https://api.mercadopago.com https://api.telegram.org https://api.resend.com",
+      "connect-src 'self' https://api.groq.com https://api.mercadopago.com https://api.telegram.org https://api.resend.com https://graph.facebook.com https://graph.instagram.com https://www.googleapis.com",
       "frame-src https://www.mercadopago.com https://sdk.mercadopago.com",
       "object-src 'none'",
       "base-uri 'self'",
       "form-action 'self'",
-      "upgrade-insecure-requests",
+      'upgrade-insecure-requests',
     ].join('; ')
   );
 
@@ -87,7 +95,6 @@ function corsHeaders(origin) {
   };
 }
 
-// Aplica o middleware em todas as rotas
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|.*\\.png|.*\\.jpg|.*\\.jpeg|.*\\.svg|.*\\.ico).*)'],
 };

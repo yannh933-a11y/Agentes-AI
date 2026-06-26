@@ -1,20 +1,24 @@
-<svg width="240" height="240" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="240" height="240" rx="56" fill="#07070F"/>
-  <rect x="16" y="16" width="208" height="208" rx="44" fill="url(#paint0_linear)" fill-opacity="0.16" stroke="url(#paint1_linear)" stroke-width="2"/>
-  <path d="M74 130C74 100.177 98.177 76 128 76H166" stroke="#FF4545" stroke-width="16" stroke-linecap="round"/>
-  <path d="M166 76L142 52" stroke="#FF4545" stroke-width="16" stroke-linecap="round"/>
-  <path d="M166 76L142 100" stroke="#FF4545" stroke-width="16" stroke-linecap="round"/>
-  <path d="M166 164H112C82.1766 164 58 139.823 58 110" stroke="white" stroke-opacity="0.92" stroke-width="16" stroke-linecap="round"/>
-  <circle cx="128" cy="120" r="25" fill="#FF4545" fill-opacity="0.18" stroke="#FF4545" stroke-width="10"/>
-  <circle cx="128" cy="120" r="7" fill="white"/>
+<svg width="160" height="160" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Agentes AI</title>
+  <desc id="desc">Símbolo da Agentes AI.</desc>
+  <rect width="160" height="160" rx="34" fill="#07070F"/>
+  <rect x="7" y="7" width="146" height="146" rx="30" stroke="rgba(255,255,255,0.10)" stroke-width="2"/>
   <defs>
-    <linearGradient id="paint0_linear" x1="36" y1="30" x2="220" y2="215" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#FF4545"/>
-      <stop offset="1" stop-color="#7F1D1D"/>
+    <linearGradient id="red" x1="34" y1="30" x2="138" y2="136" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FF4D57"/>
+      <stop offset="0.55" stop-color="#EF233C"/>
+      <stop offset="1" stop-color="#991B1B"/>
     </linearGradient>
-    <linearGradient id="paint1_linear" x1="38" y1="20" x2="216" y2="224" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#FF6B6B"/>
-      <stop offset="1" stop-color="#331111"/>
+    <linearGradient id="steel" x1="24" y1="40" x2="138" y2="134" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="0.48" stop-color="#E5E7EB"/>
+      <stop offset="1" stop-color="#9CA3AF"/>
     </linearGradient>
   </defs>
+  <g transform="translate(12 14)">
+    <path d="M60 16H100L124 50L96 36H64L50 64L6 60L52 54L60 16Z" fill="url(#red)"/>
+    <path d="M6 78L60 72H92V92H62L6 78Z" fill="url(#steel)"/>
+    <path d="M0 108L66 100H92L112 128H62L48 112L0 108Z" fill="url(#steel)"/>
+    <path d="M112 128L142 96L124 104L100 128H112Z" fill="#F8FAFC"/>
+  </g>
 </svg>

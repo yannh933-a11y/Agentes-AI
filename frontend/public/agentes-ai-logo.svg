@@ -1,0 +1,32 @@
+<svg width="640" height="160" viewBox="0 0 640 160" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Agentes AI</title>
+  <desc id="desc">Logo da Agentes AI, empresa de agentes de inteligência artificial para empresas.</desc>
+  <defs>
+    <linearGradient id="red" x1="28" y1="28" x2="132" y2="132" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FF4D57"/>
+      <stop offset="0.55" stop-color="#EF233C"/>
+      <stop offset="1" stop-color="#991B1B"/>
+    </linearGradient>
+    <linearGradient id="steel" x1="18" y1="34" x2="132" y2="128" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="0.48" stop-color="#E5E7EB"/>
+      <stop offset="1" stop-color="#9CA3AF"/>
+    </linearGradient>
+    <linearGradient id="dark" x1="200" y1="35" x2="460" y2="120" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8FAFC"/>
+      <stop offset="1" stop-color="#CBD5E1"/>
+    </linearGradient>
+  </defs>
+
+  <g transform="translate(18 16)">
+    <path d="M72 20H112L136 54L108 40H76L62 68L18 64L64 58L72 20Z" fill="url(#red)"/>
+    <path d="M18 82L72 76H104V96H74L18 82Z" fill="url(#steel)"/>
+    <path d="M10 112L78 104H104L124 132H74L60 116L10 112Z" fill="url(#steel)"/>
+    <path d="M124 132L154 100L136 108L112 132H124Z" fill="#F8FAFC"/>
+    <path d="M62 68L18 64L6 66L58 76H104V64H72L62 68Z" fill="#F8FAFC" opacity="0.9"/>
+  </g>
+
+  <text x="204" y="94" font-family="Inter, Arial, Helvetica, sans-serif" font-size="60" font-weight="800" letter-spacing="-2.4" fill="url(#dark)">Agentes</text>
+  <text x="472" y="94" font-family="Inter, Arial, Helvetica, sans-serif" font-size="60" font-weight="800" letter-spacing="-1.6" fill="#EF233C">AI</text>
+  <text x="207" y="124" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="700" letter-spacing="3.6" fill="#64748B">AGENTES DE IA PARA EMPRESAS</text>
+</svg>

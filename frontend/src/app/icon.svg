@@ -1,11 +1,24 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<svg width="160" height="160" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Agentes AI</title>
+  <desc id="desc">Símbolo da Agentes AI.</desc>
+  <rect width="160" height="160" rx="34" fill="#07070F"/>
+  <rect x="7" y="7" width="146" height="146" rx="30" stroke="rgba(255,255,255,0.10)" stroke-width="2"/>
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#dc2626"/>
-      <stop offset="100%" stop-color="#7f1d1d"/>
+    <linearGradient id="red" x1="34" y1="30" x2="138" y2="136" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FF4D57"/>
+      <stop offset="0.55" stop-color="#EF233C"/>
+      <stop offset="1" stop-color="#991B1B"/>
+    </linearGradient>
+    <linearGradient id="steel" x1="24" y1="40" x2="138" y2="134" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="0.48" stop-color="#E5E7EB"/>
+      <stop offset="1" stop-color="#9CA3AF"/>
     </linearGradient>
   </defs>
-  <rect width="64" height="64" rx="16" fill="url(#bg)"/>
-  <text x="32" y="47" text-anchor="middle" font-size="40"
-    font-family="Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif">🤖</text>
+  <g transform="translate(12 14)">
+    <path d="M60 16H100L124 50L96 36H64L50 64L6 60L52 54L60 16Z" fill="url(#red)"/>
+    <path d="M6 78L60 72H92V92H62L6 78Z" fill="url(#steel)"/>
+    <path d="M0 108L66 100H92L112 128H62L48 112L0 108Z" fill="url(#steel)"/>
+    <path d="M112 128L142 96L124 104L100 128H112Z" fill="#F8FAFC"/>
+  </g>
 </svg>

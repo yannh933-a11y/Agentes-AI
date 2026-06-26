@@ -1,60 +1,60 @@
-import Link from 'next/link';
-import { agentes } from '../../lib/agentes';
+import { ButtonLink, Card, Container, Section, SectionTitle, Stat } from '../components/ui';
+import AgentesCatalog from './AgentesCatalog';
+
+export const metadata = {
+  title: 'Catálogo de agentes de IA | Agentes AI',
+  description: 'Veja agentes de IA para atendimento, vendas, suporte, agendamento, financeiro, cobrança, social media e triagem operacional.',
+};
+
+const ganhos = [
+  ['8', 'agentes base'],
+  ['24h', 'atendimento'],
+  ['1:1', 'por empresa'],
+  ['3-14d', 'implantação'],
+];
+
+const escolhas = [
+  ['Quer responder clientes mais rápido?', 'Comece pelo Agente de Atendimento.'],
+  ['Quer qualificar leads e vender mais?', 'Escolha o Agente de Vendas.'],
+  ['Quer reduzir trabalho repetitivo?', 'Veja Suporte, Financeiro e Cobrança.'],
+];
 
 export default function AgentesPage() {
   return (
-    <main className="pt-28 pb-24 px-5 sm:px-8">
-      <div className="max-w-7xl mx-auto">
-
-        {/* Header */}
-        <div className="text-center mb-16">
-          <span className="text-red-400 text-xs font-bold uppercase tracking-[4px]">Catálogo completo</span>
-          <h1 className="text-4xl sm:text-5xl font-black text-white mt-4 mb-5 tracking-tight">Nossos Agentes</h1>
-          <p className="text-slate-400 text-base sm:text-lg max-w-xl mx-auto">
-            Escolha o agente ideal para o seu negócio e tenha ele funcionando em minutos.
-          </p>
+    <main className="pt-28 pb-20">
+      <Container>
+        <div className="mx-auto mb-10 max-w-4xl text-center">
+          <p className="text-xs font-black uppercase tracking-[0.25em] text-red-300">Catálogo comercial</p>
+          <h1 className="mt-4 text-4xl font-black tracking-tight sm:text-6xl">Escolha o agente ideal para vender, atender ou automatizar.</h1>
+          <p className="mx-auto mt-5 max-w-3xl text-lg leading-relaxed text-slate-400">Cada agente tem uma base pronta, mas é treinado com dados, regras, linguagem e objetivos da empresa contratante. O cliente sente que está falando com um agente feito exclusivamente para ele.</p>
         </div>
+        <div className="mb-12 grid grid-cols-2 gap-3 md:grid-cols-4">
+          {ganhos.map(([value, label]) => <Stat key={label} value={value} label={label} />)}
+        </div>
+        <AgentesCatalog />
+      </Container>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-          {agentes.map((agente) => (
-            <div
-              key={agente.slug}
-              className="card rounded-2xl p-7 flex flex-col group"
-            >
-              <div className="w-14 h-14 bg-red-500/[0.08] rounded-2xl flex items-center justify-center text-3xl mb-6">
-                {agente.emoji}
-              </div>
-              <h2 className="text-white text-xl font-bold mb-3 group-hover:text-red-400 transition-colors">{agente.nome}</h2>
-              <p className="text-slate-400 text-sm leading-relaxed flex-1 mb-6">{agente.descricao}</p>
-
-              <ul className="space-y-2.5 mb-8">
-                {agente.funcionalidades.slice(0, 3).map((f) => (
-                  <li key={f} className="flex items-center gap-2.5 text-slate-400 text-sm">
-                    <span className="text-red-400 text-xs">✓</span>
-                    {f}
-                  </li>
-                ))}
-              </ul>
-
-              <div className="flex items-center justify-between mt-auto pt-5 border-t border-white/[0.05]">
-                <div>
-                  <p className="text-slate-600 text-xs">Mensalidade</p>
-                  <p className="text-white font-bold text-xl">
-                    R$ {agente.preco}<span className="text-sm text-slate-500">/mês</span>
-                  </p>
-                </div>
-                <Link
-                  href={`/agentes/${agente.slug}`}
-                  className="btn-primary font-semibold px-5 py-2.5 rounded-full text-sm no-underline"
-                >
-                  Contratar →
-                </Link>
-              </div>
+      <Section>
+        <Container>
+          <SectionTitle eyebrow="Como escolher" title="Não venda tecnologia. Venda o agente certo para a dor certa." desc="A página de catálogo foi estruturada para ajudar empresas a se enxergarem em um problema e avançarem para o pré-cadastro." />
+          <div className="grid gap-5 md:grid-cols-3">
+            {escolhas.map(([pergunta, resposta]) => (
+              <Card key={pergunta}>
+                <h2 className="text-xl font-black">{pergunta}</h2>
+                <p className="mt-3 leading-relaxed text-slate-400">{resposta}</p>
+              </Card>
+            ))}
+          </div>
+          <div className="mt-10 rounded-3xl border border-red-500/20 bg-red-500/10 p-8 text-center">
+            <h2 className="text-3xl font-black">Sua empresa precisa de um agente diferente?</h2>
+            <p className="mx-auto mt-3 max-w-2xl text-slate-300">Use o pré-cadastro para explicar o processo, o segmento e o problema. A Agentes AI pode montar um agente personalizado a partir do diagnóstico.</p>
+            <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
+              <ButtonLink href="/pre-cadastro">Solicitar agente personalizado</ButtonLink>
+              <ButtonLink href="/demo" variant="outline">Ver demonstração</ButtonLink>
             </div>
-          ))}
-        </div>
-      </div>
+          </div>
+        </Container>
+      </Section>
     </main>
   );
 }
