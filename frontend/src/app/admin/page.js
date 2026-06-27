@@ -27,7 +27,7 @@ export default function Page() {
           empresa: lead.empresa,
           email: `${lead.contato.toLowerCase()}@empresa.com.br`,
           whatsapp: '(31) 99999-0000',
-          segmento: 'Demonstração',
+          segmento: 'Comercial',
           agente: lead.agente,
           plano: lead.plano,
           status: index === 0 ? 'NEW' : index === 1 ? 'PROPOSAL' : 'QUALIFIED',
@@ -39,7 +39,7 @@ export default function Page() {
       <div className="grid xl:grid-cols-[1.1fr_.9fr] gap-5 mb-6">
         <Card>
           <div className="flex items-center justify-between gap-3 mb-4">
-            <h2 className="text-2xl font-black">Tenant registry</h2>
+            <h2 className="text-2xl font-black">Registro de empresas</h2>
             <Link href="/empresas" className="text-sm font-black text-red-300 no-underline">Abrir →</Link>
           </div>
           <div className="grid md:grid-cols-3 gap-3">
@@ -61,8 +61,8 @@ export default function Page() {
         <Card>
           <h2 className="text-2xl font-black mb-4">Saúde da operação</h2>
           <div className="space-y-3">
-            <HealthItem label="Banco de leads" value="/api/health" desc="Verifica DATABASE_URL e cria tabelas comerciais quando necessário." />
-            <HealthItem label="Pipeline" value="/api/admin/leads" desc="Lista leads persistentes para usuários SUPER_ADMIN." />
+            <HealthItem label="Banco de leads" value="/api/health" desc="Verifica saúde do banco e das tabelas comerciais." />
+            <HealthItem label="Pipeline" value="/api/admin/leads" desc="Lista leads comerciais para usuários internos autorizados." />
             <HealthItem label="Métricas" value="/api/admin/metrics" desc="Calcula volume de leads, pipeline e distribuição por plano." />
             <HealthItem label="Integrações" value="/api/integracoes" desc="Lista canais, health checks e eventos de integração por empresa." />
             <HealthItem label="Operação" value="/api/operations/metrics" desc="Mede fila de aprovação, SLA, envios e falhas de respostas externas." />
@@ -100,7 +100,7 @@ export default function Page() {
       </div>
 
       <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-5">
-        <Module title="Leads" desc="Pipeline comercial conectado ao pré-cadastro e preparado para banco real." href="/admin/leads" />
+        <Module title="Leads" desc="Pipeline comercial conectado ao pré-cadastro e aos formulários do site." href="/admin/leads" />
         <Module title="Contratações" desc="Pedidos, pagamentos, Pix manual, Mercado Pago e início de implantação." href="/admin/contratacoes" />
         <Module title="Empresas" desc="Cadastro, plano, status, usuários e histórico de cada cliente." href="/empresas" />
         <Module title="Integrações" desc="Canais, webhooks, eventos, credenciais e health checks por empresa." href="/admin/integracoes" />

@@ -276,7 +276,7 @@ export async function upsertConversation({
     statusLabel: STATUS_LABELS[status] || status,
     sentiment,
     priority,
-    summary: summary || 'Conversa criada em modo demo.',
+    summary: summary || 'Conversa criada para acompanhamento operacional.',
     nextAction: nextAction || 'Acompanhar atendimento.',
     externalThreadId,
     lastMessageAt: nowIso(),

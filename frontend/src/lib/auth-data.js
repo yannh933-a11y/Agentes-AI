@@ -102,11 +102,11 @@ export const protectedRouteRules = [
 
 export const authChecklist = [
   'Rotas privadas redirecionam visitantes para /login.',
-  'Sessão demo usa cookie httpOnly criado pela rota /api/auth/login.',
+  'Sessão segura usa cookie httpOnly criado pela rota de autenticação.',
   'Admin interno só acessa /admin e /empresas com papel SUPER_ADMIN.',
   'Usuários de empresa acessam apenas módulos permitidos pelo papel.',
   'Cada sessão carrega companyId para manter isolamento multiempresa.',
-  'Próxima evolução: trocar sessão demo por provedor real de autenticação.',
+  'Acesso restrito a usuários autorizados e perfis permitidos.',
 ];
 
 export function getUserByToken(token) {

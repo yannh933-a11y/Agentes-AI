@@ -98,14 +98,14 @@ function CheckoutForm() {
           <Card>
             <h2 className="text-2xl font-black">Fluxo após confirmação</h2>
             <ol className="mt-5 space-y-4 text-sm leading-relaxed text-slate-400">
-              <li><b className="text-white">1.</b> Conferência do pagamento e status no admin.</li>
+              <li><b className="text-white">1.</b> Conferência do pagamento pela equipe comercial.</li>
               <li><b className="text-white">2.</b> Criação da empresa e agente exclusivo.</li>
               <li><b className="text-white">3.</b> Coleta de documentos e regras da operação.</li>
               <li><b className="text-white">4.</b> Testes assistidos antes de liberar para clientes.</li>
             </ol>
             <div className="mt-6 grid gap-3">
-              <Link href="/admin/contratacoes" className="btn-outline rounded-full px-5 py-3 text-center text-sm font-black no-underline">Ver contratações no admin</Link>
-              <Link href="/pre-cadastro" className="btn-primary rounded-full px-5 py-3 text-center text-sm font-black no-underline">Criar outro pedido</Link>
+              <Link href="/pre-cadastro" className="btn-primary rounded-full px-5 py-3 text-center text-sm font-black no-underline">Solicitar diagnóstico</Link>
+              <Link href="/planos" className="btn-outline rounded-full px-5 py-3 text-center text-sm font-black no-underline">Ver planos</Link>
             </div>
           </Card>
         </div>
@@ -177,8 +177,8 @@ function CheckoutForm() {
         </Card>
 
         <Card>
-          <h2 className="text-xl font-black">Por que checkout manual primeiro?</h2>
-          <p className="mt-3 text-sm leading-relaxed text-slate-400">Para vender rápido sem depender de integração complexa. Depois, Mercado Pago e Stripe podem ser ativados mantendo o mesmo fluxo.</p>
+          <h2 className="text-xl font-black">Por que começar com Pix?</h2>
+          <p className="mt-3 text-sm leading-relaxed text-slate-400">O Pix permite confirmar a contratação com simplicidade, registrar o pedido e iniciar a implantação com segurança.</p>
           <Link href="/pagamentos" className="mt-5 inline-flex text-sm font-black text-red-300 no-underline">Ver estratégia de pagamentos →</Link>
         </Card>
       </div>
@@ -192,8 +192,8 @@ export default function CheckoutPage() {
       <Container>
         <div className="mb-12 text-center">
           <p className="text-xs font-black uppercase tracking-[0.25em] text-red-300">Contratação</p>
-          <h1 className="mt-4 text-4xl font-black tracking-tight sm:text-6xl">Checkout preparado para vender agora e escalar depois.</h1>
-          <p className="mx-auto mt-5 max-w-3xl text-lg leading-relaxed text-slate-400">Comece com Pix manual e pedidos registrados. Quando o negócio validar, ative Mercado Pago, Stripe e assinaturas recorrentes.</p>
+          <h1 className="mt-4 text-4xl font-black tracking-tight sm:text-6xl">Checkout para contratar seu agente de IA.</h1>
+          <p className="mx-auto mt-5 max-w-3xl text-lg leading-relaxed text-slate-400">Escolha o agente, selecione o plano e registre a contratação para iniciar o processo de implantação.</p>
         </div>
         <Suspense fallback={<p className="text-center text-slate-400">Carregando checkout...</p>}>
           <CheckoutForm />

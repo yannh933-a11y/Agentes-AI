@@ -26,14 +26,14 @@ export default function Page() {
     <DashboardShell
       eyebrow="Operação multicanal"
       title="Integrações e canais"
-      description="Conecte agentes aos canais reais da empresa sem misturar dados entre clientes. Cada integração carrega companyId, status, health check e trilha de eventos."
+      description="Conecte agentes aos canais reais da empresa, acompanhe status, saúde da integração e eventos recentes em uma visão operacional clara."
       actions={<ButtonLink href="/ia-lab">Testar IA com contexto</ButtonLink>}
     >
       <div className="grid gap-5 md:grid-cols-4">
         <Card className="p-5">
           <p className="text-xs font-black uppercase tracking-[0.2em] text-slate-500">Empresa</p>
           <p className="mt-2 text-2xl font-black text-white">{currentTenant.nome}</p>
-          <p className="mt-1 text-sm text-slate-500">{currentTenant.id}</p>
+          <p className="mt-1 text-sm text-slate-500">Ambiente protegido</p>
         </Card>
         <Card className="p-5">
           <p className="text-xs font-black uppercase tracking-[0.2em] text-slate-500">Canais ativos</p>
@@ -113,9 +113,9 @@ export default function Page() {
           <div>
             <Badge>Eventos recentes</Badge>
             <h2 className="mt-4 text-2xl font-black">Trilha operacional dos canais</h2>
-            <p className="mt-2 text-sm text-slate-400">A sprint já prepara armazenamento em banco via <code>channel_events</code> quando DATABASE_URL estiver configurada.</p>
+            <p className="mt-2 text-sm text-slate-400">Acompanhe os principais eventos dos canais conectados, com status de processamento e resumo operacional.</p>
           </div>
-          <ButtonLink href="/api/integracoes/eventos" variant="secondary">Ver API</ButtonLink>
+          <ButtonLink href="/suporte" variant="secondary">Solicitar suporte</ButtonLink>
         </div>
         <div className="mt-6 overflow-hidden rounded-3xl border border-white/10">
           {demoIntegrationEvents.map((event) => (

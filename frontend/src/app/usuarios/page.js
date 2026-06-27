@@ -19,7 +19,7 @@ export default function UsuariosPage() {
     <DashboardShell
       eyebrow="Segurança e acesso"
       title="Usuários e permissões"
-      description="Controle visual dos perfis que acessam a área da empresa. Esta sprint prepara o sistema para login real, RBAC e isolamento por empresa."
+      description="Gerencie os perfis que acessam a área da empresa, permissões por função e segurança dos módulos internos."
     >
       <Card className="mb-6 border-red-500/20 bg-red-500/[0.05]">
         <div className="grid lg:grid-cols-[1fr_.8fr] gap-6 items-center">
@@ -29,8 +29,8 @@ export default function UsuariosPage() {
             <p className="mt-2 text-sm leading-relaxed text-slate-400">Perfil: <strong className="text-red-100">{roles[activeRole]?.label}</strong>. Empresa vinculada: <strong className="text-red-100">{session.company?.nome || currentTenant.nome}</strong>.</p>
           </div>
           <div className="grid sm:grid-cols-2 gap-3">
-            <Info label="companyId" value={session.user?.companyId || currentTenant.id} />
-            <Info label="role" value={activeRole} />
+            <Info label="Empresa" value={session.company?.nome || currentTenant.nome} />
+            <Info label="Perfil" value={roles[activeRole]?.label || activeRole} />
           </div>
         </div>
       </Card>
@@ -40,9 +40,9 @@ export default function UsuariosPage() {
           <div className="flex items-center justify-between gap-3 mb-5">
             <div>
               <h2 className="text-2xl font-black">Equipe da empresa</h2>
-              <p className="text-sm text-slate-500">Usuários vinculados ao tenant atual.</p>
+              <p className="text-sm text-slate-500">Usuários vinculados à empresa atual.</p>
             </div>
-            <Pill tone="green">RBAC pronto</Pill>
+            <Pill tone="green">Permissões ativas</Pill>
           </div>
           <div className="space-y-3">
             {users.map((user) => (
@@ -64,7 +64,7 @@ export default function UsuariosPage() {
 
         <Card>
           <h2 className="text-2xl font-black mb-2">Permissões da sessão</h2>
-          <p className="text-sm text-slate-500 mb-5">Matriz calculada pelo papel atual.</p>
+          <p className="text-sm text-slate-500 mb-5">Permissões disponíveis para o perfil selecionado.</p>
           <div className="space-y-3">
             {permissions.map((permission) => (
               <div key={permission.key} className="flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4">

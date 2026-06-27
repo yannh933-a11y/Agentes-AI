@@ -32,12 +32,15 @@ export function checkRateLimit(ip, { max = 20, windowMs = 60_000 } = {}) {
 
 // Limpa entradas expiradas a cada 5 minutos para evitar memory leak
 if (typeof setInterval !== 'undefined') {
-  setInterval(() => {
+  const cleanupInterval = setInterval(() => {
     const now = Date.now();
     for (const [key, entry] of rateLimitStore.entries()) {
       if (now > entry.resetAt) rateLimitStore.delete(key);
     }
   }, 5 * 60_000);
+
+  // Permite que o processo do build encerre normalmente no Node.js.
+  cleanupInterval?.unref?.();
 }
 
 // ---------- Extrai IP real da request ----------

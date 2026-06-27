@@ -9,7 +9,7 @@ export async function GET() {
       ok: true,
       database: 'not_configured',
       mode: 'mock',
-      message: 'DATABASE_URL não configurada. O site funciona, mas leads e contratações não ficam persistidos.'
+      message: 'Banco não conectado. O site segue operando com dados temporários até a conexão de produção ser ativada.'
     });
   }
 

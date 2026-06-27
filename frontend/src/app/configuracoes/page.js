@@ -10,16 +10,16 @@ const settings = [
   ['Tom de voz', 'Define se a IA fala de forma formal, consultiva, direta ou personalizada por marca.', 'Pronto'],
   ['Limites do agente', 'Regras sobre o que a IA pode responder, quando deve pedir confirmação e quando deve escalar.', 'Pronto'],
   ['Escalação humana', 'Casos financeiros, jurídicos, reclamações, descontos e dados sensíveis vão para humano.', 'Pronto'],
-  ['Provedores de IA', 'Anthropic, OpenAI, Groq ou modo demo seguro conforme variáveis de ambiente.', 'Preparado'],
-  ['Integrações', 'WhatsApp, Instagram, CRM, Google Calendar, e-mail e webhooks com isolamento por empresa.', 'Preparado'],
-  ['Auditoria', 'Registro de documentos usados, flags de segurança, latência e provider usado.', 'Preparado'],
+  ['Motor de IA', 'Configuração do modelo usado pelos agentes, com controle de segurança e qualidade.', 'Preparado'],
+  ['Integrações', 'WhatsApp, Instagram, CRM, Google Calendar, e-mail e webhooks vinculados à empresa.', 'Preparado'],
+  ['Auditoria', 'Registro de documentos consultados, alertas de segurança e histórico de respostas.', 'Preparado'],
 ];
 
 export default function Page() {
   return (
     <DashboardShell
       title="Configurações de IA"
-      description="Controle empresa, usuários, prompts, provedores, limites e regras de segurança dos agentes antes de colocá-los em produção."
+      description="Controle empresa, usuários, instruções, limites e regras de segurança dos agentes antes de colocá-los em produção."
       actions={<><ButtonLink href="/integracoes">Gerenciar integrações</ButtonLink><ButtonLink href="/ia-lab" variant="secondary">Abrir IA Lab</ButtonLink></>}
     >
       <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
@@ -37,14 +37,14 @@ export default function Page() {
 
       <div className="mt-6 grid gap-5 lg:grid-cols-[.9fr_1.1fr]">
         <Card>
-          <h2 className="text-2xl font-black">Provedores preparados</h2>
-          <p className="mt-2 text-sm leading-relaxed text-slate-400">O sistema escolhe o provider por variável de ambiente e cai para modo demo seguro se nenhuma chave estiver configurada.</p>
+          <h2 className="text-2xl font-black">Motor de IA preparado</h2>
+          <p className="mt-2 text-sm leading-relaxed text-slate-400">A plataforma pode operar com diferentes provedores de IA, mantendo regras de segurança, auditoria e controle de qualidade por empresa.</p>
           <div className="mt-5 space-y-3">
             {aiProviders.map((provider) => (
               <div key={provider.key} className="flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4">
                 <div>
                   <p className="font-black text-white">{provider.label}</p>
-                  <p className="text-xs text-slate-500">ENV: {provider.env}</p>
+                  <p className="text-xs text-slate-500">Configuração controlada pela operação Agentes AI</p>
                 </div>
                 <Pill tone={provider.status === 'Ativo' || provider.status === 'Configurado' ? 'green' : 'default'}>{provider.status}</Pill>
               </div>

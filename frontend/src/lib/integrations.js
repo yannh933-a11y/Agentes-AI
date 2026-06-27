@@ -38,7 +38,7 @@ export const integrationChannels = [
     useCases: ['Agendamento', 'Reagendamento', 'Confirmação automática', 'Redução de faltas'],
     requiredEnv: ['GOOGLE_CLIENT_ID', 'GOOGLE_CLIENT_SECRET', 'GOOGLE_REDIRECT_URI'],
     webhookPath: '/api/webhooks/calendar',
-    docs: 'A sprint prepara a estrutura; OAuth real deve ser ativado antes da produção.',
+    docs: 'A conexão deve ser validada pela operação antes de liberar o canal para uso.',
   },
   {
     key: 'crm',

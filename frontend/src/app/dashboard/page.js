@@ -13,19 +13,19 @@ export default async function Dashboard() {
   return (
     <DashboardShell
       title="Dashboard da empresa"
-      description="Central visual para acompanhar agentes, conversas, leads, documentos e implantação. Agora a experiência já trabalha com contexto de empresa isolada."
+      description="Central para acompanhar agentes, conversas, leads, documentos e implantação da empresa em um painel único."
       actions={<div className="flex flex-wrap gap-3"><Link href="/ia-lab" className="btn-primary rounded-full px-5 py-3 text-sm font-black no-underline">Abrir IA Lab</Link><Link href="/demo" className="btn-outline rounded-full px-5 py-3 text-sm font-black no-underline">Testar demo</Link></div>}
     >
       <Card className="mb-6 border-red-500/20 bg-red-500/[0.05]">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.22em] text-red-200 font-black">Contexto multiempresa ativo</p>
+            <p className="text-xs uppercase tracking-[0.22em] text-red-200 font-black">Ambiente empresarial ativo</p>
             <h2 className="mt-2 text-2xl font-black text-white">{currentTenant.nome}</h2>
-            <p className="mt-2 text-sm leading-relaxed text-slate-400">Todos os cards abaixo representam dados filtrados por <strong className="text-red-100">companyId</strong>. Isso prepara o sistema para múltiplas empresas usando a mesma plataforma com dados separados.</p>
+            <p className="mt-2 text-sm leading-relaxed text-slate-400">Todos os indicadores abaixo pertencem à empresa selecionada. Assim, agentes, documentos e conversas permanecem organizados em um ambiente separado.</p>
           </div>
           <div className="grid sm:grid-cols-2 gap-3 text-sm min-w-[280px]">
-            <Info label="Company ID" value={currentTenant.id} />
-            <Info label="Data key" value={currentTenant.isolamento} />
+            <Info label="Empresa" value={currentTenant.nome} />
+            <Info label="Ambiente" value="Protegido" />
           </div>
         </div>
       </Card>
@@ -35,7 +35,7 @@ export default async function Dashboard() {
           <Card key={stat.label} className="p-5">
             <div className="flex items-start justify-between gap-3">
               <p className="text-sm font-bold text-slate-500">{stat.label}</p>
-              <Pill tone={stat.tone === 'green' ? 'green' : stat.tone === 'red' ? 'red' : 'default'}>Tenant</Pill>
+              <Pill tone={stat.tone === 'green' ? 'green' : stat.tone === 'red' ? 'red' : 'default'}>Empresa</Pill>
             </div>
             <div className="mt-4 text-4xl font-black text-white">{stat.value}</div>
             <p className="mt-2 text-xs font-bold text-slate-500">{stat.change}</p>
@@ -96,11 +96,11 @@ export default async function Dashboard() {
           <div>
             <p className="text-xs font-black uppercase tracking-[0.25em] text-red-300">IA operacional preparada</p>
             <h2 className="mt-3 text-2xl font-black text-white">Agentes agora trabalham com prompt, base de conhecimento e auditoria de resposta.</h2>
-            <p className="mt-2 text-sm leading-relaxed text-slate-400">A Sprint 7 adiciona estrutura para consultar documentos da empresa, montar contexto por agente, testar respostas com Anthropic/OpenAI/Groq ou modo demo e registrar documentos usados.</p>
+            <p className="mt-2 text-sm leading-relaxed text-slate-400">Os agentes podem consultar regras, documentos e limites definidos pela empresa para responder com mais consistência e encaminhar casos sensíveis para revisão humana.</p>
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
-            <Info label="Contexto" value="companyId + agentSlug" />
-            <Info label="Fallback" value="modo demo seguro" />
+            <Info label="Contexto" value="Empresa + agente" />
+            <Info label="Segurança" value="Revisão humana" />
           </div>
         </div>
       </Card>
@@ -110,7 +110,7 @@ export default async function Dashboard() {
           <div className="flex items-center justify-between gap-3 mb-5">
             <div>
               <h2 className="text-2xl font-black">Conversas recentes</h2>
-              <p className="text-sm text-slate-500">Resumos já preparados para virem do banco por empresa.</p>
+              <p className="text-sm text-slate-500">Resumos organizados por empresa, canal e agente responsável.</p>
             </div>
             <Link href="/conversas" className="text-sm font-black text-red-300 no-underline">Abrir conversas →</Link>
           </div>
@@ -129,7 +129,7 @@ export default async function Dashboard() {
         </Card>
 
         <Card>
-          <h2 className="text-2xl font-black mb-4">Regras de isolamento</h2>
+          <h2 className="text-2xl font-black mb-4">Regras de organização</h2>
           <div className="space-y-3">
             {isolationChecklist.slice(0, 4).map((item) => (
               <div key={item} className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-sm text-slate-300">✓ {item}</div>

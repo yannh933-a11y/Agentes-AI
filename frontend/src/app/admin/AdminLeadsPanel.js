@@ -81,10 +81,10 @@ export default function AdminLeadsPanel({ initialLeads = [] }) {
         <div>
           <div className="flex flex-wrap items-center gap-2">
             <h2 className="text-2xl font-black">Pipeline comercial conectado</h2>
-            <Pill tone={source === 'database' ? 'green' : 'red'}>{source === 'database' ? 'Banco real' : 'Modo demo'}</Pill>
+            <Pill tone={source === 'database' ? 'green' : 'red'}>{source === 'database' ? 'Banco ativo' : 'Dados temporários'}</Pill>
           </div>
           <p className="mt-2 text-sm leading-relaxed text-slate-500">
-            Leads vindos do pré-cadastro. Com DATABASE_URL configurada, esta tabela passa a usar dados persistentes do banco.
+            Leads vindos do pré-cadastro, contato e páginas comerciais, organizados para acompanhamento do pipeline.
           </p>
           {error && <p className="mt-2 text-sm font-bold text-red-200">{error}</p>}
         </div>
@@ -107,9 +107,9 @@ export default function AdminLeadsPanel({ initialLeads = [] }) {
         <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 text-sm font-bold text-slate-400">Carregando pipeline...</div>
       ) : (
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[920px] text-left text-sm">
+          <table className="w-full min-w-[1080px] text-left text-sm">
             <thead className="text-slate-500">
-              <tr>{['Empresa', 'Contato', 'Agente', 'Plano', 'Status', 'Valor', 'Ação'].map((head) => <th key={head} className="pb-3 font-black">{head}</th>)}</tr>
+              <tr>{['Empresa', 'Contato', 'Agente', 'Canal/Volume', 'Plano', 'Status', 'Valor', 'Ação'].map((head) => <th key={head} className="pb-3 font-black">{head}</th>)}</tr>
             </thead>
             <tbody>
               {visibleLeads.map((lead) => (
@@ -124,6 +124,10 @@ export default function AdminLeadsPanel({ initialLeads = [] }) {
                     <p className="mt-1 text-xs text-slate-600">{lead.whatsapp}</p>
                   </td>
                   <td className="py-4 text-slate-400">{lead.agente}</td>
+                  <td className="py-4">
+                    <p className="font-bold text-slate-300">{lead.canal || '-'}</p>
+                    <p className="mt-1 text-xs text-slate-600">{lead.volume || '-'}</p>
+                  </td>
                   <td className="py-4 text-slate-400">{lead.plano}</td>
                   <td className="py-4"><Pill tone={lead.status === 'WON' ? 'green' : lead.status === 'LOST' ? 'red' : 'default'}>{lead.statusLabel}</Pill></td>
                   <td className="py-4 font-black text-red-200">{lead.valorEstimadoFormatado}</td>

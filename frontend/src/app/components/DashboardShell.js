@@ -29,12 +29,12 @@ export function DashboardShell({ eyebrow = 'Área da empresa', title, descriptio
         <div className="grid lg:grid-cols-[280px_1fr] gap-6 items-start">
           <aside className="card rounded-3xl p-4 lg:sticky lg:top-28">
             <div className="px-3 py-3 border-b border-white/10 mb-3">
-              <p className="text-xs uppercase tracking-[0.22em] text-slate-500 font-black">Empresa isolada</p>
+              <p className="text-xs uppercase tracking-[0.22em] text-slate-500 font-black">Área da empresa</p>
               <h2 className="mt-2 font-black text-white">{tenant.nome}</h2>
               <p className="text-sm text-slate-500">{tenant.plano} • {tenant.etapaImplantacao}</p>
               <div className="mt-3 flex flex-wrap gap-2">
                 <Pill tone="green">{tenant.status}</Pill>
-                <Pill>{tenant.isolamento}</Pill>
+                <Pill>Dados separados</Pill>
               </div>
             </div>
 
@@ -42,7 +42,7 @@ export function DashboardShell({ eyebrow = 'Área da empresa', title, descriptio
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-red-500/10 text-sm font-black text-red-200 border border-red-500/20">{user?.avatar || 'AI'}</div>
                 <div className="min-w-0">
-                  <p className="truncate text-sm font-black text-white">{user?.name || 'Sessão demo'}</p>
+                  <p className="truncate text-sm font-black text-white">{user?.name || 'Usuário autorizado'}</p>
                   <p className="truncate text-xs text-slate-500">{role.label}</p>
                 </div>
               </div>
@@ -58,8 +58,8 @@ export function DashboardShell({ eyebrow = 'Área da empresa', title, descriptio
             </nav>
 
             <div className="mt-4 rounded-2xl border border-red-500/20 bg-red-500/10 p-3">
-              <p className="text-xs font-black uppercase tracking-[0.18em] text-red-200">Tenant Context</p>
-              <p className="mt-2 break-all text-xs leading-relaxed text-red-100/80">companyId: {tenant.id}</p>
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-red-200">Ambiente protegido</p>
+              <p className="mt-2 text-xs leading-relaxed text-red-100/80">Dados, agentes e conversas vinculados apenas a esta empresa.</p>
             </div>
 
             <div className="mt-4 grid gap-2">

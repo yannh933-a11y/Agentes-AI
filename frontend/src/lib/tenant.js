@@ -76,7 +76,7 @@ export const tenantArchitecture = [
 ];
 
 export const isolationChecklist = [
-  'Toda consulta de dashboard deverá receber companyId.',
+  'Toda consulta do painel deve carregar o identificador da empresa.',
   'Todo agente terá chave única por empresa: companyId + slug.',
   'Documentos de conhecimento não poderão ser buscados sem companyId.',
   'Conversas e mensagens ficam separadas por empresa desde a criação.',

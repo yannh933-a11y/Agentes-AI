@@ -10,7 +10,7 @@ export default function Page() {
   return (
     <AdminShell
       title="Empresas e isolamento de dados"
-      description="Registro visual de empresas, agentes e regras de isolamento. Esta sprint prepara o produto para operar várias empresas no mesmo sistema sem misturar dados."
+      description="Registro interno de empresas, agentes e regras de separação de dados para operar múltiplos clientes com segurança."
     >
       <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
         {tenantMetrics.map((metric) => (
@@ -27,13 +27,13 @@ export default function Page() {
           <div className="flex items-center justify-between gap-3 mb-5">
             <div>
               <h2 className="text-2xl font-black">Empresas cadastradas</h2>
-              <p className="text-sm text-slate-500">Cada empresa vira um tenant com usuários, agentes, documentos e conversas próprios.</p>
+              <p className="text-sm text-slate-500">Cada empresa mantém usuários, agentes, documentos e conversas próprios.</p>
             </div>
-            <Pill tone="red">Sprint 3</Pill>
+            <Pill tone="red">Multiempresa</Pill>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full min-w-[820px] text-left text-sm">
-              <thead className="text-slate-500"><tr>{['Empresa','Segmento','Plano','Status','Isolamento','Responsável'].map((h)=><th key={h} className="pb-3 font-black">{h}</th>)}</tr></thead>
+              <thead className="text-slate-500"><tr>{['Empresa','Segmento','Plano','Status','Ambiente','Responsável'].map((h)=><th key={h} className="pb-3 font-black">{h}</th>)}</tr></thead>
               <tbody>
                 {companies.map((company) => (
                   <tr key={company.id} className="border-t border-white/10">
@@ -51,7 +51,7 @@ export default function Page() {
         </Card>
 
         <Card>
-          <h2 className="text-2xl font-black mb-4">Arquitetura multiempresa</h2>
+          <h2 className="text-2xl font-black mb-4">Estrutura multiempresa</h2>
           <div className="space-y-3">
             {tenantArchitecture.map((item) => (
               <div key={item.camada} className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
@@ -91,7 +91,7 @@ export default function Page() {
         </Card>
 
         <Card>
-          <h2 className="text-2xl font-black mb-4">Checklist de segurança por tenant</h2>
+          <h2 className="text-2xl font-black mb-4">Checklist de segurança por empresa</h2>
           <div className="space-y-3">
             {isolationChecklist.map((item) => (
               <div key={item} className="flex gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-sm text-slate-300">
@@ -107,7 +107,7 @@ export default function Page() {
         <div className="flex items-center justify-between gap-3 mb-5">
           <div>
             <h2 className="text-2xl font-black">Eventos de auditoria</h2>
-            <p className="text-sm text-slate-500">Modelo inicial para rastrear ações importantes por empresa, usuário e sistema.</p>
+            <p className="text-sm text-slate-500">Registro de ações importantes por empresa, usuário e sistema.</p>
           </div>
           <Link href="/admin" className="text-sm font-black text-red-300 no-underline">Voltar ao admin →</Link>
         </div>

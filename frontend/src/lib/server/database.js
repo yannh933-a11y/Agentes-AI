@@ -99,6 +99,9 @@ export async function ensureCommercialSchema(client) {
     updated_at TIMESTAMP DEFAULT NOW()
   )`);
 
+  await client.query(`ALTER TABLE commercial_leads ADD COLUMN IF NOT EXISTS channel TEXT`);
+  await client.query(`ALTER TABLE commercial_leads ADD COLUMN IF NOT EXISTS daily_volume TEXT`);
+
   await client.query(`CREATE INDEX IF NOT EXISTS idx_commercial_leads_status ON commercial_leads(status)`);
   await client.query(`CREATE INDEX IF NOT EXISTS idx_commercial_leads_plan ON commercial_leads(plan)`);
   await client.query(`CREATE INDEX IF NOT EXISTS idx_commercial_leads_created_at ON commercial_leads(created_at DESC)`);

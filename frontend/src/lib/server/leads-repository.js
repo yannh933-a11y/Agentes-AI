@@ -44,6 +44,8 @@ function normalizeLead(row) {
     plano: row.plan || 'A definir',
     tamanho: row.size || '-',
     problema: row.problem || '-',
+    canal: row.channel || '-',
+    volume: row.daily_volume || '-',
     origem: row.origin || 'site',
     status: row.status || 'NEW',
     statusLabel: getStatusLabel(row.status || 'NEW'),
@@ -63,11 +65,13 @@ function fallbackLeads() {
     empresa: lead.empresa,
     email: `${lead.contato.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '.')}@empresa.com.br`,
     whatsapp: '(31) 99999-0000',
-    segmento: 'Demonstração',
+    segmento: 'Comercial',
     agente: lead.agente,
     plano: lead.plano,
     tamanho: '11-20 pessoas',
-    problema: 'Lead demonstrativo usado quando DATABASE_URL ainda não está configurado.',
+    problema: 'Lead de referência usado para visualização inicial do pipeline.',
+    canal: ['WhatsApp', 'Instagram', 'Site', 'Multicanal'][index] || 'WhatsApp',
+    volume: ['51 a 100 atendimentos/dia', '101 a 300 atendimentos/dia', '21 a 50 atendimentos/dia', 'Até 20 atendimentos/dia'][index] || 'Até 20 atendimentos/dia',
     origem: 'mock',
     status: index === 0 ? 'NEW' : index === 1 ? 'PROPOSAL' : 'QUALIFIED',
     statusLabel: lead.status,
@@ -88,10 +92,12 @@ export async function createCommercialLead(data) {
     email: data.email?.trim().toLowerCase(),
     whatsapp: data.whatsapp?.trim() || null,
     segment: data.segmento || null,
-    agentType: data.interesse || data.agente || null,
-    plan: data.planoDesejado || data.plano || null,
+    agentType: data.agenteNome || data.interesse || data.agente || null,
+    plan: data.planoNome || data.planoDesejado || data.plano || null,
     size: data.tamanho || null,
     problem: data.problema || null,
+    channel: data.canal || null,
+    dailyVolume: data.volume || null,
     origin: data.origem || 'site',
     estimatedValue: estimatePlanValue(data.planoDesejado || data.plano),
   };
@@ -100,8 +106,8 @@ export async function createCommercialLead(data) {
     await ensureCommercialSchema(client);
     const response = await client.query(
       `INSERT INTO commercial_leads
-       (id, name, company_name, email, whatsapp, segment, agent_type, plan, size, problem, origin, status, estimated_value_cents, last_interaction_at)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,'NEW',$12,NOW())
+       (id, name, company_name, email, whatsapp, segment, agent_type, plan, size, problem, channel, daily_volume, origin, status, estimated_value_cents, last_interaction_at)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,'NEW',$14,NOW())
        ON CONFLICT (email) DO UPDATE SET
         name=$2,
         company_name=$3,
@@ -111,12 +117,14 @@ export async function createCommercialLead(data) {
         plan=$8,
         size=$9,
         problem=$10,
-        origin=$11,
-        estimated_value_cents=$12,
+        channel=$11,
+        daily_volume=$12,
+        origin=$13,
+        estimated_value_cents=$14,
         last_interaction_at=NOW(),
         updated_at=NOW()
        RETURNING *`,
-      [payload.id, payload.name, payload.companyName, payload.email, payload.whatsapp, payload.segment, payload.agentType, payload.plan, payload.size, payload.problem, payload.origin, payload.estimatedValue]
+      [payload.id, payload.name, payload.companyName, payload.email, payload.whatsapp, payload.segment, payload.agentType, payload.plan, payload.size, payload.problem, payload.channel, payload.dailyVolume, payload.origin, payload.estimatedValue]
     );
 
     return normalizeLead(response.rows[0]);
@@ -136,6 +144,8 @@ export async function createCommercialLead(data) {
         plan: payload.plan,
         size: payload.size,
         problem: payload.problem,
+        channel: payload.channel,
+        daily_volume: payload.dailyVolume,
         origin: payload.origin,
         status: 'NEW',
         estimated_value_cents: payload.estimatedValue,
@@ -149,7 +159,7 @@ export async function createCommercialLead(data) {
     action: 'LEAD_UPSERT',
     entity: 'CommercialLead',
     entityId: result.id,
-    metadata: { email: result.email, empresa: result.empresa, agente: result.agente, plano: result.plano },
+    metadata: { email: result.email, empresa: result.empresa, agente: result.agente, plano: result.plano, canal: result.canal, volume: result.volume },
   });
 
   return { source: 'database', lead: result };

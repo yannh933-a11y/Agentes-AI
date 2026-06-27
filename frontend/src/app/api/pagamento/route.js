@@ -13,7 +13,7 @@ async function createMercadoPagoPreference({ nome, email, whatsapp, empresa, che
     return {
       ok: false,
       reason: 'MERCADO_PAGO_NOT_CONFIGURED',
-      message: 'Mercado Pago ainda não está configurado. Use Pix manual ou configure MP_ACCESS_TOKEN.',
+      message: 'Checkout automático indisponível no momento. Use Pix manual para continuar a contratação.',
     };
   }
 
@@ -152,7 +152,7 @@ export async function POST(req) {
         pix: metodoPagamento === 'pix_manual' || !checkoutUrl ? pix : null,
         message: checkoutUrl
           ? 'Checkout externo criado com sucesso.'
-          : 'Pedido criado. Use Pix manual ou configure o provedor de pagamento para checkout automático.',
+          : 'Pedido criado. Use Pix manual para continuar a contratação.',
       },
     });
   } catch (error) {

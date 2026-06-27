@@ -17,12 +17,12 @@ export default function Page() {
         <Card>
           <Pill>Mercado Pago</Pill>
           <h2 className="mt-4 text-xl font-black">Checkout externo</h2>
-          <p className="mt-2 text-sm leading-relaxed text-slate-400">Ative com MP_ACCESS_TOKEN quando quiser pagamentos automáticos.</p>
+          <p className="mt-2 text-sm leading-relaxed text-slate-400">Ative checkout externo quando quiser pagamentos automáticos por cartão, boleto e Pix.</p>
         </Card>
         <Card>
           <Pill>Stripe</Pill>
-          <h2 className="mt-4 text-xl font-black">Assinaturas futuras</h2>
-          <p className="mt-2 text-sm leading-relaxed text-slate-400">Base preparada para recorrência, invoices e billing avançado.</p>
+          <h2 className="mt-4 text-xl font-black">Assinaturas recorrentes</h2>
+          <p className="mt-2 text-sm leading-relaxed text-slate-400">Estrutura para recorrência, invoices e cobrança avançada em operações maiores.</p>
         </Card>
       </div>
       <AdminOrdersPanel />

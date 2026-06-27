@@ -1,4 +1,21 @@
-import { Suspense } from 'react';
 import PreCadastroForm from './PreCadastroForm';
-export const metadata={title:'Pré-cadastro | Agentes AI'};
-export default function Page(){return <Suspense fallback={<main className="pt-28 pb-20"><div className="max-w-3xl mx-auto px-5 text-slate-400">Carregando...</div></main>}><PreCadastroForm /></Suspense>}
+
+export const metadata = {
+  title: 'Pré-cadastro | Agentes AI',
+  description: 'Receba um diagnóstico para criar um agente de IA exclusivo para atendimento, vendas ou automação da sua empresa.',
+};
+
+function getParam(searchParams, key) {
+  const value = searchParams?.[key];
+  if (Array.isArray(value)) return value[0] || '';
+  return value || '';
+}
+
+export default function Page({ searchParams = {} }) {
+  return (
+    <PreCadastroForm
+      initialAgente={getParam(searchParams, 'agente')}
+      initialPlano={getParam(searchParams, 'plano')}
+    />
+  );
+}

@@ -67,7 +67,7 @@ export default function AdminOrdersPanel() {
       if (data.order) setOrders((items) => items.map((item) => item.id === order.id ? data.order : item));
     } catch (err) {
       setOrders(previous);
-      setError('Não foi possível atualizar o status. Em modo demo, a alteração não é persistida.');
+      setError('Não foi possível atualizar o status. Verifique a conexão e tente novamente.');
     }
   }
 
@@ -78,7 +78,7 @@ export default function AdminOrdersPanel() {
           <div>
             <div className="flex flex-wrap items-center gap-2">
               <h2 className="text-2xl font-black">Contratações e pagamentos</h2>
-              <Pill tone={source === 'database' ? 'green' : 'red'}>{source === 'database' ? 'Banco real' : 'Modo demo'}</Pill>
+              <Pill tone={source === 'database' ? 'green' : 'red'}>{source === 'database' ? 'Banco ativo' : 'Dados temporários'}</Pill>
             </div>
             <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-500">Acompanhe pedidos criados pelo checkout, método de pagamento, plano, valor e estágio operacional.</p>
             {error && <p className="mt-2 text-sm font-bold text-red-200">{error}</p>}
@@ -86,7 +86,7 @@ export default function AdminOrdersPanel() {
           <div className="grid grid-cols-3 gap-3 lg:min-w-[430px]">
             <Metric label="Pedidos" value={metrics?.totalOrders ?? orders.length} />
             <Metric label="Receita" value={metrics?.revenue || '—'} />
-            <Metric label="Fonte" value={source === 'database' ? 'DB' : 'Demo'} />
+            <Metric label="Fonte" value={source === 'database' ? 'Banco' : 'Temporário'} />
           </div>
         </div>
       </Card>

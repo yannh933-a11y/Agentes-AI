@@ -197,7 +197,7 @@ export default function DemoChat() {
             </div>
           </div>
 
-          {/* Right: Phone mockup */}
+          
           <div className="order-1 lg:order-2 flex-shrink-0 w-full max-w-[320px] mx-auto lg:mx-0">
             <div className="relative">
 
